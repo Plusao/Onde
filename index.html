@@ -369,6 +369,10 @@ nav.bot button.on{color:#ffe3c2}
 .now .pb i{display:block;height:100%;background:linear-gradient(90deg,#ffc46b,#ff5fa8);transition:width 1s linear}
 .now .tday{text-align:right;flex:none;font-size:11px;color:var(--mut);font-weight:600}
 .now .tday b{display:block;font-family:Sora;font-size:19px;color:var(--tx);letter-spacing:-.02em}
+.art .aimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;border-radius:inherit}
+.art.has .aimg{opacity:1}
+.art.has span{opacity:0}
+.art span{transition:opacity .3s}
 </style>
 </head>
 <body>
@@ -505,12 +509,12 @@ function rows(items,kind,sort,max=50){
     const v=sort==='ms'?fmtH(o.ms):nf.format(o.n)+(sort==='n'?'':'');
     const v2=sort==='ms'?nf.format(o.n)+' écoutes':fmtH(o.ms);
     const sb=kind==='ar'?v2:o.r.ar+' · '+v2;
-    return`<button class="row" data-kind="${kind}" data-key="${esc(o.k)}"><b class="rk">${i+1}</b>${av(nm,kind==='ar')}<div class="mid"><div class="nm">${esc(nm)}</div><div class="sb">${esc(sb)}</div><div class="bar"><i style="width:${Math.max(2,o[sort]/top*100)}%"></i></div></div><div class="val">${v}${sort==='n'?'<small>écoutes</small>':''}</div></button>`;
+    return`<button class="row" data-kind="${kind}" data-key="${esc(o.k)}"><b class="rk">${i+1}</b>${art(nm,kind==='ar'?'round':'sq','sm','',ikOf(kind,o.r))}<div class="mid"><div class="nm">${esc(nm)}</div><div class="sb">${esc(sb)}</div><div class="bar"><i style="width:${Math.max(2,o[sort]/top*100)}%"></i></div></div><div class="val">${v}${sort==='n'?'<small>écoutes</small>':''}</div></button>`;
   }).join('');
 }
 function rowsCustom(items){ // {kind,key,name,sub,val,valSub,w}
   if(!items.length)return'<p class="mut">Rien à afficher ici.</p>';
-  return items.map((o,i)=>`<button class="row" ${o.kind?`data-kind="${o.kind}" data-key="${esc(o.key)}"`:''}><b class="rk">${i+1}</b>${av(o.name,o.kind==='ar')}<div class="mid"><div class="nm">${esc(o.name)}</div><div class="sb">${esc(o.sub)}</div>${o.w!=null?`<div class="bar"><i style="width:${Math.max(2,o.w*100)}%"></i></div>`:''}</div><div class="val">${esc(o.val)}${o.valSub?`<small>${esc(o.valSub)}</small>`:''}</div></button>`).join('');
+  return items.map((o,i)=>`<button class="row" ${o.kind?`data-kind="${o.kind}" data-key="${esc(o.key)}"`:''}><b class="rk">${i+1}</b>${art(o.name,o.kind==='ar'?'round':'sq','sm','',o.kind==='ar'?'ar:'+o.key:o.kind==='tr'?'tr:'+o.key:'')}<div class="mid"><div class="nm">${esc(o.name)}</div><div class="sb">${esc(o.sub)}</div>${o.w!=null?`<div class="bar"><i style="width:${Math.max(2,o.w*100)}%"></i></div>`:''}</div><div class="val">${esc(o.val)}${o.valSub?`<small>${esc(o.valSub)}</small>`:''}</div></button>`).join('');
 }
 let CH=0;const CHD={};
 function chart(items,{fmt=fmtH,h=150,hint='Touche une barre pour le détail'}={}){
@@ -541,8 +545,10 @@ const sortBy=(a,k)=>a.sort((x,y)=>y[k]-x[k]);
 const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
 const CHEVD='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
 function initials(s){const w=String(s).replace(/[^\p{L}\p{N} ]/gu,' ').trim().split(/\s+/).filter(Boolean);return(((w[0]||'?')[0])+(w[1]?w[1][0]:'')).toUpperCase();}
-function art(name,shape='sq',size='sm',style=''){const h=hue(name),h2=(h+50+hue(name+'#')%90)%360;
-  return`<div class="art ${shape} ${size}" style="background:radial-gradient(circle at 28% 22%,hsl(${h2} 90% 66% / .95),transparent 52%),radial-gradient(circle at 85% 90%,hsl(${(h+180)%360} 80% 50% / .5),transparent 50%),linear-gradient(140deg,hsl(${h} 65% 38%),hsl(${h2} 55% 13%));${style}"><span>${esc(initials(name))}</span></div>`;}
+const IKA=a=>'ar:'+a,IKT=r=>'tr:'+r.tr+'\u0001'+r.ar,IKL=r=>r.al?'al:'+r.al+'\u0001'+r.ar:IKT(r);
+const ikOf=(kind,r)=>kind==='ar'?IKA(r.ar):kind==='tr'?IKT(r):IKL(r);
+function art(name,shape='sq',size='sm',style='',ik=''){const h=hue(name),h2=(h+50+hue(name+'#')%90)%360;
+  return`<div class="art ${shape} ${size}"${ik?` data-ik="${esc(ik)}"`:''} style="background:radial-gradient(circle at 28% 22%,hsl(${h2} 90% 66% / .95),transparent 52%),radial-gradient(circle at 85% 90%,hsl(${(h+180)%360} 80% 50% / .5),transparent 50%),linear-gradient(140deg,hsl(${h} 65% 38%),hsl(${h2} 55% 13%));${style}"><span>${esc(initials(name))}</span></div>`;}
 function av(name,round){return art(name,round?'round':'sq','sm');}
 const dn=t=>{const d=new Date(t);return Math.floor((t-d.getTimezoneOffset()*6e4)/D);};
 
@@ -576,11 +582,11 @@ function rHome(){
   const disc=[...firstSeen].filter(([a,t])=>t>=t0&&t<=t1).map(([a])=>({a,n:artistPlays.get(a)||0})).sort((x,y)=>y.n-x.n);
   const mins=Math.round(tot/6e4),ms=nf.format(mins);
   const minCard=`<button class="bc" data-open="time"><div class="bl">Minutes d'écoute${CHEV}</div><div class="bn" style="${ms.length>6?'font-size:34px':''}">${ms}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></button>`;
-  const artCard=A[0]?`<button class="bc" data-root="artists"><div class="bl">Top artiste${CHEV}</div><div class="bt">${esc(A[0].r.ar)}</div>${art(A[0].r.ar,'round','lg')}</button>`:'';
+  const artCard=A[0]?`<button class="bc" data-root="artists"><div class="bl">Top artiste${CHEV}</div><div class="bt">${esc(A[0].r.ar)}</div>${art(A[0].r.ar,'round','lg','',IKA(A[0].r.ar))}</button>`:'';
   const hourCard=`<button class="bc" data-open="habits"><div class="bl">Heure de pointe${CHEV}</div><div class="bn">${ph}h</div><div class="spark">${hr.map((v,h)=>`<i class="${h===ph?'on':''}" style="height:${Math.max(6,v/hmx*100)}%"></i>`).join('')}</div><div class="bs">Jour préféré : <b>${DAYSL[bw]}</b></div></button>`;
-  const trCard=T[0]?`<button class="bc" data-open="top:tr"><div class="bl">Top titre${CHEV}</div><div class="bt">${esc(T[0].r.tr)}</div>${art(T[0].r.tr,'sq','lg')}<div class="bs" style="margin-top:10px">${esc(T[0].r.ar)} · <b>${nf.format(T[0].n)} écoutes</b></div></button>`:'';
-  const discCard=`<button class="bc" data-open="disc"><div class="bl">Nouveaux artistes${CHEV}</div><div class="bn">${nf.format(disc.length)}</div>${disc.length?`<div class="stack">${disc.slice(0,4).map(o=>art(o.a,'round','xs')).join('')}</div><div class="bs">dont <b>${esc(disc[0].a)}</b></div>`:'<div class="bs">rien de nouveau</div>'}</button>`;
-  const alCard=Al[0]?`<button class="bc" data-open="top:al"><div class="bl">Top album${CHEV}</div><div style="display:flex;gap:12px;align-items:center;margin-top:10px">${art(Al[0].r.al,'sq','md')}<div style="min-width:0"><div class="nm">${esc(Al[0].r.al)}</div><div class="sb">${esc(Al[0].r.ar)}</div></div></div></button>`:'';
+  const trCard=T[0]?`<button class="bc" data-open="top:tr"><div class="bl">Top titre${CHEV}</div><div class="bt">${esc(T[0].r.tr)}</div>${art(T[0].r.tr,'sq','lg','',IKT(T[0].r))}<div class="bs" style="margin-top:10px">${esc(T[0].r.ar)} · <b>${nf.format(T[0].n)} écoutes</b></div></button>`:'';
+  const discCard=`<button class="bc" data-open="disc"><div class="bl">Nouveaux artistes${CHEV}</div><div class="bn">${nf.format(disc.length)}</div>${disc.length?`<div class="stack">${disc.slice(0,4).map(o=>art(o.a,'round','xs','',IKA(o.a))).join('')}</div><div class="bs">dont <b>${esc(disc[0].a)}</b></div>`:'<div class="bs">rien de nouveau</div>'}</button>`;
+  const alCard=Al[0]?`<button class="bc" data-open="top:al"><div class="bl">Top album${CHEV}</div><div style="display:flex;gap:12px;align-items:center;margin-top:10px">${art(Al[0].r.al,'sq','md','',IKL(Al[0].r))}<div style="min-width:0"><div class="nm">${esc(Al[0].r.al)}</div><div class="sb">${esc(Al[0].r.ar)}</div></div></div></button>`:'';
   // semaines
   const m=new Map();for(const r of ALL){const w=r.d-r.w;let a=m.get(w);if(!a)m.set(w,a=[]);a.push(r);}
   WK=[...m].sort((a,b)=>b[0]-a[0]).slice(0,8);
@@ -601,10 +607,10 @@ function openStory(i){
   const c=(th,inner)=>`<div class="scard" style="background:${th.bg};color:${th.fg}">${inner}</div>`;
   const cards=[];
   cards.push(c(TH[0],`<div class="t">${weekLabel(w)}</div><div class="grow"></div><div class="k">Cette semaine t'as écouté</div><div class="xl">${nf.format(Math.round(tot/6e4))}</div><div class="k">minutes</div><div class="grow"></div><div class="t">${prev?(()=>{const d=Math.round((tot-prev)/prev*100);return`${d>=0?'+':''}${d} % par rapport à la semaine d'avant`;})():`soit ${fmtH(tot)} de son`}</div>`));
-  if(A[0])cards.push(c(TH[2],`<div class="k">Ton artiste de la semaine</div><div class="grow"></div>${art(A[0].r.ar,'round','lg','width:72%;margin:18px auto')}<div class="grow"></div><div class="k">${esc(A[0].r.ar)}</div><div class="t" style="margin-top:6px">${fmtMin(A[0].ms)} · ${nf.format(A[0].n)} écoutes</div>`));
-  if(Al.length){const s=sum(Al,o=>o.ms);cards.push(c(TH[1],`<div class="k">T'as écouté ces albums pendant ${nf.format(Math.round(s/6e4))} minutes</div><div class="grow"></div>${Al.map((o,j)=>`<div class="sband" style="${j===1?`background:${TH[1].fg};color:${TH[1].bg}`:''}"><div class="m">${art(o.r.al,'sq','sm')}<b>${nf.format(Math.round(o.ms/6e4))}</b><small>min</small></div><div class="tt">${esc(o.r.al)}<br>par ${esc(o.r.ar)}</div></div>`).join('')}`));}
-  if(T[0])cards.push(c(TH[3],`<div class="k">Le son que t'as le plus lancé</div><div class="grow"></div>${art(T[0].r.tr,'sq','lg','width:72%;margin:18px auto;border-radius:14px')}<div class="grow"></div><div class="k">${esc(T[0].r.tr)}</div><div class="t" style="margin-top:6px">${esc(T[0].r.ar)} · ${nf.format(T[0].n)} fois</div>`));
-  if(nw[0]&&nw[0].n>0)cards.push(c(TH[4],`<div class="k">Nouveau dans ta vie</div><div class="t" style="margin-top:8px">Première écoute cette semaine</div><div class="grow"></div>${art(nw[0].a,'round','lg','width:62%;margin:18px auto')}<div class="grow"></div><div class="k">${esc(nw[0].a)}</div><div class="t" style="margin-top:6px">${nw[0].n} écoutes direct${nw.length>1?` · et ${nw.length-1} autre${nw.length>2?'s':''} découverte${nw.length>2?'s':''}`:''}</div>`));
+  if(A[0])cards.push(c(TH[2],`<div class="k">Ton artiste de la semaine</div><div class="grow"></div>${art(A[0].r.ar,'round','lg','width:72%;margin:18px auto',IKA(A[0].r.ar))}<div class="grow"></div><div class="k">${esc(A[0].r.ar)}</div><div class="t" style="margin-top:6px">${fmtMin(A[0].ms)} · ${nf.format(A[0].n)} écoutes</div>`));
+  if(Al.length){const s=sum(Al,o=>o.ms);cards.push(c(TH[1],`<div class="k">T'as écouté ces albums pendant ${nf.format(Math.round(s/6e4))} minutes</div><div class="grow"></div>${Al.map((o,j)=>`<div class="sband" style="${j===1?`background:${TH[1].fg};color:${TH[1].bg}`:''}"><div class="m">${art(o.r.al,'sq','sm','',IKL(o.r))}<b>${nf.format(Math.round(o.ms/6e4))}</b><small>min</small></div><div class="tt">${esc(o.r.al)}<br>par ${esc(o.r.ar)}</div></div>`).join('')}`));}
+  if(T[0])cards.push(c(TH[3],`<div class="k">Le son que t'as le plus lancé</div><div class="grow"></div>${art(T[0].r.tr,'sq','lg','width:72%;margin:18px auto;border-radius:14px',IKT(T[0].r))}<div class="grow"></div><div class="k">${esc(T[0].r.tr)}</div><div class="t" style="margin-top:6px">${esc(T[0].r.ar)} · ${nf.format(T[0].n)} fois</div>`));
+  if(nw[0]&&nw[0].n>0)cards.push(c(TH[4],`<div class="k">Nouveau dans ta vie</div><div class="t" style="margin-top:8px">Première écoute cette semaine</div><div class="grow"></div>${art(nw[0].a,'round','lg','width:62%;margin:18px auto',IKA(nw[0].a))}<div class="grow"></div><div class="k">${esc(nw[0].a)}</div><div class="t" style="margin-top:6px">${nw[0].n} écoutes direct${nw.length>1?` · et ${nw.length-1} autre${nw.length>2?'s':''} découverte${nw.length>2?'s':''}`:''}</div>`));
   else if(bd!=null)cards.push(c(TH[4],`<div class="k">Ton jour le plus chargé</div><div class="grow"></div><div class="xl" style="font-size:clamp(48px,15vw,80px)">${DAYSL[(new Date(bd*D).getUTCDay()+6)%7]}</div><div class="grow"></div><div class="t">${fmtDay(bd)} · ${fmtH(bv)} d'écoute</div>`));
   $('#stTitle').textContent='Semaine du '+weekLabel(w);
   $('#strack').innerHTML=cards.join('');$('#strack').scrollLeft=0;
@@ -711,7 +717,7 @@ function pageItem(kind,key){
   if(kind==='ar'){extra+=`<div class="card list"><h3>Ses titres</h3>${rows(sortBy(agg(recs,'tr'),'ms'),'tr','ms',30)}</div>`;const al=sortBy(agg(recs,'al'),'ms');if(al.length)extra+=`<div class="card list"><h3>Albums</h3>${rows(al,'al','ms',15)}</div>`;}
   if(kind==='al')extra+=`<div class="card list"><h3>Titres de l'album</h3>${rows(sortBy(agg(recs,'tr'),'ms'),'tr','ms',40)}</div>`;
   const hr=new Array(24).fill(0);for(const r of recs)hr[r.h]+=r.ms;
-  return`<div class="dhead">${art(name,kind==='ar'?'round':'sq','lg')}<div><div class="mut">${esc(sub)}</div><h2>${esc(name)}</h2></div></div>
+  return`<div class="dhead">${art(name,kind==='ar'?'round':'sq','lg','',ikOf(kind,r0))}<div><div class="mut">${esc(sub)}</div><h2>${esc(name)}</h2></div></div>
   <div class="tiles">
     ${tile("Temps d'écoute",fmtH(tot),fmtMin(tot))}
     ${tile('Écoutes',nf.format(plays))}
@@ -810,12 +816,12 @@ function rArtists(){
   const st2=o=>topSort==='ms'?`${fmtH(o.ms)}<br>${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes<br>${fmtH(o.ms)}`;
   const a1=A[0];
   const spk=[[12,8,0,12],[70,22,.8,9],[20,88,1.4,14],[78,70,.3,10],[40,55,1.9,8],[8,45,1.1,10]].map(([t,l,d,s])=>`<i class="spk" style="top:${t}%;left:${l}%;width:${s}px;height:${s}px;animation-delay:${d}s"></i>`).join('');
-  h+=`<button class="tier t1" data-kind="ar" data-key="${esc(a1.k)}"><div class="tin2">${spk}<div class="tart">${art(a1.r.ar,'round','lg')}<i class="shine"></i></div><div style="min-width:0;flex:1;padding-right:26px"><span class="badge">${IC_DIA}Diamant</span><div class="tnm">${esc(a1.r.ar)}</div><div class="tst">${st(a1)}</div></div><div class="rkb">1</div></div></button>`;
+  h+=`<button class="tier t1" data-kind="ar" data-key="${esc(a1.k)}"><div class="tin2">${spk}<div class="tart">${art(a1.r.ar,'round','lg','',IKA(a1.r.ar))}<i class="shine"></i></div><div style="min-width:0;flex:1;padding-right:26px"><span class="badge">${IC_DIA}Diamant</span><div class="tnm">${esc(a1.r.ar)}</div><div class="tst">${st(a1)}</div></div><div class="rkb">1</div></div></button>`;
   const emb=[10,24,38,52,66,80,92].map((l,i)=>`<i class="ember" style="left:${l}%;animation-delay:${(i*0.37)%2.6}s;--dx:${i%2?-10:10}px;width:${6+i%3*3}px;height:${6+i%3*3}px"></i>`).join('');
-  const t2=A[1]?`<button class="tier t2" data-kind="ar" data-key="${esc(A[1].k)}"><div class="tin2">${emb}<div class="rkb">2</div><div class="tart" style="width:84px">${art(A[1].r.ar,'round','lg')}</div><span class="badge">${IC_FIRE}En feu</span><div class="tnm">${esc(A[1].r.ar)}</div><div class="tst">${st2(A[1])}</div></div></button>`:'';
-  const t3=A[2]?`<button class="tier t3" data-kind="ar" data-key="${esc(A[2].k)}"><div class="tin2"><div class="bolt">${IC_BOLT}</div><div class="rkb">3</div><div class="tart" style="width:84px">${art(A[2].r.ar,'round','lg')}</div><span class="badge">${IC_BOLT}Survolté</span><div class="tnm">${esc(A[2].r.ar)}</div><div class="tst">${st2(A[2])}</div></div></button>`:'';
+  const t2=A[1]?`<button class="tier t2" data-kind="ar" data-key="${esc(A[1].k)}"><div class="tin2">${emb}<div class="rkb">2</div><div class="tart" style="width:84px">${art(A[1].r.ar,'round','lg','',IKA(A[1].r.ar))}</div><span class="badge">${IC_FIRE}En feu</span><div class="tnm">${esc(A[1].r.ar)}</div><div class="tst">${st2(A[1])}</div></div></button>`:'';
+  const t3=A[2]?`<button class="tier t3" data-kind="ar" data-key="${esc(A[2].k)}"><div class="tin2"><div class="bolt">${IC_BOLT}</div><div class="rkb">3</div><div class="tart" style="width:84px">${art(A[2].r.ar,'round','lg','',IKA(A[2].r.ar))}</div><span class="badge">${IC_BOLT}Survolté</span><div class="tnm">${esc(A[2].r.ar)}</div><div class="tst">${st2(A[2])}</div></div></button>`:'';
   if(t2||t3)h+=`<div class="duo">${t2}${t3}</div>`;
-  if(A.length>3)h+=`<div class="card list rest">${A.slice(3,100).map((o,i)=>`<button class="row" data-kind="ar" data-key="${esc(o.k)}"><b class="rk">${i+4}</b>${av(o.r.ar,true)}<div class="mid"><div class="nm">${esc(o.r.ar)}</div><div class="sb">${st(o)}</div></div></button>`).join('')}</div>`;
+  if(A.length>3)h+=`<div class="card list rest">${A.slice(3,100).map((o,i)=>`<button class="row" data-kind="ar" data-key="${esc(o.k)}"><b class="rk">${i+4}</b>${art(o.r.ar,'round','sm','',IKA(o.r.ar))}<div class="mid"><div class="nm">${esc(o.r.ar)}</div><div class="sb">${st(o)}</div></div></button>`).join('')}</div>`;
   el.innerHTML=h;
 }
 
@@ -847,12 +853,12 @@ function rForYou(){
   for(const[a,n]of cur)if(n>=2)items.push({type:'w',kind:'ar',key:a,name:a,round:true,n,u:'semaines dans ton top 5',score:n*3.5});
   items.sort((x,y)=>y.score-x.score);
   const seen=new Set(),streaks=items.filter(o=>{const k=o.type+o.kind+o.key;if(seen.has(k))return false;seen.add(k);return true;}).slice(0,8);
-  const card=o=>`<button class="stk ${o.type==='w'?'wkt':''}" data-kind="${o.kind}" data-key="${esc(o.key)}"><div class="fl">${o.type==='w'?IC_CROWN:IC_FIRE}${o.n}</div><div class="u">${o.u}</div><div class="who">${art(o.name,o.round?'round':'sq','xs')}<div class="mid"><div class="nm">${esc(o.name)}</div>${o.sub?`<div class="sb">${esc(o.sub)}</div>`:''}</div></div></button>`;
+  const card=o=>`<button class="stk ${o.type==='w'?'wkt':''}" data-kind="${o.kind}" data-key="${esc(o.key)}"><div class="fl">${o.type==='w'?IC_CROWN:IC_FIRE}${o.n}</div><div class="u">${o.u}</div><div class="who">${art(o.name,o.round?'round':'sq','xs','',o.kind==='ar'?'ar:'+o.key:'tr:'+o.key)}<div class="mid"><div class="nm">${esc(o.name)}</div>${o.sub?`<div class="sb">${esc(o.sub)}</div>`:''}</div></div></button>`;
   // retours
   const byA=new Map();for(const r of ALL){if(r.ms<PLAY)continue;let o=byA.get(r.ar);if(!o)byA.set(r.ar,o={a:r.ar,n:0,last:0,tr:new Map()});o.n++;if(r.t>o.last)o.last=r.t;let t=o.tr.get(r.k);if(!t)o.tr.set(r.k,t={r,n:0});t.n++;t.r=r;}
   const miss=[...byA.values()].filter(o=>o.n>=15&&maxT-o.last>=28*D).sort((x,y)=>y.n/Math.sqrt((maxT-y.last)/D)-x.n/Math.sqrt((maxT-x.last)/D)).slice(0,8);
   const missCard=o=>{const t=[...o.tr.values()].sort((a,b)=>b.n-a.n)[0],days=Math.floor((maxT-o.last)/D);
-    return`<div class="miss">${art(o.a,'round','md')}<div class="mid"><div class="when">${sinceTxt(days)}</div><div class="nm" style="font-size:17px">${esc(o.a)}</div><div class="q">T'avais écouté ${nf.format(o.n)} fois. Et si t'y retournais avec <b>${esc(t.r.tr)}</b> ?</div><div class="acts"><a class="btn" href="${spLink(t.r)}" target="_blank" rel="noopener">Écouter sur Spotify</a><button class="btn ghost" data-kind="ar" data-key="${esc(o.a)}">Ses stats</button></div></div></div>`;};
+    return`<div class="miss">${art(o.a,'round','md','',IKA(o.a))}<div class="mid"><div class="when">${sinceTxt(days)}</div><div class="nm" style="font-size:17px">${esc(o.a)}</div><div class="q">T'avais écouté ${nf.format(o.n)} fois. Et si t'y retournais avec <b>${esc(t.r.tr)}</b> ?</div><div class="acts"><a class="btn" href="${spLink(t.r)}" target="_blank" rel="noopener">Écouter sur Spotify</a><button class="btn ghost" data-kind="ar" data-key="${esc(o.a)}">Ses stats</button></div></div></div>`;};
   const recs=[...best].filter(([a,b])=>b.n>=2).sort((x,y)=>y[1].n-x[1].n).slice(0,8);
   const wl=w=>{const d=new Date(w*D);return d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]+' '+d.getUTCFullYear();};
   el.innerHTML=`<div class="ahead"><h1>Pour toi</h1></div>
@@ -1100,7 +1106,7 @@ async function pollNow(){
   const j=await api('/me/player/currently-playing');
   if(!j)NP=null;
   else if(j.empty||!j.item||j.currently_playing_type!=='track')NP={idle:true};
-  else{const it=j.item,im=(it.album&&it.album.images)||[];NP={tr:it.name,ar:((it.album&&it.album.artists&&it.album.artists[0])||it.artists[0]||{}).name||'',arAll:(it.artists||[]).map(a=>a.name).join(', '),al:it.album?it.album.name:'',img:(im[1]||im[0]||{}).url||'',dur:it.duration_ms,prog:j.progress_ms||0,playing:j.is_playing,at:Date.now()};}
+  else{const it=j.item,im=(it.album&&it.album.images)||[];{const u0=spImg(it.album&&it.album.images),a0=((it.album&&it.album.artists&&it.album.artists[0])||it.artists[0]||{}).name||'';if(u0){imgSet(IKT({tr:it.name,ar:a0}),u0);if(it.album)imgSet(IKL({al:it.album.name,ar:a0}),u0);}}NP={tr:it.name,ar:((it.album&&it.album.artists&&it.album.artists[0])||it.artists[0]||{}).name||'',arAll:(it.artists||[]).map(a=>a.name).join(', '),al:it.album?it.album.name:'',img:(im[1]||im[0]||{}).url||'',dur:it.duration_ms,prog:j.progress_ms||0,playing:j.is_playing,at:Date.now()};}
   renderNow();
 }
 async function syncRecent(silent){
@@ -1112,6 +1118,7 @@ async function syncRecent(silent){
   for(const it of j.items){const tr=it.track;if(!tr)continue;
     const r={t:Date.parse(it.played_at),u:tr.id||'',ms:tr.duration_ms||0,tr:tr.name,ar:((tr.album&&tr.album.artists&&tr.album.artists[0])||tr.artists[0]||{}).name||'',al:tr.album?tr.album.name:'',sk:false,sh:null,pf:'',re:'trackdone'};
     if(!r.tr||!r.ar||!Number.isFinite(r.t))continue;
+    {const u=spImg(tr.album&&tr.album.images);if(u){imgSet(IKT(r),u);if(r.al)imgSet(IKL(r),u);}}
     const k=r.tr+'\u0001'+r.ar,a=idx.get(k)||[];
     if(a.some(t0=>Math.abs(r.t-t0)<90000||Math.abs(Math.abs(r.t-t0)-r.ms)<30000))continue;
     a.push(r.t);idx.set(k,a);base.push(r);added++;}
@@ -1165,7 +1172,44 @@ document.addEventListener('click',async e=>{
   if(T.closest('[data-livesync]')){closeSheet();const n=await syncRecent(true);toast(n?`+${n} écoutes synchronisées`:'Déjà à jour');return;}
 });
 
-(async()=>{await loadAll();build();showApp();await liveInit();})();
+/* ---------- photos : Spotify si connecté, sinon Deezer (gratuit, sans compte) ---------- */
+const IMG=new Map(),IMGQ=[],IMGP=new Set();let imgRun=0,imgSaveT=null,jpN=0;
+async function imgLoad(){try{const v=await get('imgcache');if(v)for(const k in v)IMG.set(k,v[k]);}catch(e){}}
+function imgSave(){clearTimeout(imgSaveT);imgSaveT=setTimeout(()=>{put('imgcache',Object.fromEntries(IMG));},1500);}
+function imgSet(k,u){if(!k||!u||IMG.get(k))return;IMG.set(k,u);imgSave();}
+function jsonp(url){return new Promise(res=>{const cb='__dz'+(jpN++)+'_'+Date.now(),s=document.createElement('script');let t;
+  const done=v=>{clearTimeout(t);try{delete window[cb];}catch(e){window[cb]=undefined;}s.remove();res(v);};
+  t=setTimeout(()=>done(null),9000);window[cb]=d=>done(d||{});s.onerror=()=>done(null);
+  s.src=url+(url.includes('?')?'&':'?')+'output=jsonp&callback='+cb;document.head.appendChild(s);});}
+const sameName=(a,b)=>{a=nz(a).replace(/[^a-z0-9]/g,'');b=nz(b).replace(/[^a-z0-9]/g,'');return a&&b&&(a===b||a.startsWith(b)||b.startsWith(a));};
+const spImg=im=>{im=im||[];return(im[1]||im[0]||{}).url||'';};
+const okDz=u=>u&&!/\/(artist|cover)\/\//.test(u)?u:'';
+async function lookup(k){
+  const t=k.slice(0,2),rest=k.slice(3),[n,ar]=rest.split('\u0001');
+  // 1) Spotify (plus précis) si le live est branché
+  if(typeof liveOn==='function'&&liveOn()){
+    if(t==='ar'){const j=await api('/search?type=artist&limit=5&q='+encodeURIComponent(n));const a=j&&j.artists&&j.artists.items.find(x=>sameName(x.name,n));if(a&&spImg(a.images))return spImg(a.images);}
+    else{const j=await api('/search?type=track&limit=5&q='+encodeURIComponent(`track:${n} artist:${ar}`));const x=j&&j.tracks&&(j.tracks.items.find(x=>x.artists.some(a=>sameName(a.name,ar)))||j.tracks.items[0]);if(x&&x.album&&spImg(x.album.images))return spImg(x.album.images);}
+  }
+  // 2) Deezer
+  if(t==='ar'){const d=await jsonp('https://api.deezer.com/search/artist?limit=5&q='+encodeURIComponent(n));if(!d)return null;const a=(d.data||[]).find(x=>sameName(x.name,n));return a?okDz(a.picture_big||a.picture_medium):'';}
+  if(t==='al'){let d=await jsonp('https://api.deezer.com/search/album?limit=5&q='+encodeURIComponent(`artist:"${ar}" album:"${n}"`));if(!d)return null;
+    let x=(d.data||[])[0];if(!x){d=await jsonp('https://api.deezer.com/search/album?limit=5&q='+encodeURIComponent(n+' '+ar));x=d&&(d.data||[]).find(y=>y.artist&&sameName(y.artist.name,ar));}
+    return x?okDz(x.cover_big||x.cover_medium):'';}
+  let d=await jsonp('https://api.deezer.com/search?limit=5&q='+encodeURIComponent(`artist:"${ar}" track:"${n}"`));if(!d)return null;
+  let x=(d.data||[])[0];if(!x){d=await jsonp('https://api.deezer.com/search?limit=5&q='+encodeURIComponent(n+' '+ar));x=d&&(d.data||[]).find(y=>y.artist&&sameName(y.artist.name,ar));}
+  return x&&x.album?okDz(x.album.cover_big||x.album.cover_medium):'';
+}
+function imgApply(el,u){if(!u||el.querySelector('img.aimg'))return;const im=new Image();im.className='aimg';im.alt='';im.referrerPolicy='no-referrer';im.decoding='async';im.onload=()=>el.classList.add('has');im.src=u;el.appendChild(im);}
+function imgPump(){while(imgRun<3&&IMGQ.length){const k=IMGQ.shift();imgRun++;
+  lookup(k).then(u=>{if(u!=null){IMG.set(k,u||'');imgSave();}IMGP.delete(k);if(u)document.querySelectorAll(`.art[data-ik="${CSS.escape(k)}"]`).forEach(el=>imgApply(el,u));})
+  .catch(()=>IMGP.delete(k)).finally(()=>{imgRun--;setTimeout(imgPump,120);});}}
+function imgWant(el){const k=el.dataset.ik;if(IMG.has(k)){imgApply(el,IMG.get(k));return;}if(!IMGP.has(k)){IMGP.add(k);IMGQ.push(k);imgPump();}}
+const imgIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){imgIO.unobserve(e.target);imgWant(e.target);}},{rootMargin:'300px'}):null;
+function hydrate(){if(INFRAME||isDemo)return;document.querySelectorAll('.art[data-ik]:not([data-h])').forEach(el=>{el.dataset.h='1';const k=el.dataset.ik;if(IMG.has(k)){imgApply(el,IMG.get(k));}else if(imgIO)imgIO.observe(el);else imgWant(el);});}
+let hydT=0;new MutationObserver(()=>{if(hydT)return;hydT=requestAnimationFrame(()=>{hydT=0;hydrate();});}).observe(document.body,{childList:true,subtree:true});
+
+(async()=>{await loadAll();await imgLoad();build();showApp();await liveInit();hydrate();})();
 </script>
 </body>
 </html>
