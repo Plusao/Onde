@@ -1117,7 +1117,7 @@ async function syncRecent(silent){
     a.push(r.t);idx.set(k,a);base.push(r);added++;}
   if(added){await saveProfile(L.pid);
     if(!isDemo&&(active==='all'||active===L.pid)){build();F=filt();
-      const calm=$('#story').hidden&&$('#sheet').hidden;if(calm)renderView();else renderNow();}
+      if($('#app').hidden){showApp();}else{const calm=$('#story').hidden&&$('#sheet').hidden;if(calm)renderView();else renderNow();}}
     if(!silent)toast(`+${added} écoute${added>1?'s':''} synchronisée${added>1?'s':''}`);}
   return added;
 }
