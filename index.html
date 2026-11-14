@@ -2103,7 +2103,7 @@ function achCheck(){rankCheck();if(isDemo||!ALL.length)return;const key='ondes.a
 /* ---------- Top artistes : mouvements + podium révélé ---------- */
 function moves(kind){const P=prevList();if(!P)return null;const m=new Map();sortBy(agg(P,kind),topSort).forEach((o,i)=>m.set(o.k,i+1));return m;}
 let PS_CUR=Infinity;
-function mvHtml(M,k,rank){if(!M)return'';const p=M.get(k);if(p==null){const fs=firstSeen.get(k);return fs!=null&&fs<PS_CUR?'<span class="mv new">DE RETOUR</span>':'<span class="mv new">NOUVEAU</span>';}const d=p-rank;return d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv dn">▼${-d}</span>`:'';}
+function mvHtml(M,k,rank){if(!M)return'';const p=M.get(k);if(p==null){const fs=firstSeen.get(k);if(fs==null||fs>=PS_CUR)return'<span class="mv new">NOUVEAU</span>';const ls=lastSeen.get(k);return ls!=null&&ls<maxT-14*D?'<span class="mv new">DE RETOUR</span>':'';}const d=p-rank;return d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv dn">▼${-d}</span>`:'';}
 function rArtists(){
   const el=$('#v-artists');
   const opts=[['4w','4 semaines'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];
