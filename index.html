@@ -45,6 +45,25 @@ body:not(.has) .logo{flex:1} body.has .logo span{display:none}
 .menu .danger{color:var(--hot)}
 
 main{max-width:760px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-left)) 24px}
+/* ===== Vice City plein écran ===== */
+.vc{position:fixed;inset:0;z-index:60;overflow:hidden;background:linear-gradient(#1a0630 0%,#4b1260 30%,#c2367f 52%,#ff7a6b 60%,#ffc27a 63%,#ff7a6b 64%,#2b0a46 64.2%,#12041f 100%);color:#fff;animation:npin .4s cubic-bezier(.2,.85,.25,1)}
+.vc-sun{position:absolute;left:50%;top:22%;width:min(62vw,300px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:linear-gradient(#fff3a1,#ffb13b 40%,#ff3d8b 78%,#c2226e);box-shadow:0 0 80px 10px rgba(255,80,160,.45);-webkit-mask:linear-gradient(#000 0 58%,transparent 58% 62%,#000 62% 70%,transparent 70% 74%,#000 74%);mask:linear-gradient(#000 0 58%,transparent 58% 62%,#000 62% 70%,transparent 70% 74%,#000 74%);animation:vcsun 9s ease-in-out infinite alternate}
+@keyframes vcsun{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.04)}}
+.vc-sea{position:absolute;left:0;right:0;bottom:0;height:37%;overflow:hidden;perspective:320px}
+.vc-grid{position:absolute;left:-60%;right:-60%;top:0;bottom:0;transform:rotateX(62deg);transform-origin:50% 0;background-image:linear-gradient(rgba(255,95,200,.9) 2px,transparent 2px),linear-gradient(90deg,rgba(255,95,200,.85) 2px,transparent 2px);background-size:100% 46px,70px 100%;animation:vcgrid 1.6s linear infinite;box-shadow:inset 0 40px 60px #12041f}
+@keyframes vcgrid{from{background-position:0 0,0 0}to{background-position:0 46px,0 0}}
+.vc-palm{position:absolute;bottom:26%;width:min(30vw,130px);height:auto;fill:#12041f;transform-origin:50% 100%;animation:vcsway 5.5s ease-in-out infinite alternate;pointer-events:none}
+.vc-palm.p1{left:-4%}.vc-palm.p2{right:-6%;width:min(36vw,150px);animation-duration:6.8s;animation-delay:-2s}.vc-palm.p3{left:20%;bottom:20%;width:min(20vw,86px);opacity:.75;animation-duration:4.6s;animation-delay:-1s}
+@keyframes vcsway{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+.vc-info{position:absolute;left:24px;right:24px;top:calc(env(safe-area-inset-top) + 64px);text-align:center;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.vc-info small{display:block;font-family:Sora;font-size:12px;letter-spacing:.32em;color:#ffd6f0;opacity:.9}
+.vc-info b{display:block;font-family:Sora;font-size:clamp(22px,6vw,30px);letter-spacing:-.02em;margin-top:10px;line-height:1.15}
+.vc-info span{display:block;font-size:15px;color:#ffe9f7;opacity:.85;margin-top:6px}
+.vc-x{position:absolute;right:16px;top:calc(env(safe-area-inset-top) + 14px);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:22px;border:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.vc.paused .vc-grid,.vc.paused .vc-palm,.vc.paused .vc-sun{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.vc-grid,.vc-palm,.vc-sun{animation:none!important}}
+main.drag{will-change:transform}
+
 .view{animation:fade .22s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
@@ -230,12 +249,12 @@ nav.bot button.on{color:var(--tx)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .drop{position:fixed;inset:0;z-index:70;background:rgba(18,11,28,.85);display:grid;place-items:center;font-family:Sora;font-size:22px;font-weight:700;color:var(--acc);border:3px dashed var(--acc);pointer-events:none}
 /* ===== liquid glass ===== */
-body.has{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+body.has{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
 body::before{content:'';position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(40% 30% at 15% 20%,rgba(255,95,168,.16),transparent 70%),radial-gradient(35% 25% at 90% 60%,rgba(255,150,120,.07),transparent 70%),radial-gradient(40% 30% at 30% 95%,rgba(255,92,122,.10),transparent 70%)}
 .glass,.top .icon,.top .pill,.phead .icon{background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);border:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04),0 6px 18px rgba(0,0,0,.25)}
 .top,.phead{background:linear-gradient(to bottom,rgba(18,11,28,.85),rgba(18,11,28,.55) 70%,rgba(18,11,28,0))}
 .bc,.card,.tile{background:rgba(40,24,56,.66)}
-nav.bot{left:50%;right:auto;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(88vw,380px);height:66px;padding:5px;border-radius:33px;
+nav.bot{left:50%;right:auto;bottom:max(6px,calc(env(safe-area-inset-bottom) - 14px));transform:translateX(-50%);width:min(88vw,380px);height:66px;padding:5px;border-radius:33px;
   background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));-webkit-backdrop-filter:blur(22px) saturate(190%) brightness(1.05);backdrop-filter:blur(22px) saturate(190%) brightness(1.05);
   border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 -1px 1px rgba(255,255,255,.06),inset 0 0 20px rgba(255,255,255,.03),0 12px 34px rgba(0,0,0,.5);touch-action:none;user-select:none;-webkit-user-select:none}
 nav.bot .in{position:relative;height:100%;max-width:none}
@@ -705,7 +724,7 @@ nav.bot button.on{color:var(--am)!important}
 #lens{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.07))}
 nav.bot{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05))}
 /* mini-lecteur flottant */
-.mini{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom));width:min(92vw,420px);z-index:21;border-radius:22px;overflow:hidden;
+.mini{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(max(6px,calc(env(safe-area-inset-bottom) - 14px)) + 74px);width:min(92vw,420px);z-index:21;border-radius:22px;overflow:hidden;
   background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:.5px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 10px 30px rgba(0,0,0,.45)}
 .mini button.mi{display:flex;align-items:center;gap:11px;width:100%;padding:8px 14px 8px 8px;text-align:left}
 .mini img,.mini .art{width:44px;height:44px;border-radius:9px;flex:none;object-fit:cover}
@@ -871,13 +890,14 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
   <div class="dots" id="dots"></div>
 </div>
 <div class="npv" id="npv" hidden><div class="npbg" id="npBg"></div>
-  <div class="nphead"><button class="icon glass" data-closenp aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><b>En cours</b><span style="width:38px"></span></div>
+  <div class="nphead"><button class="icon glass" data-closenp aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button><b>En cours</b><button class="icon glass" data-vc aria-label="Mode Vice City" style="font-size:18px">🌴</button></div>
   <div class="deck"><div class="vinyl" id="npVinyl"></div><div class="cover"><img id="npImg" alt=""></div></div>
   <div class="npt"><div class="tt" id="npTt"></div><div class="aa" id="npAa"></div><div class="pb"><i id="npBar3"></i></div><div class="tm"><span id="npT1">0:00</span><span id="npT2">0:00</span></div></div>
   <div class="npstats" id="npStats"></div>
   <div class="npfooter"><div class="npspectrum" id="npSpectrum" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="npact"><a class="btn" id="npSp" target="_blank" rel="noopener">Ouvrir sur Spotify</a><button class="btn ghost" data-npitem>Stats du son</button></div></div>
 </div>
+<div class="vc" id="vc" hidden><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="palm" viewBox="0 0 200 400"><path d="M100 400 Q90 260 112 150" stroke="#12041f" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M112 150 Q66 96 12 124 Q68 112 112 150Z"/><path d="M112 150 Q152 78 196 106 Q152 102 112 150Z"/><path d="M112 150 Q104 64 124 14 Q118 84 112 150Z"/><path d="M112 150 Q60 170 26 220 Q84 186 112 150Z"/><path d="M112 150 Q164 172 190 224 Q146 190 112 150Z"/></symbol></svg><div class="vc-sun"></div><div class="vc-sea"><div class="vc-grid"></div></div><svg class="vc-palm p1"><use href="#palm"/></svg><svg class="vc-palm p2"><use href="#palm"/></svg><svg class="vc-palm p3"><use href="#palm"/></svg><div class="vc-info"><small>VICE CITY</small><b id="vcTt">Rien en lecture</b><span id="vcAa"></span></div><button class="vc-x" data-closevc aria-label="Fermer">×</button></div>
 <div class="sheet" id="sheet" hidden><div class="in"><div class="grab"></div><div id="sheetIn"></div></div></div>
 <div class="toast" id="toast"></div>
 <div class="drop" id="drop" hidden>Lâche tes fichiers ici</div>
@@ -1623,6 +1643,8 @@ document.addEventListener('click',async e=>{
   if(T.closest('[data-sharego]')){shareGo();return;}
   if(T.closest('#bRef')){const b=$('#bRef');b.classList.add('spin');if(liveOn()){const n=await syncRecent(true);await pollNow();toast(n?`+${n} écoutes synchronisées`:'Tout est à jour');}else{await loadAll();build();showApp();toast('Actualisé');}setTimeout(()=>b.classList.remove('spin'),500);return;}
   if(T.closest('[data-closenp]')){closeNP();return;}
+  if(T.closest('[data-vc]')){openVC();return;}
+  if(T.closest('[data-closevc]')){closeVC();return;}
   if(T.closest('[data-npitem]')){if(NP&&!NP.idle){closeNP();go({n:'item',kind:'tr',key:NP.tr+'\u0001'+NP.ar});}return;}
   const pl=T.closest('[data-pl]');if(pl){go({n:'pl',id:pl.dataset.pl});return;}
   const pc=T.closest('[data-plcreate]');if(pc){createPl(pc.dataset.plcreate);return;}
@@ -1698,6 +1720,8 @@ function dominant(url,withPalette=false){return new Promise(res=>{const im=new I
   if(!n){for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];n++;}}const k=1.25;const average=[r,g,b].map(c=>Math.min(255,c/n*k|0));
   if(!withPalette){res(average);return;}
   const palette=coverColors(d);res(palette.length?palette:[average]);}catch(e){res(null);}};im.onerror=()=>res(null);im.src=url;});}
+function hslRgb(h,s,l){const a=s*Math.min(l,1-l);const f=n=>{const k=(n+h/30)%12;return Math.round(255*(l-a*Math.max(-1,Math.min(k-3,9-k,1))));};return[f(0),f(8),f(4)];}
+function nameTint(np){const h=hue(((np&&np.tr)||'')+((np&&(np.arAll||np.ar))||'')||'onde');return[hslRgb(h,.7,.55),hslRgb((h+38)%360,.75,.42)];}
 function coverColors(pixels){
   const groups=Array.from({length:12},()=>({r:0,g:0,b:0,weight:0}));
   for(let i=0;i<pixels.length;i+=4){
@@ -1726,8 +1750,8 @@ async function tint(url){
   // The artwork layer also works when the image host blocks pixel reads.
   mini.style.setProperty('--mini-cover',`url(${JSON.stringify(url)})`);
   const palette=await dominant(url,true);
-  if(url!==npColorUrl||!palette)return;
-  const [first,second=first]=palette;
+  if(url!==npColorUrl)return;
+  const [first,second=first]=palette||nameTint(NP);
   const highlight=first.map(c=>Math.round(c*.62+255*.38)).join(' ');
   mini.style.setProperty('--mini-first',`rgb(${first.join(' ')} / .34)`);
   mini.style.setProperty('--mini-second',`rgb(${second.join(' ')} / .36)`);
@@ -1801,9 +1825,18 @@ function refreshSpectrum(){
 document.addEventListener('visibilitychange',refreshSpectrum);
 npMotion.addEventListener('change',refreshSpectrum);
 
+function vcSync(){
+  const v=$('#vc');if(!v||v.hidden)return;
+  v.classList.toggle('paused',!NP||!NP.playing);
+  $('#vcTt').textContent=NP&&!NP.idle?NP.tr:'Rien en lecture';
+  $('#vcAa').textContent=NP&&!NP.idle?(NP.arAll||NP.ar):"Lance un son sur Spotify";
+}
+function openVC(){const v=$('#vc');v.hidden=false;document.body.style.overflow='hidden';vcSync();}
+function closeVC(){$('#vc').hidden=true;if($('#npv').hidden)document.body.style.overflow='';}
 function openNP(){$('#npv').hidden=false;document.body.style.overflow='hidden';renderNP(true);}
 function closeNP(){$('#npv').hidden=true;document.body.style.overflow='';stopSpectrum();}
 function renderNP(force){
+  vcSync();
   const v=$('#npv');if(v.hidden)return;
   $('#npSpectrum').hidden=!NP||!!NP.idle;
   refreshSpectrum();
@@ -2067,7 +2100,8 @@ function achCheck(){rankCheck();if(isDemo||!ALL.length)return;const key='ondes.a
 
 /* ---------- Top artistes : mouvements + podium révélé ---------- */
 function moves(kind){const P=prevList();if(!P)return null;const m=new Map();sortBy(agg(P,kind),topSort).forEach((o,i)=>m.set(o.k,i+1));return m;}
-function mvHtml(M,k,rank){if(!M)return'';const p=M.get(k);if(p==null)return'<span class="mv new">NOUVEAU</span>';const d=p-rank;return d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv dn">▼${-d}</span>`:'';}
+let PS_CUR=Infinity;
+function mvHtml(M,k,rank){if(!M)return'';const p=M.get(k);if(p==null){const fs=firstSeen.get(k);return fs!=null&&fs<PS_CUR?'<span class="mv new">DE RETOUR</span>':'<span class="mv new">NOUVEAU</span>';}const d=p-rank;return d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv dn">▼${-d}</span>`:'';}
 function rArtists(){
   const el=$('#v-artists');
   const opts=[['4w','4 semaines'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];
@@ -2075,6 +2109,7 @@ function rArtists(){
   <div class="chips" style="padding-top:8px">${opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('')}</div>
   <div class="seg" id="segS">${[['ms','Par temps'],['n','Par écoutes']].map(([k,l])=>`<button data-s="${k}" class="${topSort===k?'on':''}">${l}</button>`).join('')}</div>`;
   const A=sortBy(agg(F,'ar'),topSort),M=moves('ar');
+  PS_CUR=F.reduce((m,r)=>r.t<m?r.t:m,Infinity);
   if(!A.length){el.innerHTML=h+'<div class="card"><p class="mut">Aucune écoute sur cette période.</p></div>';return;}
   const st=o=>topSort==='ms'?`${fmtH(o.ms)} · ${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes · ${fmtH(o.ms)}`;
   const st2=o=>topSort==='ms'?`${fmtH(o.ms)}<br>${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes<br>${fmtH(o.ms)}`;
@@ -2178,16 +2213,44 @@ function liveTodayExtra(){return NP&&!NP.idle&&NP.playing?Math.min(NP.dur,NP.pro
 setInterval(()=>{const t=document.getElementById('tdayMin');if(t)t.textContent=Math.floor((todayMs()+liveTodayExtra())/6e4)+' min';},1000);
 
 /* ---------- Gestes : onglets, retour, tirer pour synchroniser ---------- */
-(()=>{const ROOTS=['home','artists','explore','me'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
-  const blocked=t=>t.closest('.plrow,.weeks,.chips,.bars.scroll,.ycal,.strack,nav.bot,.sheet,.npv,.story,.seg,input,.seasons');
-  addEventListener('touchstart',e=>{if(e.touches.length!==1||!$('#story').hidden||!$('#npv').hidden||!$('#sheet').hidden||$('#app').hidden){ok=false;return;}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();ok=!blocked(e.target);pull=ok&&scrollY<=0;dyMax=0;},{passive:true});
-  addEventListener('touchmove',e=>{if(!pull)return;const dy=e.touches[0].clientY-sy;if(dy>0&&scrollY<=0){dyMax=dy;ptr.style.transform=`translate(-50%,${Math.min(90,dy*.5)-50}px) rotate(${dy*2}deg)`;ptr.style.opacity=Math.min(1,dy/120);}},{passive:true});
+(()=>{const ROOTS=['home','artists','explore','me'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0,drag=false,lock=false,dxNow=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
+  const blocked=t=>t.closest('.plrow,.weeks,.chips,.bars.scroll,.ycal,.strack,nav.bot,.sheet,.npv,.vc,.story,.seg,input,.seasons');
+  const mainEl=()=>document.getElementById('app');
+  const overlayOpen=()=>!$('#story').hidden||!$('#npv').hidden||!$('#sheet').hidden||!$('#vc').hidden;
+  const target=dx=>{const i=ROOTS.indexOf(root),j=i+(dx<0?1:-1);return j>=0&&j<ROOTS.length?ROOTS[j]:null;};
+  addEventListener('touchstart',e=>{if(e.touches.length!==1||overlayOpen()||$('#app').hidden){ok=false;return;}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();ok=!blocked(e.target);pull=ok&&scrollY<=0;dyMax=0;drag=false;lock=false;dxNow=0;},{passive:true});
+  addEventListener('touchmove',e=>{if(!ok)return;const t=e.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(pull&&dy>0&&scrollY<=0){dyMax=dy;ptr.style.transform=`translate(-50%,${Math.min(90,dy*.5)-50}px) rotate(${dy*2}deg)`;ptr.style.opacity=Math.min(1,dy/120);}
+    if(!drag&&!lock&&(Math.abs(dx)>12||Math.abs(dy)>12)){if(Math.abs(dx)>1.6*Math.abs(dy)&&!pull)drag=true;else lock=true;}
+    if(drag){dxNow=dx;const tg=target(dx);const m=mainEl();const k=tg?dx:dx*.22;m.classList.add('drag');m.style.transition='none';m.style.transform=`translate3d(${k}px,0,0)`;m.style.opacity=String(Math.max(.55,1-Math.abs(k)/600));}
+  },{passive:true});
+  const settle=(m,off)=>{m.style.transition='transform .22s cubic-bezier(.2,.8,.2,1),opacity .22s';m.style.transform='translate3d(0,0,0)';m.style.opacity='1';};
   addEventListener('touchend',async e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy,fast=Date.now()-st<600;
     if(pull&&dyMax>130&&Math.abs(dx)<60){ptr.classList.add('spin');ptr.style.transform='translate(-50%,30px)';if(liveOn()){const n=await syncRecent(true);await pollNow();toast(n?`+${n} écoutes synchronisées`:'Déjà à jour');}else toast('Connecte le live Spotify pour synchroniser');ptr.classList.remove('spin');}
     ptr.style.transform='';ptr.style.opacity=0;pull=false;
-    if(!fast||Math.abs(dx)<80||Math.abs(dx)<2.2*Math.abs(dy))return;
-    if(stack.length){if(sx<40&&dx>0)back();return;}
-    const i=ROOTS.indexOf(root),j=i+(dx<0?1:-1);if(j>=0&&j<ROOTS.length){document.body.dataset.sw=dx<0?'l':'r';setRoot(ROOTS[j]);}},{passive:true});})();
+    if(drag){drag=false;const m=mainEl();const tg=target(dx);const commit=tg&&(Math.abs(dx)>Math.min(innerWidth*.22,110)||(fast&&Math.abs(dx)>50));
+      if(!commit){settle(m);m.classList.remove('drag');return;}
+      const dir=dx<0?-1:1;const W=innerWidth;
+      m.style.transition='transform .2s ease-in,opacity .2s';m.style.transform=`translate3d(${-dir*W}px,0,0)`;m.style.opacity='0';
+      await new Promise(r=>setTimeout(r,200));
+      setRoot(tg);
+      m.style.transition='none';m.style.transform=`translate3d(${dir*W*.35}px,0,0)`;m.style.opacity='0';void m.offsetWidth;
+      m.style.transition='transform .32s cubic-bezier(.2,.85,.25,1),opacity .28s ease-out';m.style.transform='translate3d(0,0,0)';m.style.opacity='1';
+      setTimeout(()=>{m.classList.remove('drag');m.style.transition='';m.style.transform='';m.style.opacity='';},340);
+      return;}
+    // pas de glissement horizontal : rien (le retour arrière est géré par popstate)
+  },{passive:true});
+  // Bouton retour du navigateur (geste de bord Safari) : ferme d'abord les volets, puis remonte d'une page dans l'app, sans jamais quitter l'app
+  history.pushState({ondes:1},'');
+  addEventListener('popstate',()=>{
+    if(!$('#vc').hidden){closeVC();}
+    else if(!$('#npv').hidden){closeNP();}
+    else if(!$('#story').hidden){closeStory();}
+    else if(!$('#sheet').hidden){closeSheet();}
+    else if(stack.length){back();}
+    history.pushState({ondes:1},'');
+  });
+})();
 
 /* ---------- Import en arrière-plan (gros exports sans figer) ---------- */
 function parseInWorker(texts){return new Promise(res=>{try{const code=`const PLAY=${PLAY};const plat=${plat.toString()};const norm=${norm.toString()};onmessage=e=>{const out=[];let pods=0,files=0;for(const txt of e.data){try{const arr=JSON.parse(txt);if(Array.isArray(arr)){files++;for(const x of arr){const r=norm(x);if(r==='pod')pods++;else if(r)out.push(r);}}}catch(err){}}postMessage({out,pods,files});};`;
