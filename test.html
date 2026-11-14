@@ -606,6 +606,133 @@ body[data-sw=r] main .view:not([hidden]){animation:swr .35s cubic-bezier(.2,.85,
 .rkmini{display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:-4px;animation:rkin .8s cubic-bezier(.2,1.5,.4,1) both}
 .rkmini span{font-family:Sora;font-weight:800;font-size:11px;color:var(--mut);margin-top:-2px}.rkmini small{font-size:9px;margin-left:2px}
 .rkmini:active{transform:scale(.92)}
+/* respiration */
+main{padding-top:10px}
+h2{margin:34px 2px 14px}
+.bento{gap:12px}.col{gap:12px}
+.card{margin-bottom:14px}
+.hello{margin:14px 2px 18px}
+.bc.minw{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:18px 18px 18px;margin-bottom:12px}
+.bc.minw .bn{font-size:54px}
+.bc.minw .mspark{display:flex;align-items:flex-end;gap:3px;height:56px;width:42%}
+.bc.minw .mspark i{flex:1;border-radius:3px;background:linear-gradient(180deg,#ffc46b,#ff5fa8);opacity:.85;min-height:3px}
+.seg.big{margin:6px 0 8px}.seg.big button{padding:10px;font-size:14px}
+.seg.sm{margin:8px 0 14px}
+.sqt .tart .art{border-radius:14px!important}
+.mesec h2{margin-top:26px}
+.mesec .sgrid{display:flex;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 4px;gap:10px;scroll-snap-type:x proximity}
+.mesec .sgrid::-webkit-scrollbar{display:none}
+.mesec .stk{flex:none;width:150px;scroll-snap-align:start}
+.mesec .stk.me{width:210px}
+.wrapcta{display:flex;gap:10px;align-items:stretch;margin-top:4px}
+.wcta{flex:1;display:flex;align-items:center;gap:14px;padding:16px;border-radius:20px;text-align:left;background:linear-gradient(120deg,#6b2f95,#c4543e 70%,#ffc46b);box-shadow:0 10px 30px rgba(196,84,62,.25)}
+.wcta .wy{font-family:Sora;font-weight:800;font-size:30px;letter-spacing:-.04em;color:#fff}
+.wcta b{display:block;font-size:16px;color:#fff}.wcta small{color:rgba(255,255,255,.8);font-size:12.5px}
+.wcta i{margin-left:auto;font-style:normal;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;color:#fff}
+.wrapcta .icon{height:auto;width:52px;border-radius:20px}
+.links .lic{width:40px;height:40px;border-radius:12px;background:var(--card2);display:grid;place-items:center;font-size:20px;flex:none}
+.links .row{padding:10px 6px}
+/* ===================== DA façon Apple Music (fond conservé) ===================== */
+body *{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Inter,system-ui,sans-serif!important}
+:root{--am:#ff4f8b;--sep:rgba(255,255,255,.11);--fill:rgba(255,255,255,.07);--fill2:rgba(118,118,128,.24)}
+/* grands titres */
+.hello h1,.ahead h1{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#fff!important;-webkit-text-fill-color:#fff;font-size:34px;font-weight:800;letter-spacing:-.025em}
+.hello{margin:6px 2px 14px}.ahead{margin:6px 2px 10px}
+.per{color:var(--am);font-size:15px;font-weight:600;margin-top:2px}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:30px 2px 12px}
+h3{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.mut,.note,.sb{color:rgba(235,235,245,.6)}
+/* surfaces plates, plus de bulles */
+.bc,.card,.stk,.miss,.ach,.dcard,.combo,.favc,.rankc,.demo,.now{background:var(--fill)!important;border:.5px solid rgba(255,255,255,.07)!important;box-shadow:none!important;border-radius:22px}
+.bc{padding:16px}
+.stk.me{background:var(--fill)!important}
+.stk.me .fl{color:#ff9f43}
+.bl{color:rgba(235,235,245,.6);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.bl svg{display:none}
+.bn{font-weight:800;letter-spacing:-.03em}
+/* cartes pochette : l'image d'abord, le texte dessous, sans boîte */
+.bc.tilecard{background:transparent!important;border:0!important;padding:0;display:flex;flex-direction:column}
+.bc.tilecard .art.lg{order:-1;margin-bottom:10px;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.bc.tilecard .art.lg.sq{border-radius:12px}
+.bc.tilecard .bl{font-size:12px;margin:0}
+.bc.tilecard .bt{font-size:17px;font-weight:700;margin:2px 0 0;letter-spacing:-.01em;line-height:1.2}
+.bc.tilecard .bs{margin-top:2px;font-size:13px}
+/* minutes */
+.bc.minw{padding:18px}
+.bc.minw .bn{font-size:52px}
+.bc.minw .mspark i{background:var(--am);opacity:.9;border-radius:3px}
+/* listes groupées façon iOS */
+.card.list{padding:4px 0 4px 14px;background:var(--fill)!important}
+.card.list h3{padding:12px 0 2px}
+.card.list .note{padding:0}
+.row{border-radius:0;padding:10px 14px 10px 0;position:relative;gap:12px}
+.row:active{background:rgba(255,255,255,.04)}
+.card.list .row+.row::before,.card.list .trk+.trk::before{content:'';position:absolute;top:0;left:62px;right:0;height:.5px;background:var(--sep)}
+.trk{position:relative;border-radius:0}
+.rk{color:rgba(235,235,245,.45);font-weight:600;font-size:15px;width:20px}
+.row:nth-child(-n+3) .rk{color:rgba(235,235,245,.45)}
+.nm{font-weight:600;font-size:16px;letter-spacing:-.01em}
+.art.sq{border-radius:7px}.art.sm{width:48px;height:48px}
+.art.lg.sq{border-radius:12px}
+/* stats groupées */
+.tiles{gap:0;background:var(--fill);border:.5px solid rgba(255,255,255,.07);border-radius:22px;overflow:hidden}
+.tile{background:transparent!important;border-radius:0;padding:14px 16px;box-shadow:inset -.5px -.5px 0 var(--sep)}
+.tile .l{font-size:13px;color:rgba(235,235,245,.6)}
+.tile .v{font-size:22px;font-weight:700}
+/* filtres et segments façon iOS */
+.chip{background:var(--fill2);color:#fff;font-weight:600;font-size:14px;padding:7px 14px}
+.chip.on{background:#fff!important;color:#000!important}
+.seg{background:var(--fill2);border-radius:10px;padding:2px}
+.seg button{border-radius:8px;color:#fff;font-weight:600;font-size:13px;padding:7px}
+.seg button.on{background:#636366!important;color:#fff!important;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+/* boutons pleins */
+.btn:not(.ghost){background:var(--am)!important;color:#fff!important;font-weight:700}
+.btn.ghost{background:var(--fill2);color:#fff}
+.w-sum .btn{background:#1a0b1e!important}
+/* playlists et tuiles */
+.mosaic{border-radius:12px}
+.plc .pn{font-size:15px}
+.wkc{border-radius:18px}
+.achs{gap:8px}.ach{border-radius:20px}
+.ach .an{font-size:13px}
+/* barre d'onglets : teinte Apple */
+nav.bot button.on{color:var(--am)!important}
+#lens{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.07))}
+nav.bot{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05))}
+/* mini-lecteur flottant */
+.mini{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom));width:min(92vw,420px);z-index:21;border-radius:22px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:.5px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 10px 30px rgba(0,0,0,.45)}
+.mini button.mi{display:flex;align-items:center;gap:11px;width:100%;padding:8px 14px 8px 8px;text-align:left}
+.mini img,.mini .art{width:44px;height:44px;border-radius:9px;flex:none;object-fit:cover}
+.mini .nm{font-size:15px}.mini .sb{font-size:12.5px}
+.mini .td{text-align:right;flex:none;font-size:11px;color:rgba(235,235,245,.6);font-weight:600}
+.mini .td b{display:block;font-size:16px;color:#fff;font-weight:700}
+.mini .pb{position:absolute;left:14px;right:14px;bottom:3px;height:2px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden}
+.mini .pb i{display:block;height:100%;background:var(--am);transition:width 1s linear}
+.mini .eq i{background:var(--am)}
+body.hasmini.has{padding-bottom:calc(166px + env(safe-area-inset-bottom))}
+.bigstat .n{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#fff!important;-webkit-text-fill-color:#fff;font-weight:800}
+body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
+/* ===================== Pochettes vivantes (CSS pur, aucun fichier en plus) ===================== */
+.alive,.tart,.deck{position:relative}
+.alive>.art,.tart>.art{position:relative;z-index:1}
+.alive::before,.tart::before,.deck::before{content:'';position:absolute;inset:-12%;background:var(--img,none) center/cover no-repeat;filter:blur(26px) saturate(1.8);border-radius:50%;z-index:0;pointer-events:none;opacity:.55;translate:0 var(--py,0px);animation:aura 5.5s ease-in-out infinite;will-change:transform,opacity}
+.deck::before{inset:-20%;opacity:.7}
+@keyframes aura{0%,100%{transform:scale(.96);opacity:.45}50%{transform:scale(1.08);opacity:.75}}
+.npv.playing .deck::before{animation:beat .86s cubic-bezier(.3,0,.3,1) infinite}
+@keyframes beat{0%{transform:scale(1);opacity:.62}12%{transform:scale(1.09);opacity:.9}100%{transform:scale(1);opacity:.62}}
+.alive .aimg,.tart .aimg,.ihero .art .aimg,.cover img,.mini img,.sumtop img{animation:kbz 18s ease-in-out infinite alternate;will-change:transform}
+.mini img{animation-duration:24s}
+@keyframes kbz{0%{transform:scale(1.03) translate(0,0)}50%{transform:scale(1.13) translate(-2.5%,-1.8%)}100%{transform:scale(1.07) translate(2%,1.6%)}}
+.alive .art::after,.ihero .art::after,.cover::after{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.26) 50%,transparent 62%);transform:translateX(-130%);animation:sweep 8s ease-in-out infinite}
+.alive .art.has,.tart .art.has{box-shadow:0 16px 36px rgba(0,0,0,.45)}
+.npbg{animation:drift2 34s ease-in-out infinite alternate}
+@keyframes drift2{from{transform:scale(1.2) translate(0,0)}to{transform:scale(1.35) translate(-4%,3%)}}
+.npv.playing .cover{animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.bc.tilecard .alive{order:-1;margin-bottom:10px}
+.bc.tilecard .alive .art.lg{margin:0}
+@media (prefers-reduced-motion:reduce){.alive::before,.tart::before,.deck::before,.alive .aimg,.tart .aimg,.ihero .art .aimg,.cover img,.mini img,.npbg,.alive .art::after,.ihero .art::after,.cover::after{animation:none!important}}
 </style>
 </head>
 <body>
@@ -655,9 +782,11 @@ body[data-sw=r] main .view:not([hidden]){animation:swr .35s cubic-bezier(.2,.85,
   <div id="v-explore" class="view" hidden></div>
   <div id="v-foryou" class="view" hidden></div>
   <div id="v-wrap" class="view" hidden></div>
+  <div id="v-me" class="view" hidden></div>
   <div id="v-page" class="view" hidden></div>
 </main>
 
+<div class="mini" id="mini" hidden></div>
 <nav class="bot" id="nav" hidden><div class="in" id="navin"><div id="lens"></div></div></nav>
 <div class="story" id="story" hidden>
   <div class="sthead"><button class="icon" data-closestory aria-label="Fermer">×</button><b id="stTitle"></b><span style="width:38px"></span></div>
@@ -814,7 +943,7 @@ const TH=[{bg:'#ffd2a6',fg:'#6b1f4f'},{bg:'#ffc8de',fg:'#9c1457'},{bg:'#dccbff',
 function weekLabel(w){const a=new Date(w*D),b=new Date((w+6)*D),ma=MONTHS[a.getUTCMonth()],mb=MONTHS[b.getUTCMonth()];return a.getUTCMonth()===b.getUTCMonth()?`${a.getUTCDate()}-${b.getUTCDate()} ${mb}`:`${a.getUTCDate()} ${ma} - ${b.getUTCDate()} ${mb}`;}
 function rHome(){
   const el=$('#v-home');
-  const head=`<div class="hello"><div><h1>Tes stats</h1><button class="per" data-persheet>${plab(period)} ${CHEVD}</button></div>${ALL.length?(()=>{const R=rankOf(seasonXP(monthList(curMo())).xp);return`<button class="rkmini" data-open="rank" aria-label="Ton rang">${emblem(R.tier,R.div,58)}<span>${R.rr}<small>RR</small></span></button>`;})():''}</div><div id="nowSlot"></div>`;
+  const head=`<div class="hello"><div><h1>Accueil</h1><button class="per" data-persheet>${plab(period)} ${CHEVD}</button></div>${ALL.length?(()=>{const R=rankOf(seasonXP(monthList(curMo())).xp);return`<button class="rkmini" data-open="rank" aria-label="Ton rang">${emblem(R.tier,R.div,58)}<span>${R.rr}<small>RR</small></span></button>`;})():''}</div><div id="nowSlot"></div>`;
   const demo=isDemo?`<div class="card demo"><span>Données démo, artistes inventés.</span><button class="btn" data-imp>Importer</button></div>`:'';
   if(!F.length){el.innerHTML=head+demo+'<div class="card"><p class="mut">Aucune écoute sur cette période. Change de période juste au-dessus.</p></div>';return;}
   const tot=sum(F,r=>r.ms),P=prevList(),span=F[F.length-1].d-F[0].d+1;
@@ -825,9 +954,9 @@ function rHome(){
   const disc=[...firstSeen].filter(([a,t])=>t>=t0&&t<=t1).map(([a])=>({a,n:artistPlays.get(a)||0})).sort((x,y)=>y.n-x.n);
   const mins=Math.round(tot/6e4),ms=nf.format(mins);
   const minCard=`<button class="bc" data-open="time"><div class="bl">Minutes d'écoute${CHEV}</div><div class="bn" style="${ms.length>6?'font-size:34px':''}">${cnt(mins)}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></button>`;
-  const artCard=A[0]?`<button class="bc" data-root="artists"><div class="bl">Top artiste${CHEV}</div><div class="bt">${esc(A[0].r.ar)}</div>${art(A[0].r.ar,'round','lg','',IKA(A[0].r.ar))}</button>`:'';
+  const artCard=A[0]?`<button class="bc tilecard" data-root="artists"><div class="bl">Top artiste${CHEV}</div><div class="bt">${esc(A[0].r.ar)}</div><div class="alive">${art(A[0].r.ar,'round','lg','',IKA(A[0].r.ar))}</div></button>`:'';
   const hourCard=`<button class="bc" data-open="habits"><div class="bl">Heure de pointe${CHEV}</div><div class="bn">${ph}h</div><div class="spark">${hr.map((v,h)=>`<i class="${h===ph?'on':''}" style="height:${Math.max(6,v/hmx*100)}%"></i>`).join('')}</div><div class="bs">Jour préféré : <b>${DAYSL[bw]}</b></div></button>`;
-  const trCard=T[0]?`<button class="bc" data-open="top:tr"><div class="bl">Top titre${CHEV}</div><div class="bt">${esc(T[0].r.tr)}</div>${art(T[0].r.tr,'sq','lg','',IKT(T[0].r))}<div class="bs" style="margin-top:10px">${esc(T[0].r.ar)} · <b>${nf.format(T[0].n)} écoutes</b></div></button>`:'';
+  const trCard=T[0]?`<button class="bc tilecard" data-open="top:tr"><div class="bl">Top titre${CHEV}</div><div class="bt">${esc(T[0].r.tr)}</div><div class="alive">${art(T[0].r.tr,'sq','lg','',IKT(T[0].r))}</div><div class="bs" style="margin-top:10px">${esc(T[0].r.ar)} · <b>${nf.format(T[0].n)} écoutes</b></div></button>`:'';
   const discCard=`<button class="bc" data-open="disc"><div class="bl">Nouveaux artistes${CHEV}</div><div class="bn">${nf.format(disc.length)}</div>${disc.length?`<div class="stack">${disc.slice(0,4).map(o=>art(o.a,'round','xs','',IKA(o.a))).join('')}</div><div class="bs">dont <b>${esc(disc[0].a)}</b></div>`:'<div class="bs">rien de nouveau</div>'}</button>`;
   const alCard=Al[0]?`<button class="bc" data-open="top:al"><div class="bl">Top album${CHEV}</div><div style="display:flex;gap:12px;align-items:center;margin-top:10px">${art(Al[0].r.al,'sq','md','',IKL(Al[0].r))}<div style="min-width:0"><div class="nm">${esc(Al[0].r.al)}</div><div class="sb">${esc(Al[0].r.ar)}</div></div></div></button>`:'';
   // semaines
@@ -835,8 +964,9 @@ function rHome(){
   WK=[...m].sort((a,b)=>b[0]-a[0]).slice(0,8);
   const weeks=WK.map(([w,L],i)=>{const th=TH[i%TH.length],top=sortBy(agg(L,'ar'),'ms')[0];return`<button class="wkc" data-story="${i}" style="background:${th.bg};color:${th.fg}"><div class="wa">${i===0?'Cette semaine':'Semaine'}</div><div class="wd">${weekLabel(w)}</div><div><div class="wm">${fmtMin(sum(L,r=>r.ms))}</div><div class="wa">${top?esc(top.r.ar):''}</div></div></button>`;}).join('');
   const ys=years(),wy=ys[0];
-  el.innerHTML=head+demo+`<div class="bento"><div class="col">${minCard}${artCard}${hourCard}</div><div class="col">${trCard}${discCard}${alCard}</div></div>
-  <button class="wide" data-root="wrap"><div class="wy">${wy}</div><div><b>Ton Wrapped ${wy}</b><span>Ton année résumée, quand tu veux</span></div>${CHEV.replace('<svg','<svg style="width:18px;height:18px;flex:none"')}</button>
+  const dser=(span<=62?daily(F):monthly(F)).slice(-14),dmx=Math.max(1,...dser.map(x=>x.v));
+  const minW=`<button class="bc minw" data-open="time"><div><div class="bl" style="margin-bottom:2px">Minutes d'écoute</div><div class="bn" style="${ms.length>6?'font-size:40px':''}">${cnt(mins)}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></div><div class="mspark">${dser.map(x=>`<i style="height:${Math.max(5,x.v/dmx*100)}%"></i>`).join('')}</div></button>`;
+  el.innerHTML=head+demo+`${minW}<div class="bento"><div class="col">${artCard}</div><div class="col">${trCard}</div></div>
   ${WK.length?`<h2>Tes dernières semaines</h2><div class="weeks">${weeks}</div>`:''}`;
 }
 
@@ -1027,7 +1157,7 @@ function rWrap(){
 
 /* ---------- navigation ---------- */
 let root='home',stack=[];
-const NAV=[['home','Accueil','<path d="M4 10.5l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>'],['artists','Top','<path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M8 21h8M9 17h6v4H9z"/>'],['explore','Explorer','<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'],['foryou','Pour toi','<path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3-1-3 0-6 1-9.5z"/>'],['wrap','Wrapped','<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 9v12M3 14h18M12 9C10 5 6.5 5 6.5 7.2 6.5 9 12 9 12 9zM12 9c2-4 5.5-4 5.5-1.8C17.5 9 12 9 12 9z"/>']];
+const NAV=[['home','Accueil','<path d="M4 10.5l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>'],['artists','Top','<path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M8 21h8M9 17h6v4H9z"/>'],['explore','Découvrir','<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'],['me','Moi','<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>']];
 $('#navin').insertAdjacentHTML('beforeend',NAV.map(([k,l,p])=>`<button data-tab="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>${l}</button>`).join(''));
 
 /* ---------- verre liquide (barre du bas) ---------- */
@@ -1106,31 +1236,31 @@ function rForYou(){
   const recs=[...best].filter(([a,b])=>b.n>=2).sort((x,y)=>y[1].n-x[1].n).slice(0,8);
   const wl=w=>{const d=new Date(w*D);return d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]+' '+d.getUTCFullYear();};
   el.innerHTML=`<div class="ahead"><h1>Pour toi</h1></div>
-  <h2>Tes séries en cours</h2>
+  <section id="fyS"><h2>Tes séries en cours</h2>
   <div class="sgrid">
     <div class="stk me"><div class="fl">${IC_FIRE}${cnt(me)}</div><div class="u">${me>1?"jours d'affilée que t'écoutes de la musique":me===1?"jour d'écoute, reviens demain pour lancer la série":'pas de série en cours'}</div></div>
     ${streaks.map(card).join('')}
   </div>
   ${!streaks.length?'<p class="mut" style="margin:10px 2px">Pas de série sur un artiste ou un son pour l\'instant. Écoute le même 3 jours de suite ou garde-le dans ton top 5 deux semaines pour en lancer une.</p>':''}
-  ${achHtml()}
-  <h2>Ça te manque ?</h2>
+  </section><section id="fyA">${achHtml()}</section>
+  <section id="fyM"><h2>Ça te manque ?</h2>
   ${miss.length?miss.map(missCard).join(''):'<div class="card"><p class="mut">Aucun artiste délaissé pour l\'instant, t\'es fidèle.</p></div>'}
-  ${recs.length?`<h2>Records de séries</h2><div class="card list">${rowsCustom(recs.map(([a,b])=>({kind:'ar',key:a,name:a,sub:'jusqu\'à la semaine du '+wl(b.end),val:b.n+' sem.',valSub:'dans le top 5'})))}</div>`:''}
-  <p class="note" style="margin:14px 4px 0">Calculé jusqu'à ta dernière écoute importée, le ${fmtDate(maxT)}.</p>`;
+  </section><section id="fyR">${recs.length?`<h2>Records de séries</h2><div class="card list">${rowsCustom(recs.map(([a,b])=>({kind:'ar',key:a,name:a,sub:'jusqu\'à la semaine du '+wl(b.end),val:b.n+' sem.',valSub:'dans le top 5'})))}</div>`:''}
+  </section><p class="note" style="margin:14px 4px 0">Calculé jusqu'à ta dernière écoute importée, le ${fmtDate(maxT)}.</p>`;
 }
-const PTITLE={time:"Temps d'écoute",habits:'Habitudes',disc:'Découvertes','top:ar':'Top artistes','top:tr':'Top titres','top:al':'Top albums',item:'',pl:'Playlist',rank:'Ton rang'};
+const PTITLE={time:"Temps d'écoute",habits:'Habitudes',disc:'Découvertes','top:ar':'Top artistes','top:tr':'Top titres','top:al':'Top albums',item:'',pl:'Playlist',rank:'Ton rang',ach:'Succès',rec:'Records de séries',wrap:'Wrapped'};
 function renderView(){
   const pg=stack[stack.length-1];
   $('#top').hidden=!!pg;$('#phead').hidden=!pg;$('#v-page').hidden=!pg;
-  ['home','artists','explore','foryou','wrap'].forEach(v=>$('#v-'+v).hidden=!!pg||root!==v);
+  ['home','artists','explore','foryou','wrap','me'].forEach(v=>$('#v-'+v).hidden=!!pg||root!==v);
   document.querySelectorAll('#navin button').forEach(b=>b.classList.toggle('on',b.dataset.tab===root));if(!navDrag)placeLens(true);
   if(pg){
     $('#pgTitle').textContent=pg.n==='item'?'':PTITLE[pg.n];
-    const chips=pg.n!=='item'&&pg.n!=='pl'&&pg.n!=='rank';$('#pgChips').hidden=!chips;
+    const chips=!['item','pl','rank','ach','rec','wrap'].includes(pg.n);$('#pgChips').hidden=!chips;
     if(chips){const opts=[['4w','4 semaines'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];$('#pgChips').innerHTML=opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('');}
-    const html=pg.n==='time'?pageTime():pg.n==='habits'?pageHabits():pg.n==='disc'?pageDisc():pg.n==='item'?pageItem(pg.kind,pg.key):pg.n==='pl'?pagePl(pg.id):pg.n==='rank'?pageRank():pageTop(pg.n.slice(4));
+    const html=pg.n==='time'?pageTime():pg.n==='habits'?pageHabits():pg.n==='disc'?pageDisc():pg.n==='item'?pageItem(pg.kind,pg.key):pg.n==='pl'?pagePl(pg.id):pg.n==='rank'?pageRank():pg.n==='ach'?achHtml().replace(/<h2>.*?<\/h2>/,''):pg.n==='rec'?(rForYou(),fyPart('fyR').replace(/<h2>.*?<\/h2>/,'')||'<p class="mut">Pas encore de record.</p>'):pg.n==='wrap'?pageWrap():pageTop(pg.n.slice(4));
     const v=$('#v-page');v.innerHTML=html;v.style.animation='none';v.offsetWidth;v.style.animation='';
-  }else{({home:rHome,artists:rArtists,explore:rExplore,foryou:rForYou,wrap:rWrapNew})[root]();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
+  }else{({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe})[root]();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
   requestAnimationFrame(()=>{document.querySelectorAll('main .bars.scroll,main .ycal').forEach(b=>b.scrollLeft=b.scrollWidth);fxEnter();runCounters();});
 }
 function go(pg){stack.push(pg);renderView();scrollTo(0,0);}
@@ -1139,7 +1269,7 @@ function setRoot(r){root=r;stack=[];renderView();scrollTo(0,0);}
 function refresh(){F=filt();renderView();}
 function showApp(){
   const has=ALL.length>0;
-  $('#empty').hidden=has;$('#app').hidden=!has;$('#nav').hidden=!has;document.body.classList.toggle('has',has);
+  $('#empty').hidden=has;$('#app').hidden=!has;if(!has){$('#mini').hidden=true;document.body.classList.remove('hasmini');}$('#nav').hidden=!has;document.body.classList.toggle('has',has);
   $('#bImp').hidden=!has;$('#bProf').hidden=!has;$('#bRef').hidden=!has;
   $('#profName').textContent=isDemo?'Démo':active==='all'?(profiles.length>1?'Tous les comptes':(profiles[0]||{name:''}).name):profName(active);
   if(has){stack=[];F=filt();renderView();}else{$('#phead').hidden=true;$('#top').hidden=false;}
@@ -1271,7 +1401,8 @@ document.addEventListener('click',async e=>{
   if(T.closest('[data-persheet]')){sheetPeriod();return;}
   const p=T.closest('[data-p]');if(p){period=p.dataset.p;closeSheet();refresh();return;}
   const s=T.closest('#segS [data-s]');if(s){topSort=s.dataset.s;renderView();return;}
-  const wy=T.closest('[data-wy]');if(wy){wrapYear=+wy.dataset.wy;rWrapNew();return;}
+  const kk=T.closest('#segK [data-k]');if(kk){topKind=kk.dataset.k;renderView();return;}
+  const wy=T.closest('[data-wy]');if(wy){wrapYear=+wy.dataset.wy;if(stack.length)renderView();else rWrapNew();return;}
   if(T.closest('[data-imp]')){openFile();return;}
   if(T.closest('#bCopy')){try{navigator.clipboard.writeText(rWrap.text).then(()=>toast('Résumé copié'),()=>toast('Copie refusée par le navigateur'));}catch(_){toast('Copie refusée par le navigateur');}return;}
   const it=T.closest('[data-kind][data-key]');if(it){go({n:'item',kind:it.dataset.kind,key:it.dataset.key});return;}
@@ -1458,11 +1589,11 @@ async function lookup(k){
 }
 function imgApply(el,u){if(!u||el.querySelector('img.aimg'))return;const im=new Image();im.className='aimg';im.alt='';im.referrerPolicy='no-referrer';im.decoding='async';im.onload=()=>el.classList.add('has');im.src=u;el.appendChild(im);}
 function imgPump(){while(imgRun<3&&IMGQ.length){const k=IMGQ.shift();imgRun++;
-  lookup(k).then(u=>{if(u!=null){IMG.set(k,u||'');imgSave();}IMGP.delete(k);if(u)document.querySelectorAll(`[data-ik="${CSS.escape(k)}"]`).forEach(el=>imgApply(el,u));})
+  lookup(k).then(u=>{if(u!=null){IMG.set(k,u||'');imgSave();}IMGP.delete(k);if(u)document.querySelectorAll(`[data-ik="${CSS.escape(k)}"]`).forEach(el=>imgApply2(el,u));})
   .catch(()=>IMGP.delete(k)).finally(()=>{imgRun--;setTimeout(imgPump,120);});}}
-function imgWant(el){const k=el.dataset.ik;if(IMG.has(k)){imgApply(el,IMG.get(k));return;}if(!IMGP.has(k)){IMGP.add(k);IMGQ.push(k);imgPump();}}
+function imgWant(el){const k=el.dataset.ik;if(IMG.has(k)){imgApply2(el,IMG.get(k));return;}if(!IMGP.has(k)){IMGP.add(k);IMGQ.push(k);imgPump();}}
 const imgIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){imgIO.unobserve(e.target);imgWant(e.target);}},{rootMargin:'300px'}):null;
-function hydrate(){if(INFRAME||isDemo)return;document.querySelectorAll('.art[data-ik]:not([data-h]),.ihero[data-ik]:not([data-h])').forEach(el=>{el.dataset.h='1';const k=el.dataset.ik;if(IMG.has(k)){imgApply(el,IMG.get(k));}else if(imgIO)imgIO.observe(el);else imgWant(el);});}
+function hydrate(){if(INFRAME||isDemo)return;document.querySelectorAll('.art[data-ik]:not([data-h]),.ihero[data-ik]:not([data-h])').forEach(el=>{el.dataset.h='1';const k=el.dataset.ik;if(IMG.has(k)){imgApply2(el,IMG.get(k));}else if(imgIO)imgIO.observe(el);else imgWant(el);});}
 let hydT=0;new MutationObserver(()=>{if(hydT)return;hydT=requestAnimationFrame(()=>{hydT=0;hydrate();runCounters();});}).observe(document.body,{childList:true,subtree:true});
 
 /* ================= FX : chiffres animés, entrées, tilt, confettis ================= */
@@ -1495,7 +1626,7 @@ function renderNP(force){
   const v=$('#npv');if(v.hidden)return;
   if(!NP||NP.idle){v.classList.remove('playing');$('#npTt').textContent='Rien en lecture';$('#npAa').textContent="Lance un son sur Spotify, ça s'affiche ici";$('#npVinyl').classList.remove('spin');$('#npStats').innerHTML=`<div><b>${Math.round(todayMs()/6e4)} min</b><span>aujourd'hui</span></div>`;return;}
   v.classList.toggle('playing',!!NP.playing);$('#npVinyl').classList.toggle('spin',!!NP.playing);
-  const img=$('#npImg');if(NP.img&&img.dataset.u!==NP.img){img.dataset.u=NP.img;img.src=NP.img;$('#npBg').style.backgroundImage=`url("${NP.img}")`;tint(NP.img);}
+  const img=$('#npImg');if(NP.img&&img.dataset.u!==NP.img){img.dataset.u=NP.img;img.src=NP.img;document.querySelector('#npv .deck').style.setProperty('--img',`url("${NP.img}")`);$('#npBg').style.backgroundImage=`url("${NP.img}")`;tint(NP.img);}
   $('#npTt').textContent=NP.tr;$('#npAa').textContent=NP.arAll||NP.ar;
   const key=NP.tr+'\u0001'+NP.ar,mine=ALL.filter(r=>r.ms>=PLAY&&(r.k===key||(r.tr===NP.tr&&(NP.arAll||'').includes(r.ar))));
   caches();const ri=cacheA.findIndex(o=>o.k===NP.ar);
@@ -1610,11 +1741,12 @@ const plCard=p=>`<button class="plc" data-pl="${p.id}">${mosaic(p)}<div class="p
 function rExplore(){
   const el=$('#v-explore');PLS={};
   const pls=localPlaylists();
-  el.innerHTML=`<div class="ahead"><h1>Explorer</h1></div>
+  el.innerHTML=`<div class="ahead"><h1>Découvrir</h1></div>
   <h2>Playlists pour toi</h2><div class="plrow" id="plrow">${pls.map(plCard).join('')||'<p class="mut">Pas encore assez d\'écoutes pour créer des playlists.</p>'}</div>
   <h2>Tes styles</h2><div class="card" id="exStyles">${INFRAME||isDemo?'<p class="mut">Les styles s\'affichent avec tes vraies données, sur ta version en ligne.</p>':'<div class="loading"><i></i>Analyse de tes styles…</div>'}</div>
   <h2>Styles qui vont bien ensemble</h2><div id="exCombos"><p class="mut" style="margin:0 2px">${INFRAME||isDemo?'Dispo sur ta version en ligne.':'En attente de l\'analyse des styles…'}</p></div>
   <h2>Découvertes pour toi</h2><div id="exDisc">${INFRAME||isDemo?'<p class="mut" style="margin:0 2px">Dispo sur ta version en ligne.</p>':'<div class="loading"><i></i>Je cherche des artistes proches de tes goûts…</div>'}</div>`;
+  rForYou();el.insertAdjacentHTML('beforeend',fyPart('fyM'));
   if(!INFRAME&&!isDemo)exploreLoad(++EXP.run);
 }
 async function exploreLoad(run){
@@ -1863,7 +1995,7 @@ function liveTodayExtra(){return NP&&!NP.idle&&NP.playing?Math.min(NP.dur,NP.pro
 setInterval(()=>{const t=document.getElementById('tdayMin');if(t)t.textContent=Math.floor((todayMs()+liveTodayExtra())/6e4)+' min';},1000);
 
 /* ---------- Gestes : onglets, retour, tirer pour synchroniser ---------- */
-(()=>{const ROOTS=['home','artists','explore','foryou','wrap'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
+(()=>{const ROOTS=['home','artists','explore','me'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
   const blocked=t=>t.closest('.plrow,.weeks,.chips,.bars.scroll,.ycal,.strack,nav.bot,.sheet,.npv,.story,.seg,input,.seasons');
   addEventListener('touchstart',e=>{if(e.touches.length!==1||!$('#story').hidden||!$('#npv').hidden||!$('#sheet').hidden||$('#app').hidden){ok=false;return;}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();ok=!blocked(e.target);pull=ok&&scrollY<=0;dyMax=0;},{passive:true});
   addEventListener('touchmove',e=>{if(!pull)return;const dy=e.touches[0].clientY-sy;if(dy>0&&scrollY<=0){dyMax=dy;ptr.style.transform=`translate(-50%,${Math.min(90,dy*.5)-50}px) rotate(${dy*2}deg)`;ptr.style.opacity=Math.min(1,dy/120);}},{passive:true});
@@ -1965,6 +2097,70 @@ function stAct(){const cs=$('#strack').children;for(let j=0;j<cs.length;j++){con
     cs[j].querySelectorAll('[data-wc]').forEach(el=>{const to=+el.dataset.wc,t0=performance.now(),dur=1500;const f=t=>{const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=nf.format(Math.round(to*e));if(p<1)requestAnimationFrame(f);};requestAnimationFrame(f);});}
     else if(!on&&Math.abs(j-ST.i)>1)cs[j].classList.remove('act');}}
 function stTick(now){if($('#story').hidden){cancelAnimationFrame(ST.raf);return;}stAct();if(!ST.paused){const p=(now-ST.t0)/ST.dur;if(p>=1){if(ST.i<ST.n-1)stGo(ST.i+1);else{ST.paused=true;stSet(1);}}else stSet(p);}ST.raf=requestAnimationFrame(stTick);}
+
+/* ---------- Réorganisation : 4 onglets ---------- */
+function rTopAll(){
+  const el=$('#v-artists'),K=topKind||'ar',round=K==='ar';
+  const NM=o=>K==='ar'?o.r.ar:K==='tr'?o.r.tr:o.r.al,SUB=o=>K==='ar'?'':o.r.ar,IK=o=>ikOf(K,o.r);
+  const opts=[['4w','4 sem.'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];
+  let h=`<div class="ahead"><h1>Top</h1>${!isDemo&&K==='ar'?`<button class="icon glass" data-share="top" aria-label="Partager">${IC_SHARE}</button>`:''}</div>
+  <div class="seg big" id="segK">${[['ar','Artistes'],['tr','Titres'],['al','Albums']].map(([k,l])=>`<button data-k="${k}" class="${K===k?'on':''}">${l}</button>`).join('')}</div>
+  <div class="chips" style="padding-top:2px">${opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('')}</div>
+  <div class="seg sm" id="segS">${[['ms','Par temps'],['n','Par écoutes']].map(([k,l])=>`<button data-s="${k}" class="${topSort===k?'on':''}">${l}</button>`).join('')}</div>`;
+  const A=sortBy(agg(F,K),topSort),M=moves(K);
+  if(!A.length){el.innerHTML=h+'<div class="card"><p class="mut">Aucune écoute sur cette période.</p></div>';return;}
+  const st=o=>topSort==='ms'?`${fmtH(o.ms)} · ${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes · ${fmtH(o.ms)}`;
+  const st2=o=>topSort==='ms'?`${fmtH(o.ms)}<br>${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes<br>${fmtH(o.ms)}`;
+  const a1=A[0],sh=round?'round':'sq';
+  const spk=[[12,8,0,12],[70,22,.8,9],[20,88,1.4,14],[78,70,.3,10],[40,55,1.9,8],[8,45,1.1,10]].map(([t,l,d,s])=>`<i class="spk" style="top:${t}%;left:${l}%;width:${s}px;height:${s}px;animation-delay:${d}s"></i>`).join('');
+  h+=`<button class="tier t1 rv1 ${round?'':'sqt'}" data-kind="${K}" data-key="${esc(a1.k)}"><div class="tin2">${spk}<i class="flash"></i><div class="tart">${art(NM(a1),sh,'lg','',IK(a1))}<i class="shine"></i></div><div style="min-width:0;flex:1;padding-right:26px"><span class="badge">${IC_DIA}Diamant</span> ${mvHtml(M,a1.k,1)}<div class="tnm">${esc(NM(a1))}</div>${SUB(a1)?`<div class="tst" style="opacity:.9">${esc(SUB(a1))}</div>`:''}<div class="tst">${st(a1)}</div></div><div class="rkb">1</div></div></button>`;
+  const emb=[10,24,38,52,66,80,92].map((l,i)=>`<i class="ember" style="left:${l}%;animation-delay:${(i*0.37)%2.6}s;--dx:${i%2?-10:10}px;width:${6+i%3*3}px;height:${6+i%3*3}px"></i>`).join('');
+  const tc=(o,n,cls,badge,deco)=>`<button class="tier ${cls} rv${n} ${round?'':'sqt'}" data-kind="${K}" data-key="${esc(o.k)}"><div class="tin2">${deco}<div class="rkb">${n}</div><div class="tart" style="width:84px">${art(NM(o),sh,'lg','',IK(o))}</div>${badge}${mvHtml(M,o.k,n)}<div class="tnm">${esc(NM(o))}</div>${SUB(o)?`<div class="tst" style="opacity:.85;margin-top:0">${esc(SUB(o))}</div>`:''}<div class="tst">${st2(o)}</div></div></button>`;
+  const t2=A[1]?tc(A[1],2,'t2',`<span class="badge">${IC_FIRE}En feu</span>`,emb):'',t3=A[2]?tc(A[2],3,'t3',`<span class="badge">${IC_BOLT}Survolté</span>`,`<div class="bolt">${IC_BOLT}</div>`):'';
+  if(t2||t3)h+=`<div class="duo">${t2}${t3}</div>`;
+  if(A.length>3)h+=`<div class="card list rest">${A.slice(3,100).map((o,i)=>`<button class="row" data-kind="${K}" data-key="${esc(o.k)}"><b class="rk">${i+4}</b>${art(NM(o),sh,'sm','',IK(o))}<div class="mid"><div class="nm">${esc(NM(o))}</div><div class="sb">${SUB(o)?esc(SUB(o))+' · ':''}${st(o)}</div></div>${mvHtml(M,o.k,i+4)}</button>`).join('')}</div>`;
+  el.innerHTML=h;
+}
+const fyPart=id=>{const x=document.querySelector('#v-foryou #'+id);return x?x.innerHTML:'';};
+function rMe(){
+  const el=$('#v-me');if(!ALL.length){el.innerHTML='';return;}
+  rForYou();
+  const ys=years(),y=wrapYear||ys[0],A=achData(),lv=sum(A,a=>a.lv);
+  const top6=A.slice().sort((a,b)=>b.lv-a.lv||(b.cur/(b.next||1))-(a.cur/(a.next||1))).slice(0,6);
+  el.innerHTML=`<div class="ahead"><h1>Moi</h1></div>
+  ${rankCard()}
+  <div class="wrapcta"><button class="wcta" data-wstory="${y}"><span class="wy">${y}</span><span><b>Lancer mon Wrapped</b><small>Ton année en story</small></span><i>▶</i></button>
+   <button class="icon glass" data-open="wrap" aria-label="Récap">${CHEV}</button></div>
+  <div class="mesec">${fyPart('fyS')}</div>
+  <h2>Succès <span style="font-size:15px;color:var(--mut);font-weight:600">${lv}/${A.length*4}</span></h2>
+  <div class="achs">${top6.map(a=>`<div class="ach ${a.on?'on':''} l${a.lv}"><div class="md" style="--lc:${LVC[a.lv]}"><em>${a.ic}</em></div><div class="an">${a.name}</div><div class="alv" style="color:${LVC[a.lv]}">${a.lv?LVL[a.lv]:'À débloquer'}</div></div>`).join('')}</div>
+  <button class="btn ghost" data-open="ach" style="width:100%;margin-top:10px">Voir tous les succès</button>
+  <h2>Plus de stats</h2>
+  <div class="card list links">
+    ${[['time','⏱️',"Temps d'écoute",'Évolution, calendrier, records'],['habits','🕘','Habitudes','Horloge, jours, appareils, zappés'],['disc','🧭','Découvertes','Nouveaux artistes, coups de foudre'],['rec','🏆','Records de séries','Tes plus longues séries']].map(([k,ic,t,s])=>`<button class="row" data-open="${k}"><span class="lic">${ic}</span><div class="mid"><div class="nm">${t}</div><div class="sb">${s}</div></div>${CHEV.replace('<svg','<svg style="width:16px;height:16px;flex:none;color:var(--mut)"')}</button>`).join('')}
+  </div>`;
+}
+function pageWrap(){rWrapNew();return $('#v-wrap').innerHTML;}
+
+/* ---------- mini-lecteur façon Apple Music ---------- */
+function renderNow(){
+  const slot=document.getElementById('nowSlot'),mini=$('#mini');
+  const show=!isDemo&&!INFRAME&&ALL.length;
+  if(slot)slot.innerHTML=(!isDemo&&!INFRAME&&!L.refresh)?`<button class="now dim" data-livesheet><div class="mid"><div class="lbl">Live</div><div class="nm">Connecte Spotify</div><div class="sb">${esc(liveErr||'Pour voir ton son en cours et synchroniser tes écoutes')}</div></div></button>`:'';
+  if(!show||!L.refresh){mini.hidden=true;document.body.classList.remove('hasmini');return;}
+  mini.hidden=false;document.body.classList.add('hasmini');
+  const td=`<div class="td">Aujourd'hui<b id="tdayMin">${Math.floor((todayMs()+liveTodayExtra())/6e4)} min</b></div>`;
+  if(liveErr){mini.innerHTML=`<button class="mi" data-livesheet><div class="art sq sm" style="background:var(--fill2)"><span style="font-size:18px">!</span></div><div class="mid"><div class="nm">Live en pause</div><div class="sb" style="white-space:normal">${esc(liveErr)}</div></div></button>`;return;}
+  if(!NP||NP.idle){mini.innerHTML=`<button class="mi" data-npopen><div class="art sq sm" style="background:var(--fill2)"><span style="font-size:20px">♪</span></div><div class="mid"><div class="nm">À l'arrêt</div><div class="sb">Rien en lecture sur Spotify</div></div>${td}</button>`;return;}
+  const prog=Math.min(NP.dur,NP.prog+(NP.playing?Date.now()-NP.at:0));
+  mini.innerHTML=`<button class="mi" data-npopen>${NP.img?`<img src="${esc(NP.img)}" alt="">`:art(NP.al||NP.tr,'sq','sm')}<div class="mid"><div class="nm">${esc(NP.tr)}</div><div class="sb"><span class="eq ${NP.playing?'':'paused'}" style="margin-right:6px"><i></i><i></i><i></i></span>${esc(NP.arAll||NP.ar)}</div></div>${td}</button><div class="pb"><i id="npBar" style="width:${prog/NP.dur*100}%"></i></div><span id="npTime" hidden></span>`;
+}
+
+/* ---------- Pochettes vivantes : aura + parallaxe ---------- */
+const _imgApplyBase=imgApply;
+function imgApply2(el,u){_imgApplyBase(el,u);if(!u)return;const w=el.closest('.alive,.tart');if(w)w.style.setProperty('--img',`url("${u}")`);}
+(()=>{let raf=0;const upd=()=>{raf=0;const H=innerHeight;document.querySelectorAll('.alive,.tart').forEach(el=>{const r=el.getBoundingClientRect();if(r.bottom<0||r.top>H)return;el.style.setProperty('--py',((r.top+r.height/2-H/2)*-.07).toFixed(1)+'px');});};
+  addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(upd);},{passive:true});setInterval(()=>{if(!raf)raf=requestAnimationFrame(upd);},1500);})();
 
 (async()=>{await loadAll();await imgLoad();await metaLoad();build();showApp();await liveInit();hydrate();achCheck();})();
 </script>
