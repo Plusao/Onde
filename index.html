@@ -63,6 +63,11 @@ main{max-width:760px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-left
 .vc.paused .vc-grid,.vc.paused .vc-palm,.vc.paused .vc-sun{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.vc-grid,.vc-palm,.vc-sun{animation:none!important}}
 main.drag{will-change:transform}
+.hidebar{display:flex;justify-content:center;margin:22px 0 10px}
+.hidcard{margin-top:16px}
+.hidrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08)}
+.hidrow span{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
 html,body{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 
@@ -933,6 +938,32 @@ function plat(p){p=(p||'').toLowerCase();if(!p)return'';
   if(p.includes('web'))return'Web';if(p.includes('cast'))return'Cast';if(p.includes('ps4')||p.includes('ps5')||p.includes('playstation'))return'PlayStation';
   if(p.includes('xbox'))return'Xbox';if(p.includes('tv'))return'TV';if(p.includes('linux'))return'Linux';if(p.includes('carplay')||p.includes('car'))return'Voiture';return'Autre';}
 
+
+/* ---------- Masquer un titre, un artiste ou un album des stats ---------- */
+const HIDE_KEY='ondes.hide';
+let HIDE=(()=>{try{return JSON.parse(localStorage.getItem(HIDE_KEY)||'{}')||{};}catch(e){return{};}})();
+function saveHide(){try{localStorage.setItem(HIDE_KEY,JSON.stringify(HIDE));}catch(e){}}
+const hideId=(kind,key)=>kind+'|'+key;
+function isHiddenRec(r){return !!(HIDE[hideId('tr',r.k)]||HIDE[hideId('ar',r.ar)]||HIDE[hideId('al',r.al+'\u0001'+r.ar)]);}
+function addHideBar(pg){
+  if(!pg||pg.n!=='item')return;
+  const id=hideId(pg.kind,pg.key);const on=!!HIDE[id];
+  const label=pg.kind==='tr'?'Masquer ce titre':pg.kind==='ar'?'Masquer cet artiste':'Masquer cet album';
+  const bar=document.createElement('div');bar.className='hidebar';
+  bar.innerHTML=`<button class="btn ghost" data-hidetoggle="${esc(id)}">${on?'Réafficher dans les stats':label}</button>`;
+  $('#v-page').appendChild(bar);
+}
+function hideItem(id){
+  const i=id.indexOf('|'),kind=id.slice(0,i),key=id.slice(i+1);
+  if(HIDE[id]){delete HIDE[id];saveHide();build();renderView();toast('Réaffiché dans les stats');return;}
+  HIDE[id]={label:(kind==='tr'?'Titre : ':kind==='ar'?'Artiste : ':'Album : ')+key.replace('\u0001',' · ')};
+  saveHide();build();toast('Masqué des stats');back();
+}
+function appendHiddenCard(){
+  const ids=Object.keys(HIDE);if(!ids.length)return;
+  $('#v-me').insertAdjacentHTML('beforeend',`<div class="card hidcard"><h2>Masqués (${ids.length})</h2>${ids.map(id=>`<div class="hidrow"><span>${esc((HIDE[id]&&HIDE[id].label)||id)}</span><button class="btn ghost" data-hidetoggle="${esc(id)}">Réafficher</button></div>`).join('')}</div>`);
+}
+
 function norm(e){
   if(!e||typeof e!=='object')return null;
   if(e.ts!==undefined){
@@ -951,6 +982,7 @@ function norm(e){
 
 function prep(recs){
   recs=recs.filter(r=>Number.isFinite(r.t));
+  if(Object.keys(HIDE).length)recs=recs.filter(r=>!isHiddenRec(r));
   recs.sort((a,b)=>a.t-b.t);
   for(const r of recs){const d=new Date(r.t);r.h=d.getHours();r.w=(d.getDay()+6)%7;r.y=d.getFullYear();r.mo=r.y*12+d.getMonth();r.d=Math.floor((r.t-d.getTimezoneOffset()*6e4)/D);r.k=r.tr+'\u0001'+r.ar;}
   ALL=recs;firstSeen=new Map();lastSeen=new Map();artistPlays=new Map();crush=new Map();cacheA=cacheT=null;
@@ -1358,8 +1390,8 @@ function renderView(){
     const chips=!['item','pl','rank','ach','rec','wrap'].includes(pg.n);$('#pgChips').hidden=!chips;
     if(chips){const opts=[['4w','4 semaines'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];$('#pgChips').innerHTML=opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('');}
     const html=pg.n==='time'?pageTime():pg.n==='habits'?pageHabits():pg.n==='disc'?pageDisc():pg.n==='item'?pageItem(pg.kind,pg.key):pg.n==='pl'?pagePl(pg.id):pg.n==='rank'?pageRank2():pg.n==='ach'?achHtml().replace(/<h2>.*?<\/h2>/,''):pg.n==='rec'?(rForYou(),fyPart('fyR').replace(/<h2>.*?<\/h2>/,'')||'<p class="mut">Pas encore de record.</p>'):pg.n==='wrap'?pageWrap():pageTop(pg.n.slice(4));
-    const v=$('#v-page');v.innerHTML=html;v.style.animation='none';v.offsetWidth;v.style.animation='';
-  }else{({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe})[root]();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
+    const v=$('#v-page');v.innerHTML=html;v.style.animation='none';v.offsetWidth;v.style.animation='';addHideBar(pg);
+  }else{({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe})[root]();if(root==='me')appendHiddenCard();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
   requestAnimationFrame(()=>{document.querySelectorAll('main .bars.scroll,main .ycal').forEach(b=>b.scrollLeft=b.scrollWidth);fxEnter();runCounters();});
 }
 function go(pg){stack.push(pg);renderView();scrollTo(0,0);}
@@ -1645,6 +1677,7 @@ document.addEventListener('click',async e=>{
   if(T.closest('[data-sharego]')){shareGo();return;}
   if(T.closest('#bRef')){const b=$('#bRef');b.classList.add('spin');if(liveOn()){const n=await syncRecent(true);await pollNow();toast(n?`+${n} écoutes synchronisées`:'Tout est à jour');}else{await loadAll();build();showApp();toast('Actualisé');}setTimeout(()=>b.classList.remove('spin'),500);return;}
   if(T.closest('[data-closenp]')){closeNP();return;}
+  const ht=T.closest('[data-hidetoggle]');if(ht){hideItem(ht.dataset.hidetoggle);return;}
   if(T.closest('[data-vc]')){openVC();return;}
   if(T.closest('[data-closevc]')){closeVC();return;}
   if(T.closest('[data-npitem]')){if(NP&&!NP.idle){closeNP();go({n:'item',kind:'tr',key:NP.tr+'\u0001'+NP.ar});}return;}
@@ -1995,7 +2028,7 @@ async function exploreLoad(run){
   // découvertes
   const seeds=A.slice(0,8),rel=await pool(seeds,o=>relatedOf(o.r.ar),3);if(!live())return;
   const known=new Set([...artistPlays.keys()].map(a=>nz(a))),cand=new Map();
-  seeds.forEach((o,i)=>(rel[i]||[]).forEach((x,j)=>{if(known.has(nz(x.name)))return;let c=cand.get(x.name);if(!c)cand.set(x.name,c={...x,score:0,why:[]});c.score+=1+(12-j)/24+(8-i)/16;if(c.why.length<2)c.why.push(o.r.ar);}));
+  seeds.forEach((o,i)=>(rel[i]||[]).forEach((x,j)=>{if(known.has(nz(x.name))||HIDE[hideId('ar',x.name)])return;let c=cand.get(x.name);if(!c)cand.set(x.name,c={...x,score:0,why:[]});c.score+=1+(12-j)/24+(8-i)/16;if(c.why.length<2)c.why.push(o.r.ar);}));
   const rec=[...cand.values()].sort((a,b)=>b.score-a.score).slice(0,12);
   rec.forEach(c=>{if(c.pic)imgSet(IKA(c.name),c.pic);});
   $('#exDisc').innerHTML=rec.length?`<div class="disc">${rec.map(c=>`<div class="dcard">${art(c.name,'round','lg','',IKA(c.name))}<div class="nm">${esc(c.name)}</div><div class="why">Parce que t'écoutes ${c.why.map(esc).join(' et ')}</div><a class="btn" href="spotify:search:${encodeURIComponent(c.name)}" target="_blank" rel="noopener">Écouter</a></div>`).join('')}</div>`:'<p class="mut" style="margin:0 2px">Pas de nouvelle découverte trouvée pour l\'instant.</p>';
