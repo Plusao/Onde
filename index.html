@@ -2040,6 +2040,10 @@ function rMe(){
 }
 function pageWrap(){rWrapNew();return $('#v-wrap').innerHTML;}
 
+/* ---------- hors-ligne ---------- */
+if('serviceWorker' in navigator&&location.protocol==='https:'&&!INFRAME){addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+addEventListener('offline',()=>toast('Hors-ligne : tes stats restent dispo, le live reprendra avec le rÃ©seau',4000));
+
 (async()=>{await loadAll();await imgLoad();await metaLoad();build();showApp();await liveInit();hydrate();achCheck();})();
 </script>
 </body>

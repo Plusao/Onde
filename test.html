@@ -2162,6 +2162,10 @@ function imgApply2(el,u){_imgApplyBase(el,u);if(!u)return;const w=el.closest('.a
 (()=>{let raf=0;const upd=()=>{raf=0;const H=innerHeight;document.querySelectorAll('.alive,.tart').forEach(el=>{const r=el.getBoundingClientRect();if(r.bottom<0||r.top>H)return;el.style.setProperty('--py',((r.top+r.height/2-H/2)*-.07).toFixed(1)+'px');});};
   addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(upd);},{passive:true});setInterval(()=>{if(!raf)raf=requestAnimationFrame(upd);},1500);})();
 
+/* ---------- hors-ligne ---------- */
+if('serviceWorker' in navigator&&location.protocol==='https:'&&!INFRAME){addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
+addEventListener('offline',()=>toast('Hors-ligne : tes stats restent dispo, le live reprendra avec le rÃ©seau',4000));
+
 (async()=>{await loadAll();await imgLoad();await metaLoad();build();showApp();await liveInit();hydrate();achCheck();})();
 </script>
 </body>
