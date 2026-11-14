@@ -407,7 +407,12 @@ nav.bot button.on{color:#ffe3c2}
 .npstats div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .npstats b{display:block;font-family:Sora;font-size:19px;letter-spacing:-.02em}
 .npstats span{font-size:11px;color:rgba(255,255,255,.65);font-weight:600}
-.npact{display:flex;gap:8px;margin-top:auto;padding-top:16px;width:100%;max-width:460px}
+.npfooter{margin-top:auto;padding-top:16px;width:100%;max-width:460px;flex:none}
+.npact{display:flex;gap:8px;width:100%}
+.npspectrum{display:grid;grid-template-columns:repeat(33,minmax(0,1fr));align-items:center;gap:clamp(2px,.78vw,4px);height:clamp(78px,13svh,122px);margin:0 0 14px;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--np-spectrum) 13%,transparent),transparent 72%)}
+.npspectrum i{height:96%;border-radius:99px;background:linear-gradient(to bottom,transparent -25%,var(--np-spectrum) 32% 68%,transparent 125%);transform:scaleY(.12)}
+.npv{--np-spectrum:#ff5fa8;overflow-x:hidden;overflow-y:auto}
+@media (max-height:720px){.npspectrum{height:clamp(58px,11svh,84px);margin-bottom:9px}.npfooter{padding-top:9px}}
 .npact .btn{flex:1;text-decoration:none}
 body.tinted::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(70% 40% at 50% 0%,rgb(var(--npc)/.30),transparent 70%)}
 .now{position:relative;overflow:hidden}
@@ -710,6 +715,26 @@ nav.bot{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255
 .mini .pb{position:absolute;left:14px;right:14px;bottom:3px;height:2px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden}
 .mini .pb i{display:block;height:100%;background:var(--am);transition:width 1s linear}
 .mini .eq i{background:var(--am)}
+#mini.cover-tint{
+  background:#16101e;
+  border-color:rgba(255,255,255,.24);
+  isolation:isolate;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+}
+#mini.cover-tint::before,#mini.cover-tint::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:-1
+}
+#mini.cover-tint::before{
+  background:var(--mini-cover) center 48% / 105% auto no-repeat;
+  transform:scale(1.18);
+  filter:blur(22px) saturate(1.45) brightness(.63);
+}
+#mini.cover-tint::after{
+  background:linear-gradient(112deg,var(--mini-first,transparent),var(--mini-second,transparent)),rgba(13,8,20,.45)
+}
+#mini.cover-tint .sb,#mini.cover-tint .td{color:rgba(255,255,255,.85)}
+#mini.cover-tint .eq i,#mini.cover-tint .pb i{background:var(--np-spectrum,var(--am))}
 body.hasmini.has{padding-bottom:calc(166px + env(safe-area-inset-bottom))}
 .bigstat .n{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#fff!important;-webkit-text-fill-color:#fff;font-weight:800}
 body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
@@ -784,18 +809,6 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
 .lvl{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:.5px solid rgba(255,255,255,.1)}
 .lvl .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;color:#1a0b1e;flex:none}
 .lvl .mid b{display:block}
-/* zone du bas plus basse */
-nav.bot{bottom:max(6px,calc(env(safe-area-inset-bottom) - 16px))!important}
-.mini{bottom:calc(max(6px,calc(env(safe-area-inset-bottom) - 16px)) + 72px)!important}
-body.has{padding-bottom:calc(env(safe-area-inset-bottom) + 70px)!important}
-body.hasmini.has{padding-bottom:calc(env(safe-area-inset-bottom) + 140px)!important}
-body.hasmini .toast{bottom:calc(env(safe-area-inset-bottom) + 140px)!important}
-.toast{bottom:calc(env(safe-area-inset-bottom) + 76px)!important}
-.w-pl .mosaic{box-shadow:0 20px 50px rgba(0,0,0,.5)}
-.mosaic .art,.mosaic .art.sm{width:100%!important;height:100%!important;border-radius:0!important}
-.wplm{display:flex;justify-content:center}
-.wplm .mosaic{width:min(64vw,300px);height:min(64vw,300px);border-radius:16px}
-.wplm .mosaic .lab{font-size:24px}
 </style>
 </head>
 <body>
@@ -862,7 +875,8 @@ body.hasmini .toast{bottom:calc(env(safe-area-inset-bottom) + 140px)!important}
   <div class="deck"><div class="vinyl" id="npVinyl"></div><div class="cover"><img id="npImg" alt=""></div></div>
   <div class="npt"><div class="tt" id="npTt"></div><div class="aa" id="npAa"></div><div class="pb"><i id="npBar3"></i></div><div class="tm"><span id="npT1">0:00</span><span id="npT2">0:00</span></div></div>
   <div class="npstats" id="npStats"></div>
-  <div class="npact"><a class="btn" id="npSp" target="_blank" rel="noopener">Ouvrir sur Spotify</a><button class="btn ghost" data-npitem>Stats du son</button></div>
+  <div class="npfooter"><div class="npspectrum" id="npSpectrum" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="npact"><a class="btn" id="npSp" target="_blank" rel="noopener">Ouvrir sur Spotify</a><button class="btn ghost" data-npitem>Stats du son</button></div></div>
 </div>
 <div class="sheet" id="sheet" hidden><div class="in"><div class="grab"></div><div id="sheetIn"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -1546,7 +1560,7 @@ async function pollNow(){
   if(!j)NP=null;
   else if(j.empty||!j.item||j.currently_playing_type!=='track')NP={idle:true};
   else{const it=j.item,im=(it.album&&it.album.images)||[];{const u0=spImg(it.album&&it.album.images),a0=((it.artists&&it.artists[0])||{}).name||'';if(u0){imgSet(IKT({tr:it.name,ar:a0}),u0);if(it.album)imgSet(IKL({al:it.album.name,ar:a0}),u0);}}NP={u:it.id,tr:it.name,ar:((it.artists&&it.artists[0])||{}).name||'',arAll:(it.artists||[]).map(a=>a.name).join(', '),al:it.album?it.album.name:'',img:(im[1]||im[0]||{}).url||'',dur:it.duration_ms,prog:j.progress_ms||0,playing:j.is_playing,at:Date.now()};}
-  renderNow();renderNP();if(NP&&NP.img&&NP.playing)tint(NP.img);
+  renderNow();renderNP();
   {const nk=NP&&!NP.idle?NP.tr:'';if(npLastKey&&nk!==npLastKey)setTimeout(()=>syncRecent(false),5000);npLastKey=nk;}
 }
 async function syncRecent(silent){
@@ -1679,17 +1693,123 @@ function confetti(n=150){const c=document.createElement('canvas');c.className='c
 
 /* ================= En cours : écran immersif ================= */
 let npColorUrl='';
-function dominant(url){return new Promise(res=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=c.height=28;const x=c.getContext('2d');x.drawImage(im,0,0,28,28);const d=x.getImageData(0,0,28,28).data;let r=0,g=0,b=0,n=0;
+function dominant(url,withPalette=false){return new Promise(res=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=c.height=28;const x=c.getContext('2d');x.drawImage(im,0,0,28,28);const d=x.getImageData(0,0,28,28).data;let r=0,g=0,b=0,n=0;
   for(let i=0;i<d.length;i+=4){const mx=Math.max(d[i],d[i+1],d[i+2]),mn=Math.min(d[i],d[i+1],d[i+2]);if(mx-mn<30||mx<40)continue;r+=d[i];g+=d[i+1];b+=d[i+2];n++;}
-  if(!n){for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];n++;}}const k=1.25;res([Math.min(255,r/n*k|0),Math.min(255,g/n*k|0),Math.min(255,b/n*k|0)]);}catch(e){res(null);}};im.onerror=()=>res(null);im.src=url;});}
-async function tint(url){if(!url||url===npColorUrl)return;npColorUrl=url;const c=await dominant(url);if(!c)return;const v=c.join(' ');document.documentElement.style.setProperty('--npc',v);document.body.classList.add('tinted');}
+  if(!n){for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];n++;}}const k=1.25;const average=[r,g,b].map(c=>Math.min(255,c/n*k|0));
+  if(!withPalette){res(average);return;}
+  const palette=coverColors(d);res(palette.length?palette:[average]);}catch(e){res(null);}};im.onerror=()=>res(null);im.src=url;});}
+function coverColors(pixels){
+  const groups=Array.from({length:12},()=>({r:0,g:0,b:0,weight:0}));
+  for(let i=0;i<pixels.length;i+=4){
+    const [r,g,b,a]=pixels.subarray(i,i+4),max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
+    if(a<128||max<38||delta<26)continue;
+    const hue=max===r?(g-b)/delta:max===g?2+(b-r)/delta:4+(r-g)/delta;
+    const group=groups[Math.floor((hue+6)%6*2)];
+    const weight=delta*max;
+    group.r+=r*weight;group.g+=g*weight;group.b+=b*weight;group.weight+=weight;
+  }
+  groups.sort((a,b)=>b.weight-a.weight);
+  return groups.slice(0,2).filter(g=>g.weight).map(g=>
+    [g.r,g.g,g.b].map(c=>Math.round(c/g.weight)));
+}
+
+async function tint(url){
+  if(url===npColorUrl)return;
+  npColorUrl=url;
+  const mini=$('#mini'),player=$('#npv');
+  mini.classList.toggle('cover-tint',!!url);
+  for(const property of ['--mini-cover','--mini-first','--mini-second','--np-spectrum']){
+    mini.style.removeProperty(property);
+  }
+  player.style.removeProperty('--np-spectrum');
+  if(!url)return;
+  // The artwork layer also works when the image host blocks pixel reads.
+  mini.style.setProperty('--mini-cover',`url(${JSON.stringify(url)})`);
+  const palette=await dominant(url,true);
+  if(url!==npColorUrl||!palette)return;
+  const [first,second=first]=palette;
+  const highlight=first.map(c=>Math.round(c*.62+255*.38)).join(' ');
+  mini.style.setProperty('--mini-first',`rgb(${first.join(' ')} / .34)`);
+  mini.style.setProperty('--mini-second',`rgb(${second.join(' ')} / .36)`);
+  mini.style.setProperty('--np-spectrum',`rgb(${highlight})`);
+  player.style.setProperty('--np-spectrum',`rgb(${highlight})`);
+  document.documentElement.style.setProperty('--npc',first.join(' '));
+  document.body.classList.add('tinted');
+}
+const npMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const npSpectrumBars=[...$('#npSpectrum').children];
+let npSpectrumFrame=0,npSpectrumLast=0,npSpectrumKey='',npSpectrumProfile=null;
+
+function makeSpectrumProfile(key,count){
+  let seed=2166136261;
+  for(const char of key)seed=Math.imul(seed^char.codePointAt(0),16777619);
+  const random=()=>((seed=(Math.imul(seed,1664525)+1013904223)>>>0)/4294967296);
+  const pulse=.34+random()*.42,shift=random(),swell=2.6+random()*3.4;
+  const bars=Array.from({length:count},(_,i)=>{
+    const taper=Math.sin(Math.PI*(i+1)/(count+1));
+    return {height:(.42+.58*taper)*(.51+random()*.49),phase:random()*Math.PI*2,speed:.8+random()*2.2};
+  });
+  return {pulse,shift,swell,bars};
+}
+
+function spectrumLevels(profile,seconds){
+  const cycle=(seconds/profile.pulse+profile.shift)%1;
+  const pulse=Math.pow(1-cycle,3);
+  const swell=.72+.28*Math.sin(seconds/profile.swell+profile.shift*6);
+  return profile.bars.map(({height,phase,speed})=>{
+    const flutter=.5+.5*Math.sin(seconds*speed*6+phase);
+    return .065+height*swell*(.16+.44*flutter+.34*pulse);
+  });
+}
+
+function trackPosition(now=Date.now()){
+  return Math.max(0,Math.min(NP.dur,NP.prog+(NP.playing?now-NP.at:0)));
+}
+
+function drawSpectrum(){
+  const key=NP.u||NP.ar+'\u0001'+NP.tr;
+  if(key!==npSpectrumKey||!npSpectrumProfile){
+    npSpectrumKey=key;
+    npSpectrumProfile=makeSpectrumProfile(key,npSpectrumBars.length);
+  }
+  // Spotify provides the playback position. The bars are a procedural animation.
+  const seconds=(npMotion.matches?0:trackPosition())/1000;
+  spectrumLevels(npSpectrumProfile,seconds).forEach((level,i)=>{
+    npSpectrumBars[i].style.transform=`scaleY(${level.toFixed(3)})`;
+  });
+}
+
+function stopSpectrum(){
+  cancelAnimationFrame(npSpectrumFrame);
+  npSpectrumFrame=0;
+}
+function animateSpectrum(now){
+  npSpectrumFrame=0;
+  if(document.hidden||$('#npv').hidden||!NP||NP.idle||!NP.playing||npMotion.matches)return;
+  if(now-npSpectrumLast>=32){
+    drawSpectrum();
+    npSpectrumLast=now;
+  }
+  npSpectrumFrame=requestAnimationFrame(animateSpectrum);
+}
+function refreshSpectrum(){
+  if($('#npv').hidden||!NP||NP.idle||document.hidden){stopSpectrum();return;}
+  drawSpectrum();
+  if(!NP.playing||npMotion.matches){stopSpectrum();return;}
+  if(!npSpectrumFrame)npSpectrumFrame=requestAnimationFrame(animateSpectrum);
+}
+document.addEventListener('visibilitychange',refreshSpectrum);
+npMotion.addEventListener('change',refreshSpectrum);
+
 function openNP(){$('#npv').hidden=false;document.body.style.overflow='hidden';renderNP(true);}
-function closeNP(){$('#npv').hidden=true;document.body.style.overflow='';}
+function closeNP(){$('#npv').hidden=true;document.body.style.overflow='';stopSpectrum();}
 function renderNP(force){
   const v=$('#npv');if(v.hidden)return;
+  $('#npSpectrum').hidden=!NP||!!NP.idle;
+  refreshSpectrum();
   if(!NP||NP.idle){v.classList.remove('playing');$('#npTt').textContent='Rien en lecture';$('#npAa').textContent="Lance un son sur Spotify, ça s'affiche ici";$('#npVinyl').classList.remove('spin');$('#npStats').innerHTML=`<div><b>${Math.round(todayMs()/6e4)} min</b><span>aujourd'hui</span></div>`;return;}
   v.classList.toggle('playing',!!NP.playing);$('#npVinyl').classList.toggle('spin',!!NP.playing);
-  const img=$('#npImg');if(NP.img&&img.dataset.u!==NP.img){img.dataset.u=NP.img;img.src=NP.img;document.querySelector('#npv .deck').style.setProperty('--img',`url("${NP.img}")`);$('#npBg').style.backgroundImage=`url("${NP.img}")`;tint(NP.img);}
+  const img=$('#npImg');if(NP.img&&img.dataset.u!==NP.img){img.dataset.u=NP.img;img.src=NP.img;document.querySelector('#npv .deck').style.setProperty('--img',`url("${NP.img}")`);$('#npBg').style.backgroundImage=`url("${NP.img}")`;}
   $('#npTt').textContent=NP.tr;$('#npAa').textContent=NP.arAll||NP.ar;
   const key=NP.tr+'\u0001'+NP.ar,mine=ALL.filter(r=>r.ms>=PLAY&&(r.k===key||(r.tr===NP.tr&&(NP.arAll||'').includes(r.ar))));
   caches();const ri=cacheA.findIndex(o=>o.k===NP.ar);
@@ -1697,7 +1817,7 @@ function renderNP(force){
   $('#npSp').href=NP.u?`spotify:track:${NP.u}`:`spotify:search:${encodeURIComponent(NP.tr+' '+NP.ar)}`;
   npProg();
 }
-function npProg(){if(!NP||NP.idle||$('#npv').hidden)return;const p=Math.min(NP.dur,NP.prog+(NP.playing?Date.now()-NP.at:0));$('#npBar3').style.width=(p/NP.dur*100)+'%';$('#npT1').textContent=mmss(p);$('#npT2').textContent='-'+mmss(NP.dur-p);}
+function npProg(){if(!NP||NP.idle||$('#npv').hidden)return;const p=trackPosition();$('#npBar3').style.width=(p/NP.dur*100)+'%';$('#npT1').textContent=mmss(p);$('#npT2').textContent='-'+mmss(NP.dur-p);}
 setInterval(npProg,1000);
 
 /* ================= Stories auto façon Insta ================= */
@@ -2154,11 +2274,6 @@ async function openWrapped(y){
   cards.push(c('w-sum',`<div class="wc"><div class="sumtop" ${A_(0)}>${aU[0]?`<img src="${aU[0]}">`:art(A[0]?A[0].r.ar:'?','sq','lg','width:100%;height:100%')}</div><div class="sumgrid"><div ${A_(200)}><div class="sk">Top artistes</div>${A.slice(0,5).map((o,j)=>`<div class="si">${j+1} ${esc(o.r.ar)}</div>`).join('')}</div><div ${A_(300)}><div class="sk">Top titres</div>${T.slice(0,5).map((o,j)=>`<div class="si">${j+1} ${esc(o.r.tr)}</div>`).join('')}</div></div>
     <div class="sumgrid" style="margin-top:12px"><div ${A_(400)}><div class="sk">Minutes</div><div class="sv">${nf.format(Math.round(tot/6e4))}</div></div><div ${A_(450)}><div class="sk">${G[0]?'Style':'Personnalité'}</div><div class="sv">${esc(G[0]?G[0][0]:P.name)}</div></div></div>
     <div class="grow"></div><button class="btn" data-share="wrap:${y}" ${A_(600)}>Partager mon Wrapped</button></div>`,'linear-gradient(170deg,#ffd2a6,#ff8fb8 50%,#8c6bd6)'));
-  // 13 playlist de l'année
-  {const TT=sortBy(agg(L,'tr'),'n').slice(0,100).map(o=>o.r);if(TT.length>=5){const id='year:'+y;PLS[id]={id,name:'Mes sons '+y,desc:'Du plus au moins écouté de ton année',grad:'linear-gradient(135deg,rgba(255,95,168,.5),rgba(255,196,107,.35))',tracks:TT};
-    const p=PLS[id];cards.push(c('w-pl',`<div class="blob b1"></div><div class="blob b3"></div><div class="wc"><div ${A_(0,'k')}>Ta playlist de l'année</div><div class="grow"></div><div ${A_(200)}><div class="wplm">${mosaic(p)}</div></div><div class="grow"></div>
-      <div ${A_(400)}><div class="xl2" style="font-size:clamp(30px,9vw,44px)">Mes sons ${y}</div></div><div ${A_(500,'t')}>${TT.length} titres, du plus au moins écouté</div>
-      <div ${A_(650)}><div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">${!isDemo&&liveOn()?`<button class="btn lg" data-plcreatew="${id}">Créer sur Spotify</button>`:''}<button class="btn ghost" data-plw="${id}">Voir la playlist</button></div></div></div>`,'linear-gradient(170deg,#6b2f95,#2a1442 55%,#120b1c)'));}}
   openCards('Wrapped '+y,cards);setTimeout(()=>confetti(120),500);
 }
 function stAct(){const cs=$('#strack').children;for(let j=0;j<cs.length;j++){const on=j===ST.i;if(on&&!cs[j].classList.contains('act')){cs[j].classList.add('act');
@@ -2216,6 +2331,7 @@ function renderNow(){
   const slot=document.getElementById('nowSlot'),mini=$('#mini');
   const show=!isDemo&&!INFRAME&&ALL.length;
   if(slot)slot.innerHTML=(!isDemo&&!INFRAME&&!L.refresh)?`<button class="now dim" data-livesheet><div class="mid"><div class="lbl">Live</div><div class="nm">Connecte Spotify</div><div class="sb">${esc(liveErr||'Pour voir ton son en cours et synchroniser tes écoutes')}</div></div></button>`:'';
+  tint(show&&L.refresh&&!liveErr&&NP&&!NP.idle?NP.img||'':'');
   if(!show||!L.refresh){mini.hidden=true;document.body.classList.remove('hasmini');return;}
   mini.hidden=false;document.body.classList.add('hasmini');
   const td=`<div class="td">Aujourd'hui<b id="tdayMin">${Math.floor((todayMs()+liveTodayExtra())/6e4)} min</b></div>`;
@@ -2267,10 +2383,6 @@ document.addEventListener('click',e=>{const T=e.target;
   if(T.closest('[data-peak]')){const P=peakRank();if(P)celebrateRank(P.R,'Ton peak',`Atteint en ${moName(P.m)}`);return;}
   if(T.closest('.rankhero .emb')){const R=rankOf(seasonXP(monthList(curMo())).xp);celebrateRank(R,'Ton rang actuel','Saison '+moName(curMo()));return;}
 });
-
-document.addEventListener('click',e=>{const T=e.target;
-  const pw=T.closest('[data-plw]');if(pw){closeStory();go({n:'pl',id:pw.dataset.plw});return;}
-  const pc=T.closest('[data-plcreatew]');if(pc){closeStory();createPl(pc.dataset.plcreatew);return;}});
 
 (async()=>{await loadAll();await imgLoad();await metaLoad();build();showApp();await liveInit();hydrate();achCheck();})();
 </script>
