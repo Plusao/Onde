@@ -2103,14 +2103,17 @@ function achCheck(){rankCheck();if(isDemo||!ALL.length)return;const key='ondes.a
 /* ---------- Top artistes : mouvements + podium révélé ---------- */
 function moves(kind){const P=prevList();if(!P)return null;const m=new Map();sortBy(agg(P,kind),topSort).forEach((o,i)=>m.set(o.k,i+1));return m;}
 let PS_CUR=Infinity;
-function mvHtml(M,k,rank){if(!M)return'';const p=M.get(k);if(p==null){const fs=firstSeen.get(k);if(fs==null||fs>=PS_CUR)return'<span class="mv new">NOUVEAU</span>';const ls=lastSeen.get(k);return ls!=null&&ls<maxT-14*D?'<span class="mv new">DE RETOUR</span>':'';}const d=p-rank;return d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv dn">▼${-d}</span>`:'';}
+let MV_KIND='ar',MV_SPANS={};
+function keyOfK(kind,r){return kind==='ar'?r.ar:kind==='tr'?r.k:r.al+'\u0001'+r.ar;}
+function spanOf(kind){const c=MV_SPANS[kind];if(c&&c.n===ALL.length)return c;const first=new Map(),last=new Map();for(const r of ALL){if(r.ms<PLAY)continue;if(kind==='al'&&!r.al)continue;const k=keyOfK(kind,r);const f=first.get(k);if(f==null||r.t<f)first.set(k,r.t);const l=last.get(k);if(l==null||r.t>l)last.set(k,r.t);}return MV_SPANS[kind]={n:ALL.length,first,last};}
+function mvHtml(M,k,rank){if(!M)return'';const p=M.get(k);if(p==null){const sp=spanOf(MV_KIND);const fs=sp.first.get(k);if(fs==null||fs>=PS_CUR)return'<span class="mv new">NOUVEAU</span>';const ls=sp.last.get(k);return'';}const d=p-rank;return d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv dn">▼${-d}</span>`:'';}
 function rArtists(){
   const el=$('#v-artists');
   const opts=[['4w','4 semaines'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];
   let h=`<div class="ahead"><h1>Top artistes</h1>${!isDemo?`<button class="icon glass" data-share="top" aria-label="Partager">${IC_SHARE}</button>`:''}</div>
   <div class="chips" style="padding-top:8px">${opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('')}</div>
   <div class="seg" id="segS">${[['ms','Par temps'],['n','Par écoutes']].map(([k,l])=>`<button data-s="${k}" class="${topSort===k?'on':''}">${l}</button>`).join('')}</div>`;
-  const A=sortBy(agg(F,'ar'),topSort),M=moves('ar');
+  const A=sortBy(agg(F,'ar'),topSort),M=moves('ar');MV_KIND='ar';
   PS_CUR=F.reduce((m,r)=>r.t<m?r.t:m,Infinity);
   if(!A.length){el.innerHTML=h+'<div class="card"><p class="mut">Aucune écoute sur cette période.</p></div>';return;}
   const st=o=>topSort==='ms'?`${fmtH(o.ms)} · ${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes · ${fmtH(o.ms)}`;
@@ -2355,7 +2358,7 @@ function rTopAll(){
   <div class="seg big" id="segK">${[['ar','Artistes'],['tr','Titres'],['al','Albums']].map(([k,l])=>`<button data-k="${k}" class="${K===k?'on':''}">${l}</button>`).join('')}</div>
   <div class="chips" style="padding-top:2px">${opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('')}</div>
   <div class="seg sm" id="segS">${[['ms','Par temps'],['n','Par écoutes']].map(([k,l])=>`<button data-s="${k}" class="${topSort===k?'on':''}">${l}</button>`).join('')}</div>`;
-  const A=sortBy(agg(F,K),topSort),M=moves(K);
+  const A=sortBy(agg(F,K),topSort),M=moves(K);MV_KIND=K;PS_CUR=F.reduce((m,r)=>r.t<m?r.t:m,Infinity);
   if(!A.length){el.innerHTML=h+'<div class="card"><p class="mut">Aucune écoute sur cette période.</p></div>';return;}
   const st=o=>topSort==='ms'?`${fmtH(o.ms)} · ${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes · ${fmtH(o.ms)}`;
   const st2=o=>topSort==='ms'?`${fmtH(o.ms)}<br>${nf.format(o.n)} écoutes`:`${nf.format(o.n)} écoutes<br>${fmtH(o.ms)}`;
