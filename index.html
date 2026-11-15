@@ -17,8 +17,8 @@
 <style>
 :root{--bg:#120b1c;--card:#1e1329;--card2:#2b1d3b;--line:#3a2850;--tx:#fdf3ff;--mut:#b6a5ca;--acc:#ffc46b;--acc2:#ff5fa8;--hot:#ff4f7b}
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,-apple-system,sans-serif;min-height:100vh}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;overscroll-behavior-x:none;background:#120b1c;color-scheme:dark}
+body{background:var(--bg);color:var(--tx);font:15px/1.45 Inter,system-ui,-apple-system,sans-serif;min-height:100vh;overflow-x:clip;overscroll-behavior-x:none}
 body.has{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:inherit}
 h1,h2,h3{font-family:Sora,Inter,sans-serif}
@@ -62,7 +62,7 @@ main{max-width:760px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-left
 .vc-x{position:absolute;right:16px;top:calc(env(safe-area-inset-top) + 14px);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:22px;border:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .vc.paused .vc-grid,.vc.paused .vc-palm,.vc.paused .vc-sun{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.vc-grid,.vc-palm,.vc-sun{animation:none!important}}
-main.drag{will-change:transform}
+
 /* ===== v27 : verre liquide type iOS ===== */
 nav.bot{overflow:visible}
 nav.bot::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.2px;pointer-events:none;
@@ -604,8 +604,8 @@ body.tinted::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:n
 .ptr{position:fixed;left:50%;top:calc(8px + env(safe-area-inset-top));z-index:30;width:36px;height:36px;border-radius:50%;background:rgba(40,24,56,.9);display:grid;place-items:center;transform:translate(-50%,-60px);opacity:0;transition:opacity .2s;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.4)}
 .ptr i{width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.25);border-top-color:#ffc46b}
 .ptr.spin i{animation:spin .7s linear infinite}
-body[data-sw=l] main .view:not([hidden]){animation:swl .35s cubic-bezier(.2,.85,.25,1)}
-body[data-sw=r] main .view:not([hidden]){animation:swr .35s cubic-bezier(.2,.85,.25,1)}
+body[data-swdir=l] main .view:not([hidden]){animation:swl .35s cubic-bezier(.2,.85,.25,1)}
+body[data-swdir=r] main .view:not([hidden]){animation:swr .35s cubic-bezier(.2,.85,.25,1)}
 @keyframes swl{from{transform:translateX(40px);opacity:.3}}@keyframes swr{from{transform:translateX(-40px);opacity:.3}}
 
 #bRef.spin svg{animation:spin .7s linear infinite}
@@ -870,9 +870,53 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
 .lvl{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:.5px solid rgba(255,255,255,.1)}
 .lvl .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;color:#1a0b1e;flex:none}
 .lvl .mid b{display:block}
+/* ===== ONDES / signature cinematique v30 ===== */
+#splash{position:fixed;inset:0;z-index:999;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:#0e0917;color:#fff;transition:opacity .65s cubic-bezier(.2,.7,.2,1),visibility .65s}
+#splash.off{opacity:0;visibility:hidden;pointer-events:none}
+#splash:before{content:"";position:absolute;inset:-32%;z-index:-2;background:radial-gradient(ellipse at 50% 52%,#38204e 0%,#21132f 24%,#100a1a 54%,#09060f 83%);animation:spBackdrop 3.3s ease-out both}
+#splash:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.3;background:radial-gradient(ellipse at 50% 50%,transparent 15%,#08060f 82%);pointer-events:none}
+.sp-stage{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:translateY(-8px);width:100%}
+.sp-halo{position:absolute;width:245px;height:245px;border-radius:50%;background:radial-gradient(circle,rgba(235,176,255,.22),rgba(174,95,255,.09) 36%,transparent 67%);filter:blur(14px);opacity:0;transform:scale(.32);animation:spHalo 2.7s .27s cubic-bezier(.2,.7,.2,1) both;pointer-events:none}
+.sp-ring{position:absolute;width:134px;height:134px;border-radius:50%;border:1px solid rgba(247,220,255,.46);box-shadow:0 0 30px rgba(206,142,255,.22),inset 0 0 15px rgba(206,142,255,.16);opacity:0;transform:scale(.18);animation:spRing 1.65s .55s cubic-bezier(.12,.7,.17,1) both;pointer-events:none}
+.sp-logo{width:128px;height:128px;overflow:visible;z-index:1;filter:drop-shadow(0 0 17px rgba(241,191,255,.25))}
+.sp-logo .sp-core{fill:#fefaff;opacity:0;transform-box:fill-box;transform-origin:center;animation:spCore 1.65s .18s cubic-bezier(.2,.9,.2,1) both}
+.sp-logo .sp-arc{fill:none;stroke:#f4dcff;stroke-width:3.2;stroke-linecap:round;opacity:0;stroke-dasharray:60;stroke-dashoffset:60;filter:drop-shadow(0 0 3px rgba(242,196,255,.6));animation:spDraw .7s cubic-bezier(.12,.7,.3,1) both}
+.sp-logo .sp-a1{animation-delay:.48s}.sp-logo .sp-a2{animation-delay:.68s}.sp-logo .sp-a3{animation-delay:.88s}.sp-logo .sp-a4{animation-delay:1.08s}
+.sp-line{position:absolute;top:calc(50% + 81px);height:1px;width:0;opacity:0;background:linear-gradient(90deg,transparent,#d7abf5,transparent);box-shadow:0 0 12px rgba(237,192,255,.7);animation:spLine .85s 1.48s ease-out both}
+.sp-name{margin-top:46px;padding-left:.46em;font-size:clamp(19px,5.1vw,24px);font-weight:700;letter-spacing:.46em;color:#f7ecff;opacity:0;transform:translateY(13px);animation:spName .8s 1.67s cubic-bezier(.16,.8,.25,1) both}
+.sp-tagline{font-size:10px;letter-spacing:.19em;font-weight:500;text-transform:uppercase;color:#ae97bc;margin-top:10px;opacity:0;animation:spTag .65s 2.12s ease-out both}
+.sp-sheen{position:absolute;inset:0;background:linear-gradient(111deg,transparent 43%,rgba(255,255,255,.085) 50%,transparent 57%);transform:translateX(-110%);pointer-events:none;animation:spSweep .7s 2.05s ease-out both}
+@keyframes spBackdrop{from{transform:scale(1.23);filter:brightness(.6)}to{transform:scale(1);filter:brightness(1)}}
+@keyframes spHalo{0%{opacity:0;transform:scale(.3)}45%{opacity:1}100%{opacity:.58;transform:scale(1.28)}}
+@keyframes spRing{0%{opacity:0;transform:scale(.15)}50%{opacity:.62}100%{opacity:0;transform:scale(2.25)}}
+@keyframes spCore{0%{opacity:0;transform:scale(.08)}34%{opacity:1;transform:scale(1.42)}60%{transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+@keyframes spDraw{0%{opacity:0;stroke-dashoffset:60}10%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
+@keyframes spLine{0%{opacity:0;width:0}40%{opacity:.75}100%{opacity:0;width:175px}}
+@keyframes spName{to{opacity:1;transform:translateY(0)}}
+@keyframes spTag{to{opacity:1}}
+@keyframes spSweep{to{transform:translateX(110%)}}
+/* micro-interactions : explicites, rapides, sans animations parasites */
+@keyframes ondesCardEnter{from{opacity:0;transform:translateY(12px) scale(.988)}to{opacity:1;transform:none}}
+.view{animation:ondesCardEnter .36s cubic-bezier(.18,.78,.24,1) both}
+nav.bot button:active svg{transform:scale(.87)}
+.bc:active,.stk:active,.peak:active,.wcta:active{transform:scale(.985)}
+.bc,.stk,.peak,.wcta{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+@media(prefers-reduced-motion:reduce){#splash:before,.sp-halo,.sp-ring,.sp-core,.sp-arc,.sp-line,.sp-name,.sp-tagline,.sp-sheen,.view{animation:none!important}
+.btn.shine{position:relative;overflow:hidden}
+.btn.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-120%);animation:shineSweep 2.8s ease-in-out infinite}
+@keyframes shineSweep{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.rin{opacity:0;transform:translateY(12px);animation:rinIn .55s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes rinIn{to{opacity:1;transform:none}}
+.chain-hero{text-align:center;padding:18px 14px;margin:0 0 6px}
+.chain-hero small{color:var(--mut);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.ch-n{font-size:46px;font-weight:800;letter-spacing:-.04em;background:linear-gradient(90deg,#ff5fa8,#8c6bd6);-webkit-background-clip:text;background-clip:text;color:transparent;margin:4px 0}
+.chsub{margin:16px 2px 6px;font-size:12px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase}
+.chainrow{cursor:default}
+@media (prefers-reduced-motion:reduce){.rin{animation:none;opacity:1;transform:none}}
 </style>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><div class="sp-stage"><div class="sp-halo"></div><div class="sp-ring"></div><svg class="sp-logo" viewBox="0 0 64 64" aria-hidden="true"><circle class="sp-core" cx="32" cy="32" r="4.7"/><path class="sp-arc sp-a1" d="M23 25a10 10 0 0 0 0 14"/><path class="sp-arc sp-a2" d="M16 19a19 19 0 0 0 0 26"/><path class="sp-arc sp-a3" d="M41 25a10 10 0 0 1 0 14"/><path class="sp-arc sp-a4" d="M48 19a19 19 0 0 1 0 26"/></svg><div class="sp-line"></div><div class="sp-name">ONDES</div><div class="sp-tagline">Ta musique. Ton histoire.</div></div><div class="sp-sheen"></div></div>
 <div id="palms" aria-hidden="true"><i class="p1"><svg viewBox="0 0 200 400" preserveAspectRatio="xMidYMax meet"><path d="M94 400C100 300 88 200 104 112L112 114C98 200 110 300 108 400Z"/><path d="M108 110C70 78 28 86 2 138C36 104 74 100 108 118Z"/><path d="M108 110C84 70 52 52 20 58C52 66 82 86 106 116Z"/><path d="M108 110C146 80 186 92 198 146C170 108 140 102 108 118Z"/><path d="M108 110C132 66 166 50 196 62C164 66 136 88 110 116Z"/><path d="M108 110C104 74 112 40 128 18C120 50 116 80 112 114Z"/><path d="M108 112C80 110 50 140 40 190C62 150 84 128 108 120Z"/><path d="M108 112C140 112 168 146 170 196C152 154 132 130 108 120Z"/></svg></i><i class="p2"><svg viewBox="0 0 200 400" preserveAspectRatio="xMidYMax meet"><path d="M94 400C100 300 88 200 104 112L112 114C98 200 110 300 108 400Z"/><path d="M108 110C70 78 28 86 2 138C36 104 74 100 108 118Z"/><path d="M108 110C84 70 52 52 20 58C52 66 82 86 106 116Z"/><path d="M108 110C146 80 186 92 198 146C170 108 140 102 108 118Z"/><path d="M108 110C132 66 166 50 196 62C164 66 136 88 110 116Z"/><path d="M108 110C104 74 112 40 128 18C120 50 116 80 112 114Z"/><path d="M108 112C80 110 50 140 40 190C62 150 84 128 108 120Z"/><path d="M108 112C140 112 168 146 170 196C152 154 132 130 108 120Z"/></svg></i><i class="p3"><svg viewBox="0 0 200 400" preserveAspectRatio="xMidYMax meet"><path d="M94 400C100 300 88 200 104 112L112 114C98 200 110 300 108 400Z"/><path d="M108 110C70 78 28 86 2 138C36 104 74 100 108 118Z"/><path d="M108 110C84 70 52 52 20 58C52 66 82 86 106 116Z"/><path d="M108 110C146 80 186 92 198 146C170 108 140 102 108 118Z"/><path d="M108 110C132 66 166 50 196 62C164 66 136 88 110 116Z"/><path d="M108 110C104 74 112 40 128 18C120 50 116 80 112 114Z"/><path d="M108 112C80 110 50 140 40 190C62 150 84 128 108 120Z"/><path d="M108 112C140 112 168 146 170 196C152 154 132 130 108 120Z"/></svg></i></div>
 <header class="top" id="top">
   <div class="hrow">
@@ -883,10 +927,10 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
     <button class="icon" id="bImp" aria-label="Importer" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
     <button class="icon" id="bMenu" aria-label="Menu">⋯</button>
     <div class="menu" id="menu" hidden>
+      <button id="mLogin">Se connecter à Spotify</button>
       <button id="mAdd">Importer des fichiers</button>
       <button id="mProf">Gérer mes comptes</button>
       <button data-livesheet>Live Spotify</button>
-      <button id="mDemo">Charger la démo</button>
       <button id="mClear" class="danger">Effacer toutes les données</button>
     </div>
   </div>
@@ -902,8 +946,8 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
   <h1>Toutes tes écoutes,<br>vraiment toutes.</h1>
   <p>Importe l'export de ton historique Spotify et vois ce que tu écoutes, quand, combien, et ce que tu zappes.</p>
   <div class="ebtns">
+    <button class="btn lg shine" id="eSpot">Se connecter à Spotify</button>
     <button class="btn lg" id="eImp">Importer mes fichiers</button>
-    <button class="btn ghost" id="eDemo">Voir avec des données démo</button>
   </div>
   <ul class="steps">
     <h3>Récupérer tes données</h3>
@@ -911,7 +955,7 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
     <li><b>2</b><span>Coche <strong>Historique de streaming étendu</strong> et valide la demande (mail de confirmation).</span></li>
     <li><b>3</b><span>Quand le mail arrive (jusqu'à 30 jours), télécharge le <strong>.zip</strong> et importe-le direct ici, ou les fichiers <strong>Streaming_History_Audio_….json</strong>.</span></li>
   </ul>
-  <p class="priv">Tout est calculé sur ton appareil. Rien n'est envoyé nulle part.</p>
+  <p class="priv">Tout est calculé sur ton appareil. Rien n'est envoyé nulle part. · v36</p>
 </div>
 
 <main id="app" hidden>
@@ -1122,7 +1166,7 @@ function rows(items,kind,sort,max=50){
     const v=sort==='ms'?fmtH(o.ms):nf.format(o.n)+(sort==='n'?'':'');
     const v2=sort==='ms'?nf.format(o.n)+' écoutes':fmtH(o.ms);
     const sb=kind==='ar'?v2:o.r.ar+' · '+v2;
-    return`<button class="row" data-kind="${kind}" data-key="${esc(o.k)}"><b class="rk">${i+1}</b>${art(nm,kind==='ar'?'round':'sq','sm','',ikOf(kind,o.r))}<div class="mid"><div class="nm">${esc(nm)}</div><div class="sb">${esc(sb)}</div><div class="bar"><i style="width:${Math.max(2,o[sort]/top*100)}%"></i></div></div><div class="val">${v}${sort==='n'?'<small>écoutes</small>':''}</div></button>`;
+    return`<button class="row rin" style="--d:${Math.min(i,12)*45}ms" data-kind="${kind}" data-key="${esc(o.k)}"><b class="rk">${i+1}</b>${art(nm,kind==='ar'?'round':'sq','sm','',ikOf(kind,o.r))}<div class="mid"><div class="nm">${esc(nm)}</div><div class="sb">${esc(sb)}</div><div class="bar"><i style="width:${Math.max(2,o[sort]/top*100)}%"></i></div></div><div class="val">${v}${sort==='n'?'<small>écoutes</small>':''}</div></button>`;
   }).join('');
 }
 function rowsCustom(items){ // {kind,key,name,sub,val,valSub,w}
@@ -1631,7 +1675,7 @@ const openFile=()=>{$('#menu').hidden=true;sheetImport();};
 $('#bImp').onclick=openFile;$('#eImp').onclick=openFile;$('#mAdd').onclick=openFile;
 $('#file').onchange=e=>{importFiles([...e.target.files]);e.target.value='';};
 const demo=()=>{$('#menu').hidden=true;isDemo=true;prep(genDemo());showApp();toast('Démo chargée');};
-$('#eDemo').onclick=demo;$('#mDemo').onclick=demo;
+$('#mLogin').onclick=()=>{$('#menu').hidden=true;if(!L.cid){L.cid=SPOT_CID;livePersist();}liveLogin();};
 $('#bMenu').onclick=e=>{e.stopPropagation();const m=$('#menu');m.hidden=!m.hidden;$('#mClear').textContent='Effacer toutes les données';$('#mClear').dataset.c='';};
 $('#mProf').onclick=()=>sheetSwitch();$('#bProf').onclick=()=>sheetSwitch();
 $('#mClear').onclick=async e=>{e.stopPropagation();const b=$('#mClear');if(!b.dataset.c){b.dataset.c='1';b.textContent='Confirmer : tout effacer';return;}
@@ -1687,19 +1731,27 @@ const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
 const lsSet=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);}catch(e){}};
 function liveLoad(){try{Object.assign(L,JSON.parse(lsGet('ondes.live')||'{}'));}catch(e){}}
 const livePersist=()=>lsSet('ondes.live',JSON.stringify(L));
-const redirectUri=()=>location.origin+location.pathname;
+const REDIRECT_URI='https://plusao.github.io/Onde/';
+const NATIVE=!!(window.webkit&&window.webkit.messageHandlers&&window.webkit.messageHandlers.ondesAuth);
+const redirectUri=()=>NATIVE?'ondes://callback':REDIRECT_URI; // fixe : en file:// (app iOS locale) location.origin vaut "null"
 const liveOn=()=>!!(L.cid&&L.refresh)&&!INFRAME;
 function rnd(n){const a=new Uint8Array(n);crypto.getRandomValues(a);const c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';return Array.from(a,b=>c[b%c.length]).join('');}
 async function s256(s){const d=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return btoa(String.fromCharCode(...new Uint8Array(d))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
 async function liveLogin(){
-  if(!L.cid){toast("Colle d'abord ton Client ID");return;}
-  const v=rnd(64),st=rnd(16);lsSet('ondes.pkce',v);lsSet('ondes.state',st);
-  location.href='https://accounts.spotify.com/authorize?'+new URLSearchParams({client_id:L.cid,response_type:'code',redirect_uri:redirectUri(),code_challenge_method:'S256',code_challenge:await s256(v),scope:SCOPES,state:st});
+  if(!L.cid){L.cid=SPOT_CID;livePersist();}
+  try{
+    if(!crypto||!crypto.subtle){toast('Connexion impossible ici : ouvre la version en ligne');return;}
+    toast('Ouverture de Spotify…');
+    const v=rnd(64),st=rnd(16);lsSet('ondes.pkce',v);lsSet('ondes.state',st);
+    const ch=await s256(v);
+    const au='https://accounts.spotify.com/authorize?'+new URLSearchParams({client_id:L.cid,response_type:'code',redirect_uri:redirectUri(),code_challenge_method:'S256',code_challenge:ch,scope:SCOPES,state:st});
+    if(NATIVE){window.webkit.messageHandlers.ondesAuth.postMessage(au);}else{location.href=au;}
+  }catch(err){console.error(err);toast('Connexion : '+(err&&err.message||'erreur'));}
 }
 function saveTok(j){L.access=j.access_token;L.exp=Date.now()+(j.expires_in||3600)*1000-60000;if(j.refresh_token)L.refresh=j.refresh_token;liveErr='';livePersist();}
-async function liveCallback(){
-  const q=new URLSearchParams(location.search);if(!q.get('code')&&!q.get('error'))return;
-  history.replaceState(null,'',redirectUri());
+async function liveCallback(q0){
+  const q=q0||new URLSearchParams(location.search);if(!q.get('code')&&!q.get('error'))return;
+  if(!q0)history.replaceState(null,'',REDIRECT_URI);
   if(q.get('error')){toast('Connexion Spotify annulée');return;}
   if(q.get('state')!==lsGet('ondes.state')){toast('Erreur de connexion, réessaie');return;}
   try{
@@ -1789,6 +1841,8 @@ function liveStart(){liveTimers.forEach(clearInterval);liveTimers=[];if(!liveOn(
   pollNow();syncRecent(true);
   liveTimers.push(setInterval(pollNow,10000),setInterval(()=>{if(!document.hidden)syncRecent(true);},180000));}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&liveOn()){pollNow();syncRecent(false);}});
+window.ondesAuthDone=u=>{try{liveCallback(new URL(u).searchParams);}catch(e){toast('Connexion : réponse invalide');}};
+window.ondesAuthCancel=()=>toast('Connexion annulée');
 async function liveInit(){liveLoad();if(!INFRAME)await liveCallback();renderNow();liveStart();}
 document.addEventListener('click',async e=>{
   const T=e.target;
@@ -2110,6 +2164,35 @@ function localPlaylists(){
 function mosaic(p,big){const seen=new Set(),pics=[];for(const r of p.tracks){const k=r.al||r.tr;if(seen.has(k))continue;seen.add(k);pics.push(r);if(pics.length===4)break;}while(pics.length<4)pics.push(pics[pics.length%Math.max(1,pics.length)]||p.tracks[0]);
   return`<div class="mosaic" style="--plg:${p.grad}">${pics.map(r=>art(r.al||r.tr,'sq','sm','',r.al?IKL(r):IKT(r))).join('')}<div class="lab">${esc(p.name)}</div></div>`;}
 const plCard=p=>`<button class="plc" data-pl="${p.id}">${mosaic(p)}<div class="pn">${esc(p.name)}</div><div class="pd">${p.tracks.length} titres · ${esc(p.desc)}</div></button>`;
+
+function chainStats(){
+  const L=F.filter(r=>r.ms>=PLAY);
+  let best={n:0,tr:'',ar:'',from:0,to:0},cur=1;
+  for(let i=0;i<L.length;i++){
+    const same=i>0&&L[i].k===L[i-1].k&&L[i].t-L[i-1].t<=2*3600e3;
+    cur=same?cur+1:1;
+    if(cur>best.n)best={n:cur,tr:L[i].tr,ar:L[i].ar,to:L[i].t,from:L[i-cur+1].t};
+  }
+  const tp=new Map(),ap=new Map();
+  for(let i=1;i<L.length;i++){
+    const a=L[i-1],b=L[i];if(b.t-a.t>10*60e3)continue;
+    if(a.k!==b.k){const key=a.k+'\u0002'+b.k;const o=tp.get(key)||{a:a.tr+' · '+a.ar,b:b.tr+' · '+b.ar,n:0};o.n++;tp.set(key,o);}
+    if(a.ar!==b.ar){const key=a.ar+'\u0002'+b.ar;const o=ap.get(key)||{a:a.ar,b:b.ar,n:0};o.n++;ap.set(key,o);}
+  }
+  const top=m=>[...m.values()].sort((x,y)=>y.n-x.n).slice(0,5);
+  return{best,tp:top(tp),ap:top(ap)};
+}
+function chainHtml(){
+  if(!F.length)return'<p class="mut" style="margin:0 2px">Rien sur cette période.</p>';
+  const s=chainStats(),fd=t=>new Date(t).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+  const row=(a,b,n,i)=>`<div class="row rin chainrow" style="--d:${Math.min(i,12)*45}ms"><b class="rk">${i+1}</b><div class="mid"><div class="nm">${esc(a)}</div><div class="sb">→ ${esc(b)}</div></div><div class="val">×${n}</div></div>`;
+  let h='';
+  if(s.best.n>=2)h+=`<div class="card chain-hero rin" style="--d:0ms"><small>Plus longue boucle</small><div class="ch-n">×${s.best.n}</div><div class="nm">${esc(s.best.tr)}</div><div class="sb">${esc(s.best.ar)} · le ${fd(s.best.from)}</div></div>`;
+  else h+='<p class="mut" style="margin:0 2px">Pas encore de boucle sur cette période.</p>';
+  if(s.tp.length)h+='<p class="chsub">Titres enchaînés</p>'+s.tp.map((o,i)=>row(o.a,o.b,o.n,i)).join('');
+  if(s.ap.length)h+='<p class="chsub">Duos d\'artistes</p>'+s.ap.map((o,i)=>row(o.a,o.b,o.n,i+s.tp.length)).join('');
+  return h;
+}
 function rExplore(){
   const el=$('#v-explore');PLS={};
   const pls=localPlaylists();
@@ -2117,8 +2200,10 @@ function rExplore(){
   <h2>Playlists pour toi</h2><div class="plrow" id="plrow">${pls.map(plCard).join('')||'<p class="mut">Pas encore assez d\'écoutes pour créer des playlists.</p>'}</div>
   <h2>Tes styles</h2><div class="card" id="exStyles">${INFRAME||isDemo?'<p class="mut">Les styles s\'affichent avec tes vraies données, sur ta version en ligne.</p>':'<div class="loading"><i></i>Analyse de tes styles…</div>'}</div>
   <h2>Styles qui vont bien ensemble</h2><div id="exCombos"><p class="mut" style="margin:0 2px">${INFRAME||isDemo?'Dispo sur ta version en ligne.':'En attente de l\'analyse des styles…'}</p></div>
+  <h2>Enchaînements</h2><div id="exChain"></div>
   <h2>Découvertes pour toi</h2><div id="exDisc">${INFRAME||isDemo?'<p class="mut" style="margin:0 2px">Dispo sur ta version en ligne.</p>':'<div class="loading"><i></i>Je cherche des artistes proches de tes goûts…</div>'}</div>`;
   rForYou();el.insertAdjacentHTML('beforeend',fyPart('fyM'));
+  $('#exChain').innerHTML=chainHtml();
   if(!INFRAME&&!isDemo)exploreLoad(++EXP.run);
 }
 async function exploreLoad(run){
@@ -2380,22 +2465,15 @@ setInterval(()=>{const t=document.getElementById('tdayMin');if(t)t.textContent=M
   addEventListener('touchstart',e=>{if(e.touches.length!==1||overlayOpen()||$('#app').hidden){ok=false;return;}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();ok=!blocked(e.target);pull=ok&&scrollY<=0;dyMax=0;drag=false;lock=false;dxNow=0;},{passive:true});
   addEventListener('touchmove',e=>{if(!ok)return;const t=e.touches[0],dx=t.clientX-sx,dy=t.clientY-sy;
     if(pull&&dy>0&&scrollY<=0){dyMax=dy;ptr.style.transform=`translate(-50%,${Math.min(90,dy*.5)-50}px) rotate(${dy*2}deg)`;ptr.style.opacity=Math.min(1,dy/120);}
-    if(!drag&&!lock&&(Math.abs(dx)>12||Math.abs(dy)>12)){if(Math.abs(dx)>1.6*Math.abs(dy)&&!pull)drag=true;else lock=true;}
-    if(drag){dxNow=dx;const tg=target(dx);const m=mainEl();const k=tg?dx:dx*.22;m.classList.add('drag');m.style.transition='none';m.style.transform=`translate3d(${k}px,0,0)`;m.style.opacity=String(Math.max(.55,1-Math.abs(k)/600));}
+    if(!drag&&!lock&&(Math.abs(dx)>12||Math.abs(dy)>12)){if(Math.abs(dx)>1.6*Math.abs(dy))drag=true;else lock=true;}
+    if(drag){dxNow=dx;}
   },{passive:true});
   const settle=(m,off)=>{m.style.transition='transform .22s cubic-bezier(.2,.8,.2,1),opacity .22s';m.style.transform='translate3d(0,0,0)';m.style.opacity='1';};
   addEventListener('touchend',async e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy,fast=Date.now()-st<600;
     if(pull&&dyMax>130&&Math.abs(dx)<60){ptr.classList.add('spin');ptr.style.transform='translate(-50%,30px)';if(liveOn()){const n=await syncRecent(true);await pollNow();toast(n?`+${n} écoutes synchronisées`:'Déjà à jour');}else toast('Connecte le live Spotify pour synchroniser');ptr.classList.remove('spin');}
     ptr.style.transform='';ptr.style.opacity=0;pull=false;
-    if(drag){drag=false;const m=mainEl();const tg=target(dx);const commit=tg&&(Math.abs(dx)>Math.min(innerWidth*.22,110)||(fast&&Math.abs(dx)>50));
-      if(!commit){settle(m);m.classList.remove('drag');return;}
-      const dir=dx<0?-1:1;const W=innerWidth;
-      m.style.transition='transform .2s ease-in,opacity .2s';m.style.transform=`translate3d(${-dir*W}px,0,0)`;m.style.opacity='0';
-      await new Promise(r=>setTimeout(r,200));
-      setRoot(tg);
-      m.style.transition='none';m.style.transform=`translate3d(${dir*W*.35}px,0,0)`;m.style.opacity='0';void m.offsetWidth;
-      m.style.transition='transform .32s cubic-bezier(.2,.85,.25,1),opacity .28s ease-out';m.style.transform='translate3d(0,0,0)';m.style.opacity='1';
-      setTimeout(()=>{m.classList.remove('drag');m.style.transition='';m.style.transform='';m.style.opacity='';},340);
+    if(drag){drag=false;const tg=target(dx);const commit=tg&&(Math.abs(dx)>Math.min(innerWidth*.22,110)||(fast&&Math.abs(dx)>50));
+      if(commit){document.body.dataset.swdir=dx<0?'l':'r';try{setRoot(tg);}catch(err){console.error(err);}}
       return;}
     // pas de glissement horizontal : rien (le retour arrière est géré par popstate)
   },{passive:true});
@@ -2607,7 +2685,17 @@ document.addEventListener('click',e=>{const T=e.target;
   if(T.closest('.rankhero .emb')){const R=rankOf(seasonXP(monthList(curMo())).xp);celebrateRank(R,'Ton rang actuel','Saison '+moName(curMo()));return;}
 });
 
-(async()=>{await loadAll();await imgLoad();await metaLoad();build();showApp();await liveInit();hydrate();achCheck();})();
+const SPOT_CID='31b70844bbad416e96b67832d0b30c40';
+$('#eSpot').onclick=()=>{if(!L.cid){L.cid=SPOT_CID;livePersist();}liveLogin();};
+const SPLASH_T0=Date.now();
+const hideSplash=()=>{const sp=$('#splash');if(sp&&!sp.classList.contains('off'))sp.classList.add('off');};
+let shOn=false,shY=0;
+document.addEventListener('touchstart',e=>{const sh=e.target.closest&&e.target.closest('#v-page.asheet');shOn=!!sh&&sh.scrollTop<=0&&!e.target.closest('input,.plrow,.chips,.bars.scroll');shY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{if(!shOn)return;shOn=false;if(e.changedTouches[0].clientY-shY>90&&!$('#v-page').hidden)back();},{passive:true});
+const SPLASH_MIN=window.matchMedia('(prefers-reduced-motion: reduce)').matches?450:2850;
+// L'intro n'interrompt pas la lecture des donnees; sortie de secours si chargement lent.
+setTimeout(hideSplash,7000);
+(async()=>{await loadAll();await imgLoad();await metaLoad();build();showApp();await liveInit();hydrate();achCheck();setTimeout(hideSplash,Math.max(0,SPLASH_MIN-(Date.now()-SPLASH_T0)));})();
 </script>
 </body>
 </html>
