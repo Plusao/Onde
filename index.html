@@ -63,6 +63,24 @@ main{max-width:760px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-left
 .vc.paused .vc-grid,.vc.paused .vc-palm,.vc.paused .vc-sun{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.vc-grid,.vc-palm,.vc-sun{animation:none!important}}
 main.drag{will-change:transform}
+/* ===== v25 : recherche, fiche en bottom sheet, sauvegarde, delta, semaine ===== */
+.srch{position:fixed;inset:0;z-index:55;background:rgba(14,6,22,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:calc(env(safe-area-inset-top) + 14px) 16px 24px;overflow:auto}
+.srch-bar{display:flex;gap:10px;align-items:center;position:sticky;top:0}
+.srch-bar input{flex:1;height:46px;border-radius:16px;border:0;padding:0 16px;background:#2a1f36;color:#fff;font-size:17px;outline:none}
+.srch-x{background:none;border:0;color:#ff7aa8;font-weight:700;font-size:16px;padding:6px}
+.srch-k{font-size:11px;letter-spacing:.12em;opacity:.55;margin:18px 4px 4px;text-transform:uppercase;color:#fff}
+.srch-row{display:flex;align-items:center;width:100%;padding:12px 4px;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.08);color:#fff;text-align:left}
+.srch-row b{font-size:16px}.srch-row small{display:block;opacity:.6;margin-top:2px;font-size:13px}
+.asheet{position:fixed!important;left:0;right:0;bottom:0;top:auto!important;max-height:88vh;overflow:auto;z-index:46;border-radius:28px 28px 0 0;background:rgba(22,12,32,.95);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 -20px 60px rgba(0,0,0,.5);padding:6px 16px calc(env(safe-area-inset-bottom) + 24px);animation:sheetUp .42s cubic-bezier(.2,.85,.25,1)}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.grab{width:44px;height:5px;border-radius:5px;background:rgba(255,255,255,.35);margin:6px auto 12px;cursor:pointer}
+.sheetbg{position:fixed;inset:0;z-index:45;background:rgba(6,2,12,.5);animation:sbFade .3s ease-out}
+@keyframes sbFade{from{opacity:0}to{opacity:1}}
+.delta{font-size:13px;font-weight:700;margin:6px 4px 0}.delta.up{color:#8ff0b0}.delta.dn{color:#ff9aa8}
+.wkl{margin:14px 2px 0;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.07);font-size:15px;line-height:1.45;color:#f4eefa}
+.wkl span{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+.wkl b{color:#ffd1e6}
+
 .hidebar{display:flex;justify-content:center;margin:22px 0 10px}
 .hidcard{margin-top:16px}
 .hidrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08)}
@@ -843,6 +861,7 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
   <div class="hrow">
     <div class="logo"><i></i><span>Ondes</span></div>
     <button class="pill" id="bProf" hidden><span id="profName"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    <button class="icon" id="bSrch" aria-label="Rechercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
     <button class="icon" id="bRef" aria-label="Actualiser" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg></button>
     <button class="icon" id="bImp" aria-label="Importer" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
     <button class="icon" id="bMenu" aria-label="Menu">⋯</button>
@@ -904,6 +923,7 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
   <div class="npfooter"><div class="npspectrum" id="npSpectrum" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="npact"><a class="btn" id="npSp" target="_blank" rel="noopener">Ouvrir sur Spotify</a><button class="btn ghost" data-npitem>Stats du son</button></div></div>
 </div>
+<div class="srch" id="srch" hidden><div class="srch-bar"><input id="srchIn" type="search" placeholder="Titre, artiste, album" autocomplete="off"><button class="srch-x" data-srchclose>Annuler</button></div><div id="srchRes"></div></div><div class="sheetbg" id="sheetbg" hidden></div>
 <div class="vc" id="vc" hidden><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="palm" viewBox="0 0 200 400"><path d="M100 400 Q90 260 112 150" stroke="#12041f" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M112 150 Q66 96 12 124 Q68 112 112 150Z"/><path d="M112 150 Q152 78 196 106 Q152 102 112 150Z"/><path d="M112 150 Q104 64 124 14 Q118 84 112 150Z"/><path d="M112 150 Q60 170 26 220 Q84 186 112 150Z"/><path d="M112 150 Q164 172 190 224 Q146 190 112 150Z"/></symbol></svg><div class="vc-sun"></div><div class="vc-sea"><div class="vc-grid"></div></div><svg class="vc-palm p1"><use href="#palm"/></svg><svg class="vc-palm p2"><use href="#palm"/></svg><svg class="vc-palm p3"><use href="#palm"/></svg><div class="vc-info"><small>VICE CITY</small><b id="vcTt">Rien en lecture</b><span id="vcAa"></span></div><button class="vc-x" data-closevc aria-label="Fermer">×</button></div>
 <div class="sheet" id="sheet" hidden><div class="in"><div class="grab"></div><div id="sheetIn"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -960,8 +980,66 @@ function hideItem(id){
   saveHide();build();toast('Masqué des stats');back();
 }
 function appendHiddenCard(){
-  const ids=Object.keys(HIDE);if(!ids.length)return;
-  $('#v-me').insertAdjacentHTML('beforeend',`<div class="card hidcard"><h2>Masqués (${ids.length})</h2>${ids.map(id=>`<div class="hidrow"><span>${esc((HIDE[id]&&HIDE[id].label)||id)}</span><button class="btn ghost" data-hidetoggle="${esc(id)}">Réafficher</button></div>`).join('')}</div>`);
+  const ids=Object.keys(HIDE);
+  const hid=ids.length?`<h2>Masqués (${ids.length})</h2>${ids.map(id=>`<div class="hidrow"><span>${esc((HIDE[id]&&HIDE[id].label)||id)}</span><button class="btn ghost" data-hidetoggle="${esc(id)}">Réafficher</button></div>`).join('')}`:'';
+  $('#v-me').insertAdjacentHTML('beforeend',`<div class="card hidcard">${hid}<h2>Sauvegarde</h2><div class="hidrow"><span>Exporter profils, écoutes et masqués</span><button class="btn ghost" data-bkexport>Exporter</button></div><div class="hidrow"><span>Restaurer une sauvegarde</span><button class="btn ghost" data-bkimport>Importer</button></div><input type="file" id="bkFile" accept=".json,application/json" hidden></div>`);
+}
+
+
+/* ---------- v25 : recherche ---------- */
+let SRCH_IDX=null;
+function srchIndex(){
+  if(SRCH_IDX&&SRCH_IDX.n===ALL.length)return SRCH_IDX.list;
+  const A=new Map(),T=new Map(),L=new Map();
+  for(const r of ALL){if(r.ms<PLAY)continue;
+    if(!A.has(r.ar))A.set(r.ar,{kind:'ar',key:r.ar,name:r.ar,sub:'Artiste',n:0});A.get(r.ar).n++;
+    if(!T.has(r.k))T.set(r.k,{kind:'tr',key:r.k,name:r.tr,sub:r.ar,n:0});T.get(r.k).n++;
+    if(r.al){const lk=r.al+'\u0001'+r.ar;if(!L.has(lk))L.set(lk,{kind:'al',key:lk,name:r.al,sub:r.ar,n:0});L.get(lk).n++;}
+  }
+  const list=[...A.values(),...T.values(),...L.values()];SRCH_IDX={n:ALL.length,list};return list;
+}
+function srchRender(q){
+  const nq=q.trim().toLowerCase(),el=$('#srchRes');
+  if(!nq){el.innerHTML='<p class="mut">Tape un titre, un artiste ou un album.</p>';return;}
+  const hits=srchIndex().filter(o=>(o.name+' '+o.sub).toLowerCase().includes(nq)).sort((a,b)=>b.n-a.n).slice(0,60);
+  if(!hits.length){el.innerHTML='<p class="mut">Rien trouvé.</p>';return;}
+  el.innerHTML=['ar','tr','al'].map(k=>{const Ls=hits.filter(h=>h.kind===k);
+    return Ls.length?`<div class="srch-k">${k==='ar'?'Artistes':k==='tr'?'Titres':'Albums'}</div>`+Ls.map(o=>`<button class="srch-row" data-kind="${o.kind}" data-key="${esc(o.key)}"><div><b>${esc(o.name)}</b><small>${esc(o.sub)} · ${nf.format(o.n)} écoutes</small></div></button>`).join(''):'';}).join('');
+}
+function openSrch(){const v=$('#srch');v.hidden=false;const i=$('#srchIn');i.value='';srchRender('');setTimeout(()=>i.focus(),60);}
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='srchIn')srchRender(e.target.value);});
+
+/* ---------- v25 : sauvegarde ---------- */
+function exportBackup(){
+  const data={app:'ondes',v:1,at:Date.now(),profiles,PD,HIDE};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
+  a.download='ondes-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
+  toast('Sauvegarde exportée');
+}
+async function importBackup(file){
+  if(!file)return;
+  let d;try{d=JSON.parse(await file.text());}catch(e){toast('Fichier illisible');return;}
+  if(d.app!=='ondes'||!Array.isArray(d.profiles)){toast('Ce n\'est pas une sauvegarde Ondes');return;}
+  profiles=d.profiles;PD=d.PD||{};HIDE=d.HIDE||{};saveHide();
+  for(const p of profiles)await saveProfile(p.id);
+  setActive('all');build();renderView();showApp();toast('Sauvegarde restaurée');
+}
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='bkFile')importBackup(e.target.files[0]);});
+
+/* ---------- v25 : delta et semaine ---------- */
+function deltaPill(){
+  if(!F||!F.length||!ALL.length||period==='all')return'';
+  const start=F.reduce((m,r)=>r.t<m?r.t:m,Infinity),end=ALL[ALL.length-1].t,L=end-start;if(!(L>0))return'';
+  const cur=sum(F,r=>r.ms),prev=sum(ALL.filter(r=>r.t>=start-L&&r.t<start),r=>r.ms);if(!prev)return'';
+  const pct=Math.round((cur-prev)/prev*100);
+  return`<div class="delta ${pct>=0?'up':'dn'}">${pct>=0?'▲':'▼'} ${Math.abs(pct)} % vs la période précédente</div>`;
+}
+function weekLine(){
+  if(!ALL.length)return'';
+  const st=ALL[ALL.length-1].t-7*D;const W=ALL.filter(r=>r.t>=st&&r.ms>=PLAY);if(!W.length)return'';
+  const ms=sum(W,r=>r.ms);const am=new Map();for(const r of W)am.set(r.ar,(am.get(r.ar)||0)+r.ms);
+  const top=[...am].sort((a,b)=>b[1]-a[1])[0];
+  return`<div class="wkl"><span>Cette semaine</span><b>${fmtH(ms)}</b> d'écoute, <b>${esc(top[0])}</b> en tête</div>`;
 }
 
 function norm(e){
@@ -1101,8 +1179,8 @@ function rHome(){
   const ys=years(),wy=ys[0];
   const dser=(span<=62?daily(F):monthly(F)).slice(-14),dmx=Math.max(1,...dser.map(x=>x.v));
   const minW=`<button class="bc minw" data-open="time"><div><div class="bl" style="margin-bottom:2px">Minutes d'écoute</div><div class="bn" style="${ms.length>6?'font-size:40px':''}">${cnt(mins)}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></div><div class="mspark">${dser.map(x=>`<i style="height:${Math.max(5,x.v/dmx*100)}%"></i>`).join('')}</div></button>`;
-  el.innerHTML=head+demo+`${minW}${devCard}<div class="bento"><div class="col">${artCard}</div><div class="col">${trCard}</div></div>
-  ${WK.length?`<h2>Tes dernières semaines</h2><div class="weeks">${weeks}</div>`:''}`;
+  el.innerHTML=head+demo+`${minW}${deltaPill()}${devCard}<div class="bento"><div class="col">${artCard}</div><div class="col">${trCard}</div></div>
+  ${weekLine()}${WK.length?`<h2>Tes dernières semaines</h2><div class="weeks">${weeks}</div>`:''}`;
 }
 
 /* ---------- story semaine ---------- */
@@ -1385,17 +1463,19 @@ function rForYou(){
 }
 const PTITLE={time:"Temps d'écoute",habits:'Habitudes',disc:'Découvertes','top:ar':'Top artistes','top:tr':'Top titres','top:al':'Top albums',item:'',pl:'Playlist',rank:'Ton rang',ach:'Succès',rec:'Records de séries',wrap:'Wrapped'};
 function renderView(){
-  const pg=stack[stack.length-1];
-  $('#top').hidden=!!pg;$('#phead').hidden=!pg;$('#v-page').hidden=!pg;
-  ['home','artists','explore','foryou','wrap','me'].forEach(v=>$('#v-'+v).hidden=!!pg||root!==v);
+  const pg=stack[stack.length-1];const sheetI=!!pg&&pg.n==='item';
+  $('#top').hidden=!!pg&&!sheetI;$('#phead').hidden=!pg||sheetI;$('#v-page').hidden=!pg;$('#sheetbg').hidden=!sheetI;
+  ['home','artists','explore','foryou','wrap','me'].forEach(v=>$('#v-'+v).hidden=(!!pg&&!sheetI)||root!==v);
   document.querySelectorAll('#navin button').forEach(b=>b.classList.toggle('on',b.dataset.tab===root));if(!navDrag)placeLens(true);
-  if(pg){
+  if(pg&&!sheetI){
     $('#pgTitle').textContent=pg.n==='item'?'':PTITLE[pg.n];
     const chips=!['item','pl','rank','ach','rec','wrap'].includes(pg.n);$('#pgChips').hidden=!chips;
     if(chips){const opts=[['4w','4 semaines'],['6m','6 mois'],['12m','12 mois'],...years().map(y=>[String(y),String(y)]),['all','Tout']];$('#pgChips').innerHTML=opts.map(([k,l])=>`<button class="chip ${period===k?'on':''}" data-p="${k}">${l}</button>`).join('');}
     const html=pg.n==='time'?pageTime():pg.n==='habits'?pageHabits():pg.n==='disc'?pageDisc():pg.n==='item'?pageItem(pg.kind,pg.key):pg.n==='pl'?pagePl(pg.id):pg.n==='rank'?pageRank2():pg.n==='ach'?achHtml().replace(/<h2>.*?<\/h2>/,''):pg.n==='rec'?(rForYou(),fyPart('fyR').replace(/<h2>.*?<\/h2>/,'')||'<p class="mut">Pas encore de record.</p>'):pg.n==='wrap'?pageWrap():pageTop(pg.n.slice(4));
     const v=$('#v-page');v.innerHTML=html;v.style.animation='none';v.offsetWidth;v.style.animation='';addHideBar(pg);
-  }else{({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe})[root]();if(root==='me')appendHiddenCard();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
+  }
+  if(!pg||sheetI){({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe})[root]();if(root==='me')appendHiddenCard();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
+  if(sheetI){const v=$('#v-page');v.classList.add('asheet');v.innerHTML='<div class="grab" data-sheetclose></div>'+pageItem(pg.kind,pg.key);addHideBar(pg);}else{$('#v-page').classList.remove('asheet');}
   requestAnimationFrame(()=>{document.querySelectorAll('main .bars.scroll,main .ycal').forEach(b=>b.scrollLeft=b.scrollWidth);fxEnter();runCounters();});
 }
 function go(pg){stack.push(pg);renderView();scrollTo(0,0);}
@@ -1540,7 +1620,12 @@ document.addEventListener('click',async e=>{
   const wy=T.closest('[data-wy]');if(wy){wrapYear=+wy.dataset.wy;if(stack.length)renderView();else rWrapNew();return;}
   if(T.closest('[data-imp]')){openFile();return;}
   if(T.closest('#bCopy')){try{navigator.clipboard.writeText(rWrap.text).then(()=>toast('Résumé copié'),()=>toast('Copie refusée par le navigateur'));}catch(_){toast('Copie refusée par le navigateur');}return;}
-  const it=T.closest('[data-kind][data-key]');if(it){go({n:'item',kind:it.dataset.kind,key:it.dataset.key});return;}
+  const it=T.closest('[data-kind][data-key]');if(it){$('#srch').hidden=true;go({n:'item',kind:it.dataset.kind,key:it.dataset.key});return;}
+  if(T.closest('#bSrch')){openSrch();return;}
+  if(T.closest('[data-srchclose]')){$('#srch').hidden=true;return;}
+  if(T.closest('[data-sheetclose],#sheetbg')){back();return;}
+  if(T.closest('[data-bkexport]')){exportBackup();return;}
+  if(T.closest('[data-bkimport]')){$('#bkFile').click();return;}
   const b=T.closest('.b[data-c]');if(b){const c=CHD[b.dataset.c],x=c.items[+b.dataset.i];b.parentNode.querySelectorAll('.b.sel').forEach(y=>y.classList.remove('sel'));b.classList.add('sel');const cap=document.getElementById(b.dataset.c);if(cap)cap.innerHTML=`<b>${esc(x.full||x.l)}</b> · ${esc(c.fmt(x.v))}`;return;}
   const hm=T.closest('[data-hm]');if(hm){$('#hmcap').innerHTML=`<b>${esc(hm.dataset.hm)}</b>`;return;}
   // comptes
@@ -2256,7 +2341,7 @@ setInterval(()=>{const t=document.getElementById('tdayMin');if(t)t.textContent=M
 
 /* ---------- Gestes : onglets, retour, tirer pour synchroniser ---------- */
 (()=>{const ROOTS=['home','artists','explore','me'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0,drag=false,lock=false,dxNow=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
-  const blocked=t=>t.closest('.plrow,.weeks,.chips,.bars.scroll,.ycal,.strack,nav.bot,.sheet,.npv,.vc,.story,.seg,input,.seasons');
+  const blocked=t=>t.closest('.plrow,.weeks,.chips,.bars.scroll,.ycal,.strack,nav.bot,.sheet,.npv,.vc,.asheet,.srch,.story,.seg,input,.seasons');
   const mainEl=()=>document.getElementById('app');
   const overlayOpen=()=>!$('#story').hidden||!$('#npv').hidden||!$('#sheet').hidden||!$('#vc').hidden;
   const target=dx=>{const i=ROOTS.indexOf(root),j=i+(dx<0?1:-1);return j>=0&&j<ROOTS.length?ROOTS[j]:null;};
