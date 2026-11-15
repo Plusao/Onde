@@ -63,6 +63,23 @@ main{max-width:760px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-left
 .vc.paused .vc-grid,.vc.paused .vc-palm,.vc.paused .vc-sun{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.vc-grid,.vc-palm,.vc-sun{animation:none!important}}
 main.drag{will-change:transform}
+/* ===== v27 : verre liquide type iOS ===== */
+nav.bot{overflow:visible}
+nav.bot::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.2px;pointer-events:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.75) 0%,rgba(255,255,255,.12) 32%,rgba(255,255,255,.04) 60%,rgba(255,255,255,.45) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+nav.bot::after{content:'';position:absolute;left:12%;right:12%;top:1px;height:46%;border-radius:999px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0));opacity:.8}
+nav.bot button{font-size:10.5px;letter-spacing:.01em}
+nav.bot button.on svg{filter:drop-shadow(0 0 8px rgba(255,140,190,.45))}
+#lens::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22),inset 0 0 14px rgba(255,255,255,.10)}
+.sin{width:100%;height:46px;border-radius:16px;border:0;padding:0 16px;margin:6px 0 10px;background:rgba(255,255,255,.08);color:#fff;font-size:17px;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+
+.devc{margin:14px 0 16px}
+.delta{margin:12px 6px 0}
+.bento{margin-top:4px}
+.srch-x{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:24px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;flex:none}
 /* ===== v25 : recherche, fiche en bottom sheet, sauvegarde, delta, semaine ===== */
 .srch{position:fixed;inset:0;z-index:55;background:rgba(14,6,22,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:calc(env(safe-area-inset-top) + 14px) 16px 24px;overflow:auto}
 .srch-bar{display:flex;gap:10px;align-items:center;position:sticky;top:0}
@@ -287,7 +304,7 @@ nav.bot button{position:relative;z-index:2;justify-content:center;gap:2px;transi
 nav.bot button svg{transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
 nav.bot button.hov svg{transform:scale(1.22)}
 nav.bot button.on{color:#fff}
-#lens{position:absolute;top:0;bottom:0;left:0;width:33%;z-index:1;border-radius:999px;pointer-events:none;transform-origin:center;will-change:transform;
+#lens{position:absolute;top:0;bottom:0;left:0;width:20%;z-index:1;border-radius:999px;pointer-events:none;transform-origin:center;will-change:transform;
   background:linear-gradient(180deg,rgba(255,255,255,.20),rgba(255,255,255,.07) 55%,rgba(255,255,255,.12));
   -webkit-backdrop-filter:blur(3px) brightness(1.3) saturate(1.8);backdrop-filter:blur(3px) brightness(1.3) saturate(1.8);
   box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.18),inset 1px 0 1px rgba(255,255,255,.12),inset -1px 0 1px rgba(255,255,255,.12),0 4px 14px rgba(0,0,0,.28);
@@ -904,6 +921,7 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
   <div id="v-foryou" class="view" hidden></div>
   <div id="v-wrap" class="view" hidden></div>
   <div id="v-me" class="view" hidden></div>
+  <div id="v-search" class="view" hidden></div>
   <div id="v-page" class="view" hidden></div>
 </main>
 
@@ -923,7 +941,7 @@ body.hasmini .toast{bottom:calc(172px + env(safe-area-inset-bottom))}
   <div class="npfooter"><div class="npspectrum" id="npSpectrum" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="npact"><a class="btn" id="npSp" target="_blank" rel="noopener">Ouvrir sur Spotify</a><button class="btn ghost" data-npitem>Stats du son</button></div></div>
 </div>
-<div class="srch" id="srch" hidden><div class="srch-bar"><input id="srchIn" type="search" placeholder="Titre, artiste, album" autocomplete="off"><button class="srch-x" data-srchclose>Annuler</button></div><div id="srchRes"></div></div><div class="sheetbg" id="sheetbg" hidden></div>
+<div class="srch" id="srch" hidden><div class="srch-bar"><input id="srchIn" type="search" placeholder="Titre, artiste, album" autocomplete="off"><button class="srch-x" data-srchclose aria-label="Fermer">×</button></div><div id="srchRes"></div></div><div class="sheetbg" id="sheetbg" hidden></div>
 <div class="vc" id="vc" hidden><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="palm" viewBox="0 0 200 400"><path d="M100 400 Q90 260 112 150" stroke="#12041f" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M112 150 Q66 96 12 124 Q68 112 112 150Z"/><path d="M112 150 Q152 78 196 106 Q152 102 112 150Z"/><path d="M112 150 Q104 64 124 14 Q118 84 112 150Z"/><path d="M112 150 Q60 170 26 220 Q84 186 112 150Z"/><path d="M112 150 Q164 172 190 224 Q146 190 112 150Z"/></symbol></svg><div class="vc-sun"></div><div class="vc-sea"><div class="vc-grid"></div></div><svg class="vc-palm p1"><use href="#palm"/></svg><svg class="vc-palm p2"><use href="#palm"/></svg><svg class="vc-palm p3"><use href="#palm"/></svg><div class="vc-info"><small>VICE CITY</small><b id="vcTt">Rien en lecture</b><span id="vcAa"></span></div><button class="vc-x" data-closevc aria-label="Fermer">×</button></div>
 <div class="sheet" id="sheet" hidden><div class="in"><div class="grab"></div><div id="sheetIn"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -998,8 +1016,8 @@ function srchIndex(){
   }
   const list=[...A.values(),...T.values(),...L.values()];SRCH_IDX={n:ALL.length,list};return list;
 }
-function srchRender(q){
-  const nq=q.trim().toLowerCase(),el=$('#srchRes');
+function srchRender(q,el0){
+  const nq=q.trim().toLowerCase(),el=el0||$('#srchRes');
   if(!nq){el.innerHTML='<p class="mut">Tape un titre, un artiste ou un album.</p>';return;}
   const hits=srchIndex().filter(o=>(o.name+' '+o.sub).toLowerCase().includes(nq)).sort((a,b)=>b.n-a.n).slice(0,60);
   if(!hits.length){el.innerHTML='<p class="mut">Rien trouvé.</p>';return;}
@@ -1007,7 +1025,12 @@ function srchRender(q){
     return Ls.length?`<div class="srch-k">${k==='ar'?'Artistes':k==='tr'?'Titres':'Albums'}</div>`+Ls.map(o=>`<button class="srch-row" data-kind="${o.kind}" data-key="${esc(o.key)}"><div><b>${esc(o.name)}</b><small>${esc(o.sub)} · ${nf.format(o.n)} écoutes</small></div></button>`).join(''):'';}).join('');
 }
 function openSrch(){const v=$('#srch');v.hidden=false;const i=$('#srchIn');i.value='';srchRender('');setTimeout(()=>i.focus(),60);}
-document.addEventListener('input',e=>{if(e.target&&e.target.id==='srchIn')srchRender(e.target.value);});
+document.addEventListener('input',e=>{if(e.target&&e.target.id==='srchIn')srchRender(e.target.value);if(e.target&&e.target.id==='sIn')srchRender(e.target.value,$('#sRes'));});
+function rSearchTab(){
+  const el=$('#v-search');
+  el.innerHTML=`<div class="hello"><div><h1>Recherche</h1></div></div><input id="sIn" class="sin" type="search" placeholder="Titre, artiste, album" autocomplete="off"><div id="sRes"></div>`;
+  srchRender($('#sIn').value||'',$('#sRes'));
+}
 
 /* ---------- v25 : sauvegarde ---------- */
 function exportBackup(){
@@ -1041,6 +1064,15 @@ function weekLine(){
   const top=[...am].sort((a,b)=>b[1]-a[1])[0];
   return`<div class="wkl"><span>Cette semaine</span><b>${fmtH(ms)}</b> d'écoute, <b>${esc(top[0])}</b> en tête</div>`;
 }
+
+
+/* ---------- v26 : fermer la recherche en glissant vers le bas ---------- */
+(()=>{let y0=0,dy=0,on=false;const box=()=>$('#srch');
+  addEventListener('touchstart',e=>{const s=box();if(!s||s.hidden)return;on=true;y0=e.touches[0].clientY;dy=0;},{passive:true});
+  addEventListener('touchmove',e=>{if(!on)return;dy=e.touches[0].clientY-y0;if(box().scrollTop>0)dy=0;},{passive:true});
+  addEventListener('touchend',()=>{if(on&&dy>110)box().hidden=true;on=false;dy=0;},{passive:true});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#srch').hidden)$('#srch').hidden=true;});
+})();
 
 function norm(e){
   if(!e||typeof e!=='object')return null;
@@ -1169,7 +1201,7 @@ function rHome(){
   const minCard=`<button class="bc" data-open="time"><div class="bl">Minutes d'écoute${CHEV}</div><div class="bn" style="${ms.length>6?'font-size:34px':''}">${cnt(mins)}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></button>`;
   const artCard=A[0]?`<button class="bc tilecard" data-root="artists"><div class="bl">Top artiste${CHEV}</div><div class="bt">${esc(A[0].r.ar)}</div><div class="alive">${art(A[0].r.ar,'round','lg','',IKA(A[0].r.ar))}</div></button>`:'';
   const hourCard=`<button class="bc" data-open="habits"><div class="bl">Heure de pointe${CHEV}</div><div class="bn">${ph}h</div><div class="spark">${hr.map((v,h)=>`<i class="${h===ph?'on':''}" style="height:${Math.max(6,v/hmx*100)}%"></i>`).join('')}</div><div class="bs">Jour préféré : <b>${DAYSL[bw]}</b></div></button>`;
-  const trCard=T[0]?`<button class="bc tilecard" data-open="top:tr"><div class="bl">Top titre${CHEV}</div><div class="bt">${esc(T[0].r.tr)}</div><div class="alive">${art(T[0].r.tr,'sq','lg','',IKT(T[0].r))}</div><div class="bs" style="margin-top:10px">${esc(T[0].r.ar)} · <b>${nf.format(T[0].n)} écoutes</b></div></button>`:'';
+  const trCard=T[0]?`<button class="bc tilecard" data-kind="tr" data-key="${esc(T[0].k)}"><div class="bl">Top titre${CHEV}</div><div class="bt">${esc(T[0].r.tr)}</div><div class="alive">${art(T[0].r.tr,'sq','lg','',IKT(T[0].r))}</div><div class="bs" style="margin-top:10px">${esc(T[0].r.ar)} · <b>${nf.format(T[0].n)} écoutes</b></div></button>`:'';
   const discCard=`<button class="bc" data-open="disc"><div class="bl">Nouveaux artistes${CHEV}</div><div class="bn">${nf.format(disc.length)}</div>${disc.length?`<div class="stack">${disc.slice(0,4).map(o=>art(o.a,'round','xs','',IKA(o.a))).join('')}</div><div class="bs">dont <b>${esc(disc[0].a)}</b></div>`:'<div class="bs">rien de nouveau</div>'}</button>`;
   const alCard=Al[0]?`<button class="bc" data-open="top:al"><div class="bl">Top album${CHEV}</div><div style="display:flex;gap:12px;align-items:center;margin-top:10px">${art(Al[0].r.al,'sq','md','',IKL(Al[0].r))}<div style="min-width:0"><div class="nm">${esc(Al[0].r.al)}</div><div class="sb">${esc(Al[0].r.ar)}</div></div></div></button>`:'';
   // semaines
@@ -1370,7 +1402,7 @@ function rWrap(){
 
 /* ---------- navigation ---------- */
 let root='home',stack=[];
-const NAV=[['home','Accueil','<path d="M4 10.5l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>'],['artists','Top','<path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M8 21h8M9 17h6v4H9z"/>'],['explore','Découvrir','<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'],['me','Moi','<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>']];
+const NAV=[['home','Accueil','<path d="M4 10.5l8-6.5 8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>'],['artists','Top','<path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M8 21h8M9 17h6v4H9z"/>'],['explore','Découvrir','<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>'],['search','Recherche','<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>'],['me','Moi','<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>']];
 $('#navin').insertAdjacentHTML('beforeend',NAV.map(([k,l,p])=>`<button data-tab="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>${l}</button>`).join(''));
 
 /* ---------- verre liquide (barre du bas) ---------- */
@@ -1465,7 +1497,7 @@ const PTITLE={time:"Temps d'écoute",habits:'Habitudes',disc:'Découvertes','top
 function renderView(){
   const pg=stack[stack.length-1];const sheetI=!!pg&&pg.n==='item';
   $('#top').hidden=!!pg&&!sheetI;$('#phead').hidden=!pg||sheetI;$('#v-page').hidden=!pg;$('#sheetbg').hidden=!sheetI;
-  ['home','artists','explore','foryou','wrap','me'].forEach(v=>$('#v-'+v).hidden=(!!pg&&!sheetI)||root!==v);
+  ['home','artists','explore','foryou','wrap','me','search'].forEach(v=>$('#v-'+v).hidden=(!!pg&&!sheetI)||root!==v);
   document.querySelectorAll('#navin button').forEach(b=>b.classList.toggle('on',b.dataset.tab===root));if(!navDrag)placeLens(true);
   if(pg&&!sheetI){
     $('#pgTitle').textContent=pg.n==='item'?'':PTITLE[pg.n];
@@ -1474,7 +1506,7 @@ function renderView(){
     const html=pg.n==='time'?pageTime():pg.n==='habits'?pageHabits():pg.n==='disc'?pageDisc():pg.n==='item'?pageItem(pg.kind,pg.key):pg.n==='pl'?pagePl(pg.id):pg.n==='rank'?pageRank2():pg.n==='ach'?achHtml().replace(/<h2>.*?<\/h2>/,''):pg.n==='rec'?(rForYou(),fyPart('fyR').replace(/<h2>.*?<\/h2>/,'')||'<p class="mut">Pas encore de record.</p>'):pg.n==='wrap'?pageWrap():pageTop(pg.n.slice(4));
     const v=$('#v-page');v.innerHTML=html;v.style.animation='none';v.offsetWidth;v.style.animation='';addHideBar(pg);
   }
-  if(!pg||sheetI){({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe})[root]();if(root==='me')appendHiddenCard();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
+  if(!pg||sheetI){({home:rHome,artists:rTopAll,explore:rExplore,foryou:rForYou,wrap:rWrapNew,me:rMe,search:rSearchTab})[root]();if(root==='me')appendHiddenCard();if(root==='wrap'&&!rWrap.cf){rWrap.cf=1;setTimeout(()=>confetti(),350);}if(root==='home'&&typeof renderNow==='function')renderNow();}
   if(sheetI){const v=$('#v-page');v.classList.add('asheet');v.innerHTML='<div class="grab" data-sheetclose></div>'+pageItem(pg.kind,pg.key);addHideBar(pg);}else{$('#v-page').classList.remove('asheet');}
   requestAnimationFrame(()=>{document.querySelectorAll('main .bars.scroll,main .ycal').forEach(b=>b.scrollLeft=b.scrollWidth);fxEnter();runCounters();});
 }
@@ -1621,7 +1653,7 @@ document.addEventListener('click',async e=>{
   if(T.closest('[data-imp]')){openFile();return;}
   if(T.closest('#bCopy')){try{navigator.clipboard.writeText(rWrap.text).then(()=>toast('Résumé copié'),()=>toast('Copie refusée par le navigateur'));}catch(_){toast('Copie refusée par le navigateur');}return;}
   const it=T.closest('[data-kind][data-key]');if(it){$('#srch').hidden=true;go({n:'item',kind:it.dataset.kind,key:it.dataset.key});return;}
-  if(T.closest('#bSrch')){openSrch();return;}
+  if(T.closest('#bSrch')){setRoot('search');return;}
   if(T.closest('[data-srchclose]')){$('#srch').hidden=true;return;}
   if(T.closest('[data-sheetclose],#sheetbg')){back();return;}
   if(T.closest('[data-bkexport]')){exportBackup();return;}
@@ -2340,7 +2372,7 @@ function liveTodayExtra(){return NP&&!NP.idle&&NP.playing?Math.min(NP.dur,NP.pro
 setInterval(()=>{const t=document.getElementById('tdayMin');if(t)t.textContent=Math.floor((todayMs()+liveTodayExtra())/6e4)+' min';},1000);
 
 /* ---------- Gestes : onglets, retour, tirer pour synchroniser ---------- */
-(()=>{const ROOTS=['home','artists','explore','me'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0,drag=false,lock=false,dxNow=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
+(()=>{const ROOTS=['home','artists','explore','search','me'];let sx=0,sy=0,st=0,ok=false,pull=false,dyMax=0,drag=false,lock=false,dxNow=0;const ptr=document.createElement('div');ptr.className='ptr';ptr.innerHTML='<i></i>';document.body.appendChild(ptr);
   const blocked=t=>t.closest('.plrow,.weeks,.chips,.bars.scroll,.ycal,.strack,nav.bot,.sheet,.npv,.vc,.asheet,.srch,.story,.seg,input,.seasons');
   const mainEl=()=>document.getElementById('app');
   const overlayOpen=()=>!$('#story').hidden||!$('#npv').hidden||!$('#sheet').hidden||!$('#vc').hidden;
@@ -2370,7 +2402,8 @@ setInterval(()=>{const t=document.getElementById('tdayMin');if(t)t.textContent=M
   // Bouton retour du navigateur (geste de bord Safari) : ferme d'abord les volets, puis remonte d'une page dans l'app, sans jamais quitter l'app
   history.pushState({ondes:1},'');
   addEventListener('popstate',()=>{
-    if(!$('#vc').hidden){closeVC();}
+    if(!$('#srch').hidden){$('#srch').hidden=true;}
+    else if(!$('#vc').hidden){closeVC();}
     else if(!$('#npv').hidden){closeNP();}
     else if(!$('#story').hidden){closeStory();}
     else if(!$('#sheet').hidden){closeSheet();}
