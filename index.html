@@ -1072,6 +1072,7 @@ function deltaHtml(cur,prev,lab){if(!prev)return'';const d=Math.round((cur-prev)
 let WK=[];
 const TH=[{bg:'#ffd2a6',fg:'#6b1f4f'},{bg:'#ffc8de',fg:'#9c1457'},{bg:'#dccbff',fg:'#3e2380'},{bg:'#2b1442',fg:'#ffc46b'},{bg:'#ffab7a',fg:'#4f1030'}];
 function weekLabel(w){const a=new Date(w*D),b=new Date((w+6)*D),ma=MONTHS[a.getUTCMonth()],mb=MONTHS[b.getUTCMonth()];return a.getUTCMonth()===b.getUTCMonth()?`${a.getUTCDate()}-${b.getUTCDate()} ${mb}`:`${a.getUTCDate()} ${ma} - ${b.getUTCDate()} ${mb}`;}
+const DEV_FR={iPhone:'Téléphone',Android:'Téléphone',iPad:'Tablette',Windows:'PC',Mac:'Mac',Web:'Navigateur',Cast:'Enceinte Cast',PlayStation:'PlayStation',Xbox:'Xbox',TV:'TV',Voiture:'Voiture',Linux:'Linux',Autre:'Autre'};
 function rHome(){
   const el=$('#v-home');
   const head=`<div class="hello"><div><h1>Accueil</h1><button class="per" data-persheet>${plab(period)} ${CHEVD}</button></div>${ALL.length?(()=>{const R=rankOf(seasonXP(monthList(curMo())).xp);return`<button class="rkmini" data-open="rank" aria-label="Ton rang">${emblem(R.tier,R.div,58)}<span>${R.rr}<small>RR</small></span></button>`;})():''}</div><div id="nowSlot"></div>`;
@@ -1084,6 +1085,9 @@ function rHome(){
   const t0=F[0].t,t1=F[F.length-1].t;
   const disc=[...firstSeen].filter(([a,t])=>t>=t0&&t<=t1).map(([a])=>({a,n:artistPlays.get(a)||0})).sort((x,y)=>y.n-x.n);
   const mins=Math.round(tot/6e4),ms=nf.format(mins);
+  const pmH=new Map();for(const r of F)if(r.pf)pmH.set(r.pf,(pmH.get(r.pf)||0)+r.ms);
+  const plH=[...pmH].sort((a,b)=>b[1]-a[1]),plT=sum(plH,x=>x[1])||1;
+  const devCard=plH[0]?`<button class="bc devc" data-open="habits"><div class="bl">Appareil principal${CHEV}</div><div class="bn" style="font-size:28px">${esc(DEV_FR[plH[0][0]]||plH[0][0])}</div><div class="bs">${esc(plH[0][0])} · <b>${Math.round(plH[0][1]/plT*100)} %</b> de tes écoutes</div></button>`:'';
   const minCard=`<button class="bc" data-open="time"><div class="bl">Minutes d'écoute${CHEV}</div><div class="bn" style="${ms.length>6?'font-size:34px':''}">${cnt(mins)}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></button>`;
   const artCard=A[0]?`<button class="bc tilecard" data-root="artists"><div class="bl">Top artiste${CHEV}</div><div class="bt">${esc(A[0].r.ar)}</div><div class="alive">${art(A[0].r.ar,'round','lg','',IKA(A[0].r.ar))}</div></button>`:'';
   const hourCard=`<button class="bc" data-open="habits"><div class="bl">Heure de pointe${CHEV}</div><div class="bn">${ph}h</div><div class="spark">${hr.map((v,h)=>`<i class="${h===ph?'on':''}" style="height:${Math.max(6,v/hmx*100)}%"></i>`).join('')}</div><div class="bs">Jour préféré : <b>${DAYSL[bw]}</b></div></button>`;
@@ -1097,7 +1101,7 @@ function rHome(){
   const ys=years(),wy=ys[0];
   const dser=(span<=62?daily(F):monthly(F)).slice(-14),dmx=Math.max(1,...dser.map(x=>x.v));
   const minW=`<button class="bc minw" data-open="time"><div><div class="bl" style="margin-bottom:2px">Minutes d'écoute</div><div class="bn" style="${ms.length>6?'font-size:40px':''}">${cnt(mins)}</div><div class="bs">${P?deltaHtml(tot,sum(P,r=>r.ms),prevLab()):`≈ <b>${Math.round(tot/span/6e4)} min</b> par jour`}</div></div><div class="mspark">${dser.map(x=>`<i style="height:${Math.max(5,x.v/dmx*100)}%"></i>`).join('')}</div></button>`;
-  el.innerHTML=head+demo+`${minW}<div class="bento"><div class="col">${artCard}</div><div class="col">${trCard}</div></div>
+  el.innerHTML=head+demo+`${minW}${devCard}<div class="bento"><div class="col">${artCard}</div><div class="col">${trCard}</div></div>
   ${WK.length?`<h2>Tes dernières semaines</h2><div class="weeks">${weeks}</div>`:''}`;
 }
 
