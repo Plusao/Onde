@@ -1,5 +1,5 @@
-// Ondes service worker v36 : réseau d'abord pour la page (toujours la dernière version), cache en secours hors ligne
-const APP='ondes-app-v36', IMG='ondes-img-v1';
+// Ondes service worker v37 : réseau d'abord pour la page (toujours la dernière version), cache en secours hors ligne
+const APP='ondes-app-v37', IMG='ondes-img-v1';
 self.addEventListener('install',e=>{self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil((async()=>{
   for(const k of await caches.keys()){if(k!==APP&&k!==IMG)await caches.delete(k);}
